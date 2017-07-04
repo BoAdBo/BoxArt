@@ -1,6 +1,7 @@
 * Introduction
   Hello, You'all. This is BoAdBo, looking for more.
 ** Contest Notification:
+   http://www.et-data.com/a-1.html
 *** 数据来源
 
     大赛提供数据为各数据管理机构脱敏后的固定时间段公开数据，包括：
@@ -95,8 +96,6 @@
     - [ ] Information collecting
 
     DEADLINE: <2017-07-12 Sun>
-
-
 
 * Next step
   1. Need some plan and coffee
