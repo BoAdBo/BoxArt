@@ -16,7 +16,7 @@ cyborg n.半机械人；靠机械装置维持生命的人
 ** Conversation Expression
 1. If you ask me:opinion
 2. Speaking of...,=linking new topic to old topic
-3. As I way saying,=go back to earlier point in conversation
+3. As I was saying,=go back to earlier point in conversation
 
 ** Passed or Past?
 | Past          | Passed         |
