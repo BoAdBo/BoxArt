@@ -2,6 +2,9 @@
 
 (provide (all-defined-out))
 
+(define target (list "how"));
+(define corpus (list "how" "are" "you" "." "how" "well" "are" "you"));
+
 (define (count-string target corpus)
   ;; target is string list
   ;; corpus, where count the occurrence of target in corpus
@@ -28,4 +31,15 @@
                               (if (match-target target cor)
                                   (next-corpus (cdr cor) (+ count 1))
                                   (next-corpus (cdr cor) count))))])
-    (next-corpus (target 0))))
+    (next-corpus corpus 0)))
+
+;; takes a sentence and output the probability computed using n-gram-model
+;; sentence is a list of string
+;; n as integer
+(define (n-gram-probablity sentence n)
+  ;; compute word by word
+  ;; construct previous n-word context
+
+  ;; let previous-words be a stream that when evaluated provide the necessary previous words-context
+  (letrec ([previos-words ()]
+           [context (lambda )])))
