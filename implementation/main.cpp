@@ -29,14 +29,20 @@ int main(int argc, char * argv[]) {
   get_test(target, corpus, file_target, file_corpus);
   //std::cout << file_target << " " << file_corpus << '\n';
 
-  // for(int i = 0; i < target.size(); ++ i) {
-  //   std::cout << target[i] << " ";
-  // }
-  // std::cout << "\n";
+  for(int i = 0; i < target.size(); ++ i) {
+    std::cout << target[i] << " ";
+  }
+  std::cout << "\n";
 
-  // for(int i = 0; i < corpus.size(); ++ i) {
-  //   std::cout << corpus[i] << " ";
-  // }
-  // std::cout << "\n";
-  std::cout << count_string(target, corpus.begin(), 0, corpus);
+  for(int i = 0; i < corpus.size(); ++ i) {
+    std::cout << corpus[i] << " ";
+  }
+  std::cout << "\n";
+  //std::cout << count_string(target, corpus.begin(), 0, corpus);
+
+  words test;
+  test.push_back("A");
+  test.push_back("B");
+  test.push_back("C");
+  n_gram_next_word("B", test.begin(), corpus, 2);
 }
