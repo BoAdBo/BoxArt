@@ -36,7 +36,7 @@
 ;; takes a sentence and output the probability computed using n-gram-model
 ;; sentence is a list of string
 ;; n as integer
-(define (n-gram-probablity sentence n)
+(define (n-gram-probability sentence n)
   ;; compute word by word
   ;; construct previous n-word context
 
