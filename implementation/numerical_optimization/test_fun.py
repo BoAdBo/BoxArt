@@ -15,6 +15,11 @@ def test0(x):
     return (x + 1) ** 2
 
 def watson(x, i):
+    if i == 30:
+        return x[0]
+    if i == 31:
+        return x[1] - x[0] * x[0] - 1
+
     n = x.size
     t = lambda x: x/29
     sum1 = sum2 = 0
@@ -26,13 +31,14 @@ def watson(x, i):
     for j in range(n):
         sum2 = x[j] * pow(t(i), j) + sum2
 
-    return (sum1 - sum2 **2 - 1)
+    return (sum1 - sum2 * sum2 - 1)
 
 def sum_sq_watson(x):
     m = 31
     sum = 0
     for i in range(m):
-        sum = watson(x, i) ** 2 + sum
+        temp = watson(x, i)
+        sum = temp * temp + sum
 
     return sum
 

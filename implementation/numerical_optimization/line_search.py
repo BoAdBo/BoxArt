@@ -1,6 +1,7 @@
 import numpy as np
 import test_fun
 from autograd import grad
+from profilehooks import coverage
 # note that these methods all assume a single down curved function
 
 
@@ -8,7 +9,10 @@ from autograd import grad
 # Something interesting is that if the given x, is the extreme point(or really close to it), then we need the gamma to be really small in order to reduce error
 # In this sense, we keep the alpha low as start, if we want more accurate interval
 # And gamma should start out small as well, otherwise, we wouldn't cover the interval, given we might switch to the wrong direction when near the extreme point
-def back_forth(f, d, x, alpha, gamma):
+
+EPSILON = 10 ** (-8)
+
+def back_forth(f, d, x, alpha = EPSILON, gamma = EPSILON):
     # alpha should be non-negative
 
     alpha_next = alpha + gamma
@@ -18,16 +22,20 @@ def back_forth(f, d, x, alpha, gamma):
         # recompute the alpha_next
         alpha_next = alpha + gamma
 
-    while f(x + alpha_next * d) < f(x + alpha * d):
+    while f(x + alpha_next * d) < f(x + alpha * d) and (alpha_next > 0):
         alpha = alpha_next
         gamma = 2 * gamma  # the constant 2 here shorten the iteration, by increase length
         alpha_next = alpha + gamma
+
+    # being negative is not necessary a descent direction, prevent this situation, in such cases, it means approaching the extreme point in low gamma
+    if alpha_next < 0:
+        alpha_next = 0
 
     # found the interval, return it
     return min(alpha_next, alpha), max(alpha_next, alpha)
 
 # note that this method won't work on functions like 1/x which has no extreme point
-def search_618(f, d, x, left, right, epsilon):
+def search_618(f, d, x, left, right, epsilon = EPSILON):
     # divide the interval into 2 overlapping parts
     if right - left < epsilon:
         return (left + right) / 2
@@ -40,9 +48,72 @@ def search_618(f, d, x, left, right, epsilon):
         else:
             return search_618(f, d, x, left, a_right, epsilon)
 
-def exact_line_search(f, d, x, epsilon):
+def exact_line_search(f, d, x, epsilon = EPSILON):
     interval = back_forth(f, d, x, epsilon, epsilon)
     return search_618(f, d, x, *interval, epsilon)
+
+def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
+    # alpha starts out not small
+    # construct a one variable second degree interpolation function in the form ax^2 + bx + c
+    # this only works when f(x + alpha * d) = lambda(alpha), lambda: alpha => y, function lambda one variable function is close to second degree
+    # as a matter of fact it performed very well in practice
+    armijo_cond = True # to keep going
+    temp1 = f(x)
+    temp2 = np.dot(gk, d) # no need to recompute these two
+
+    while armijo_cond:
+        temp3 = f(x + alpha * d)
+        armijo_cond = temp3 > temp1 + rho * temp2 * alpha
+
+        a = (temp3 - temp1 - temp2 * alpha) / alpha / alpha
+        b = temp2
+        c = temp1
+
+        alpha = - b / (2 * a)
+        
+    return alpha
+
+
+    # when satisfied Armijo condition
+
+
+# def wolfe(valf, direction, max_iter):
+#     (alpha, beta, step, c1, c2) = (0, 1000, 5.0, 0.15, 0.3)
+#     i = 0
+#     stop_iter = 0
+#     stop_val = valf
+#     minima = 0
+#     val = []
+#     objectf = []
+#     val.append(valf)
+#     objectf.append(func(valf))
+#     while i <= max_iter:
+#         # first confition
+#         leftf = func(valf + step*direction)
+#         rightf = func(valf) + c1*dfunc(valf).dot(direction)
+#         if leftf > rightf:
+#             beta = step
+#             step = .5*(alpha + beta)
+#             val.append(valf+step*direction)
+#             objectf.append(leftf)
+#         elif dfunc(valf + step*direction).dot(direction) < c2*dfunc(valf).dot(direction):
+#             alpha = step
+#             if beta > 100:
+#                 step = 2*alpha
+#             else:
+#                 step = .5*(alpha + beta)
+#             val.append(valf+step*direction)
+#             objectf.append(leftf)
+#         else:
+#             val.append(valf+step*direction)
+#             objectf.append(leftf)
+#             break
+#         i += 1
+#         stop_val = valf + step*direction
+#         stop_iter = i
+#         minima = func(stop_val)
+#     print(val, objectf)
+#     return stop_val, minima, stop_iter, step, val, objectf
 
 # x = -1.
 # f = test_fun.test0
