@@ -61,7 +61,7 @@ def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-
         pstats.Stats(pr).sort_stats('time').print_stats('testing_watson')
 
         info = '\n' + str(i)
-        status_report(funtion_name, status_report, info)
+        status_report(function_name, status_report, info)
 
     return 0
 
