@@ -105,7 +105,7 @@ to = 32
 #test_quasi_newtons(me.BFGS, 'BFGS', start, to, 0.000001)
 
 #test_newtons(me.naive_newton, 'naive_newton')
-signal.signal(sign,SIGALRM, handler)
+signal.signal(signal.SIGALRM, handler)
 signal.alarm(5)
 test_newtons(me.damped_newton, 'damped_newton', start, to)
 test_newtons(me.compound_newton, 'compound_newton', start, to)
