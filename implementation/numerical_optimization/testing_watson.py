@@ -31,6 +31,8 @@ def handler(sinum, frame):
 
 # function_name, output_file, info in string
 def status_report(function_name, output_file, info):
+    sys.stdout = io.StringIO()
+    print(output_file)
     sys.stdout = open(output_file, 'a')
     print(output_file, ":", info)
 
