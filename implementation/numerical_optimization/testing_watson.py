@@ -16,7 +16,7 @@ temp_f = fun.sum_sq_watson
 temp_g = grad(temp_f)
 temp_G = jacobian(temp_g)
 status_out = 'status_report'
-MAX_TIME = 1
+MAX_TIME = 2000
 
 def f(x):
     return temp_f(x)
