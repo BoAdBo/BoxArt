@@ -7,7 +7,7 @@ from autograd import jacobian
 import test_fun as fun
 import numpy as np
 import time
-import cProfile, pstats, sys, signal
+import cProfile, pstats, sys, signal, io
 from profilehooks import coverage
 from profilehooks import profile
 
@@ -15,7 +15,7 @@ from profilehooks import profile
 temp_f = fun.sum_sq_watson
 temp_g = grad(temp_f)
 temp_G = jacobian(temp_g)
-status_report = 'status_report'
+status_out = 'status_report'
 
 def f(x):
     return temp_f(x)
@@ -26,12 +26,13 @@ def g(x):
 def G(x):
     return temp_G(x)
 
-def handler(sinum, frame):
+def handler(signum, frame):
     print ('Signal handler called with signal', signum)
+    
 
 # function_name, output_file, info in string
 def status_report(function_name, output_file, info):
-    sys.stdout = io.StringIO()
+    sys.stdout = sys.__stdout__
     print(output_file)
     sys.stdout = open(output_file, 'a')
     print(output_file, ":", info)
@@ -63,7 +64,7 @@ def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-
         pstats.Stats(pr).sort_stats('time').print_stats('testing_watson')
 
         info = '\n' + str(i)
-        status_report(function_name, status_report, info)
+        status_report(function_name, status_out, info)
 
     return 0
 
@@ -108,8 +109,9 @@ to = 32
 
 #test_newtons(me.naive_newton, 'naive_newton')
 signal.signal(signal.SIGALRM, handler)
-signal.alarm(5)
+signal.alarm(1)
 test_newtons(me.damped_newton, 'damped_newton', start, to)
 test_newtons(me.compound_newton, 'compound_newton', start, to)
 test_newtons(me.LM, 'LM', start, to)
 
+signal.alarm(0)
