@@ -141,7 +141,7 @@ to = 32
 #test_newtons(me.naive_newton, 'naive_newton')
 signal.signal(signal.SIGALRM, handler)
 signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
-test_newtons(me.damped_newton, 'damped_newton', start, to)
+test_newtons(me.damped_newton, 'damped_newton', 16, to)
 test_newtons(me.compound_newton, 'compound_newton', start, to)
 test_newtons(me.LM, 'LM', start, to)
 signal.alarm(0)

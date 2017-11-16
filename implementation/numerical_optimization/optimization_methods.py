@@ -40,14 +40,21 @@ def naive_newton(f, g, G, x, alpha = 1, epsilon = EPSILON):
 # damped_newton adding line_search for newton method
 def damped_newton(f, g, G, x, epsilon = EPSILON):
     g_x = 2 * epsilon
+    try:
+        while linalg.norm(g_x) > epsilon:
 
-    while linalg.norm(g_x) > epsilon:
-        g_x = g(x)
-        G_x = G(x)
-        d = - np.dot(linalg.inv(G(x)), g_x)
-        print(x, linalg.norm(g_x))
-        alpha = exact_line_search(f, d, x)
-        x = x + alpha * d
+            g_x = g(x)
+            G_x = G(x)
+            d = - np.dot(linalg.inv(G(x)), g_x)
+            print(x, linalg.norm(g_x))
+            alpha = exact_line_search(f, d, x)
+            x = x + alpha * d
+
+    except np.linalg.linalg.LinAlgError as err:
+        if 'Singular matrix'in err.message:
+            print('\n Singular matrix of G, cannot proceed with damped newton method')
+        else:
+            pass
 
     return x
 
