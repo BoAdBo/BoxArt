@@ -1294,3 +1294,8 @@ status_report  for
 
 status_report  for  
 17 dimension for damped_newton
+status_report  for  
+16 dimension for damped_newton is too slow for this problem. already used up its time 2000
+
+status_report  for  
+17 dimension for damped_newton
