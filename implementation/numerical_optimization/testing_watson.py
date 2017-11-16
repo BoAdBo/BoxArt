@@ -16,7 +16,7 @@ temp_f = fun.sum_sq_watson
 temp_g = grad(temp_f)
 temp_G = jacobian(temp_g)
 status_out = 'status_report'
-MAX_TIME = 2000
+MAX_TIME = 800
 
 def f(x):
     return temp_f(x)
@@ -62,11 +62,12 @@ def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-
 
             # this is where the information of iteration goes, the process
             sys.stdout = open(current_out_proc, 'w') # don't need to worry about time exception create loss of data, since it print out as process goes
-            #sys.stdout = sys.__stdout__
+            print('\n', f(x))
 
             pr.enable()
             e = function(f, g, G, x, epsilon)
             print("the end of the result: ", f(e))
+
             pr.disable()
 
             put_prof(pr, current_out_prof)
@@ -112,7 +113,7 @@ def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10
 
             put_prof(pr, current_out_prof)
 
-            info = '\n' + str(i) + ' dimension for ' + function_name
+            info = '\n' + str(i) + ' dimension for ' + function_name + '\n'
             status_report(status_out, info)
 
         # reset the alarm in the exception
@@ -134,14 +135,14 @@ to = 32
 
 # setting pretty relatively high epsilon for newtons
 
-#test_quasi_newtons(me.SR1, 'SR1', start, to, 0.0000001)
-#test_quasi_newtons(me.DFP, 'DFP', start, to, 0.000001)
-#test_quasi_newtons(me.BFGS, 'BFGS', start, to, 0.000001)
+test_quasi_newtons(me.SR1, 'SR1', start, to, 0.000001)
+test_quasi_newtons(me.DFP, 'DFP', start, to, 0.000001)
+test_quasi_newtons(me.BFGS, 'BFGS', start, to, 0.000001)
 
 #test_newtons(me.naive_newton, 'naive_newton')
 signal.signal(signal.SIGALRM, handler)
 signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
-test_newtons(me.damped_newton, 'damped_newton', 16, to)
+test_newtons(me.damped_newton, 'damped_newton', start, to)
 test_newtons(me.compound_newton, 'compound_newton', start, to)
 test_newtons(me.LM, 'LM', start, to)
 signal.alarm(0)

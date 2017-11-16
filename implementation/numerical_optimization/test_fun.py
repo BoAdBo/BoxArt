@@ -34,9 +34,10 @@ def watson(x, i):
     return (sum1 - sum2 * sum2 - 1)
 
 def sum_sq_watson(x):
-    m = 31
+    # m should be 32 since it end in
+    m = 32
     sum = 0
-    for i in range(m):
+    for i in range(1, m):
         temp = watson(x, i)
         sum = temp * temp + sum
 
