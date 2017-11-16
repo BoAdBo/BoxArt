@@ -42,16 +42,16 @@ def damped_newton(f, g, G, x, epsilon = EPSILON):
     g_x = 2 * epsilon
     try:
         while linalg.norm(g_x) > epsilon:
-
             g_x = g(x)
             G_x = G(x)
-            d = - np.dot(linalg.inv(G(x)), g_x)
+            #G_x = np.outer(np.transpose(np.array([1, 2])), np.array([1, 2]))
+            d = - np.dot(linalg.inv(G_x), g_x)
             print(x, linalg.norm(g_x))
             alpha = exact_line_search(f, d, x)
             x = x + alpha * d
 
     except np.linalg.linalg.LinAlgError as err:
-        if 'Singular matrix'in err.message:
+        if 'Singular matrix'in str(err):
             print('\n Singular matrix of G, cannot proceed with damped newton method')
         else:
             pass
