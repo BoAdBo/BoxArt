@@ -1,0 +1,10 @@
+         19662696 function calls (19424159 primitive calls) in 18.946 seconds
+
+   Ordered by: internal time
+   List reduced from 148 to 2 due to restriction <'testing_watson'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     2615    0.002    0.000    4.316    0.002 testing_watson.py:18(f)
+       66    0.000    0.000   14.783    0.224 testing_watson.py:21(g)
+
+
