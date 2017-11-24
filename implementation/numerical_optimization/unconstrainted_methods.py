@@ -120,12 +120,20 @@ def SR1(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
+<<<<<<< HEAD
+        #alpha = exact_line_search(f, d, x)
+        alpha = armijo(f, g_x, d, x)
+=======
         alpha = exact_line_search(f, d, x)
         #alpha = armijo(f, g_x, d, x)
+>>>>>>> 501bd7815f7256259526108c06eb8298a6caf249
 
         # save parameters
         s = alpha * d
         y = g(x + s) - g_x
+        if linalg.norm(y) == 0:
+            return x
+            break
 
         # One more condition, to avoid the continue with y = 0, in such case the method can't possibly proceed
         if linalg.norm(y, np.inf) == 0:
@@ -138,6 +146,8 @@ def SR1(f, g, x, epsilon):
         print(x, linalg.norm(g_x))
         print(alpha)
         H_x = H_x + np.outer(temp, temp) / np.dot(temp, y)
+
+        # when g(x + s) and g_x has little difference, it's common to return H_x as inf matrix
 
         x = x + s
         g_x = y + g_x
@@ -153,7 +163,10 @@ def DFP(f, g, x, epsilon):
         d = - np.dot(H_x, g_x)
 
         alpha = exact_line_search(f, d, x)
+<<<<<<< HEAD
+=======
         #alpha = armijo(f, g_x, d, x)
+>>>>>>> 501bd7815f7256259526108c06eb8298a6caf249
 
         #save parameters
         s = alpha * d
@@ -181,6 +194,8 @@ def BFGS(f, g, x, epsilon):
         d = - np.dot(H_x, g_x)
 
         alpha = exact_line_search(f, d, x)
+<<<<<<< HEAD
+=======
 
         #save parameters
         s = alpha * d
@@ -331,6 +346,7 @@ def DFP_armijo(f, g, x, epsilon):
 
         #alpha = armijo(f, g_x, d, x)
         alpha = armijo(f, g_x, d, x)
+>>>>>>> 501bd7815f7256259526108c06eb8298a6caf249
 
         #save parameters
         s = alpha * d

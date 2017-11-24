@@ -12,6 +12,8 @@ from profilehooks import coverage
 
 EPSILON = 10 ** (-10)
 
+
+# Let initial alpha be relatively large, to avoid the interval being to small, and result in slow iteration, gamma be small, to not miss the extreme point
 def back_forth(f, d, x, alpha = 1, gamma = EPSILON):
     # alpha should be non-negative
 
@@ -28,6 +30,7 @@ def back_forth(f, d, x, alpha = 1, gamma = EPSILON):
         alpha_next = alpha + gamma
 
     # being negative is not necessary a descent direction, prevent this situation, in such cases, it means approaching the extreme point in low gamma
+
     if alpha_next < 0:
         alpha_next = 0
 
@@ -61,6 +64,9 @@ def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
     # If alpha is too little, return
     temp1 = f(x)
     temp2 = np.dot(gk, d) # no need to recompute these two
+    # temp2, when  this is too small, very difficult
+    # The SR1 method gave the d as inf
+
     b = temp2
     c = temp1
 

@@ -1,4 +1,5 @@
 status_report  for  
+<<<<<<< HEAD
 12 dimension for damped_newton
 status_report  for  
 12 dimension for compound_newton
@@ -817,4 +818,355 @@ status_report  for
 
 status_report  for  
 31 dimension for LM_armijo is too slow for this problem. already used up its time 60
+=======
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+9 dimension for SR1
+
+status_report  for  
+10 dimension for SR1
+
+status_report  for  
+11 dimension for SR1
+
+status_report  for  
+12 dimension for SR1
+
+status_report  for  
+13 dimension for SR1
+
+status_report  for  
+14 dimension for SR1
+
+status_report  for  
+15 dimension for SR1
+
+status_report  for  
+16 dimension for SR1
+
+status_report  for  
+17 dimension for SR1
+
+status_report  for  
+18 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+9 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+9 dimension for SR1
+
+status_report  for  
+10 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+9 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+9 dimension for SR1
+
+status_report  for  
+10 dimension for SR1
+
+status_report  for  
+11 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+9 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+2 dimension for SR1
+
+status_report  for  
+3 dimension for SR1
+
+status_report  for  
+4 dimension for SR1
+
+status_report  for  
+5 dimension for SR1
+
+status_report  for  
+6 dimension for SR1
+
+status_report  for  
+7 dimension for SR1
+
+status_report  for  
+8 dimension for SR1
+
+status_report  for  
+9 dimension for SR1
+
+status_report  for  
+10 dimension for SR1
+>>>>>>> aeb142dc90863c32f1b5fe33b72f0ad4a9df0cac
 
