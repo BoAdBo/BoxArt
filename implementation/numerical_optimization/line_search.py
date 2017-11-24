@@ -78,6 +78,7 @@ def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
 
     # to avoid g(x + delta) too close to g(x) resulting zero, now just added a condition
     # can add some down limit constraint here, to avoid the method converging too early or iteration is too slow, depends on the problem
+    # it's possible that alpha becomes negative, causing the next f could be higher, fix by the following
     if alpha < 10**(-10):
         print("alpha_1: ", alpha)
         return 0.1

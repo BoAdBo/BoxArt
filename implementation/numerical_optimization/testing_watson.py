@@ -132,8 +132,8 @@ def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10
 
     return 0
 
-start = 12
-to = 13
+start = 2
+to = 32
 signal.signal(signal.SIGALRM, handler)
 signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
 # setting pretty relatively high epsilon for newtons
