@@ -16,7 +16,7 @@ temp_f = fun.sum_sq_watson
 temp_g = grad(temp_f)
 temp_G = jacobian(temp_g)
 status_out = 'status_report'
-MAX_TIME = 30
+MAX_TIME = 60
 
 def f(x):
     return temp_f(x)
@@ -135,7 +135,7 @@ def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10
 start = 12
 to = 13
 signal.signal(signal.SIGALRM, handler)
-signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
+psignal.setitimer(signal.ITIMER_REAL, MAX_TIME)
 # setting pretty relatively high epsilon for newtons
 
 #test_quasi_newtons(me.SR1, 'SR1', start, to, 10**(-10))

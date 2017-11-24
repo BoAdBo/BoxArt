@@ -61,20 +61,20 @@ def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
     # If alpha is too little, return
     temp1 = f(x)
     temp2 = np.dot(gk, d) # no need to recompute these two
+    b = temp2
+    c = temp1
 
     temp3 = f(x + alpha * d)
     armijo_cond = temp3 > temp1 + rho * temp2 * alpha # to keep going
 
     while armijo_cond:
 
+        a = (temp3 - temp1 - temp2 * alpha) / alpha / alpha
+        alpha = - b / (2 * a)
+
         temp3 = f(x + alpha * d)
         armijo_cond = temp3 > temp1 + rho * temp2 * alpha
 
-        a = (temp3 - temp1 - temp2 * alpha) / alpha / alpha
-        b = temp2
-        c = temp1
-
-        alpha = - b / (2 * a)
 
     # to avoid g(x + delta) too close to g(x) resulting zero, now just added a condition
     # can add some down limit constraint here, to avoid the method converging too early or iteration is too slow, depends on the problem
