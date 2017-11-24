@@ -1,0 +1,820 @@
+status_report  for  
+12 dimension for damped_newton
+status_report  for  
+12 dimension for compound_newton
+status_report  for  
+12 dimension for LM
+status_report  for  
+2 dimension for SR1_armijo
+
+status_report  for  
+3 dimension for SR1_armijo
+
+status_report  for  
+4 dimension for SR1_armijo
+
+status_report  for  
+5 dimension for SR1_armijo
+
+status_report  for  
+12 dimension for damped_newton_armijo
+status_report  for  
+6 dimension for SR1_armijo
+
+status_report  for  
+7 dimension for SR1_armijo
+
+status_report  for  
+8 dimension for SR1_armijo
+
+status_report  for  
+12 dimension for compound_newton_armijo
+status_report  for  
+9 dimension for SR1_armijo
+
+status_report  for  
+10 dimension for SR1_armijo
+
+status_report  for  
+11 dimension for SR1_armijo
+
+status_report  for  
+12 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+12 dimension for SR1_armijo
+
+status_report  for  
+13 dimension for SR1_armijo
+
+status_report  for  
+14 dimension for SR1_armijo
+
+status_report  for  
+15 dimension for SR1_armijo
+
+status_report  for  
+16 dimension for SR1_armijo
+
+status_report  for  
+17 dimension for SR1_armijo
+
+status_report  for  
+18 dimension for SR1_armijo
+
+status_report  for  
+19 dimension for SR1_armijo
+
+status_report  for  
+20 dimension for SR1_armijo
+
+status_report  for  
+21 dimension for SR1_armijo
+
+status_report  for  
+22 dimension for SR1_armijo
+
+status_report  for  
+23 dimension for SR1_armijo
+
+status_report  for  
+24 dimension for SR1_armijo
+
+status_report  for  
+25 dimension for SR1_armijo
+
+status_report  for  
+26 dimension for SR1_armijo
+
+status_report  for  
+27 dimension for SR1_armijo
+
+status_report  for  
+28 dimension for SR1_armijo
+
+status_report  for  
+29 dimension for SR1_armijo
+
+status_report  for  
+30 dimension for SR1_armijo
+
+status_report  for  
+31 dimension for SR1_armijo
+
+status_report  for  
+2 dimension for DFP_armijo
+
+status_report  for  
+3 dimension for DFP_armijo
+
+status_report  for  
+4 dimension for DFP_armijo
+
+status_report  for  
+5 dimension for DFP_armijo
+
+status_report  for  
+6 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+7 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+8 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+9 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+10 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+11 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+12 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+13 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+14 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+16 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+17 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+18 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+19 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+20 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+21 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+24 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+28 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for DFP_armijo
+
+status_report  for  
+3 dimension for DFP_armijo
+
+status_report  for  
+4 dimension for DFP_armijo
+
+status_report  for  
+5 dimension for DFP_armijo
+
+status_report  for  
+6 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+7 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+8 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+9 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+10 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+11 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+12 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+13 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+14 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+16 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+17 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+18 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+19 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+20 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+21 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+24 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+28 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for DFP_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for BFGS_armijo
+
+status_report  for  
+3 dimension for BFGS_armijo
+
+status_report  for  
+4 dimension for BFGS_armijo
+
+status_report  for  
+5 dimension for BFGS_armijo
+
+status_report  for  
+6 dimension for BFGS_armijo
+
+status_report  for  
+7 dimension for BFGS_armijo
+
+status_report  for  
+8 dimension for BFGS_armijo
+
+status_report  for  
+9 dimension for BFGS_armijo
+
+status_report  for  
+10 dimension for BFGS_armijo
+
+status_report  for  
+11 dimension for BFGS_armijo
+
+status_report  for  
+12 dimension for BFGS_armijo
+
+status_report  for  
+13 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+14 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+16 dimension for BFGS_armijo
+
+status_report  for  
+17 dimension for BFGS_armijo
+
+status_report  for  
+18 dimension for BFGS_armijo
+
+status_report  for  
+19 dimension for BFGS_armijo
+
+status_report  for  
+20 dimension for BFGS_armijo
+
+status_report  for  
+21 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+24 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+28 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for BFGS_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for damped_newton
+status_report  for  
+3 dimension for damped_newton
+status_report  for  
+4 dimension for damped_newton
+status_report  for  
+5 dimension for damped_newton
+status_report  for  
+6 dimension for damped_newton
+status_report  for  
+7 dimension for damped_newton
+status_report  for  
+8 dimension for damped_newton
+status_report  for  
+9 dimension for damped_newton
+status_report  for  
+10 dimension for damped_newton
+status_report  for  
+11 dimension for damped_newton
+status_report  for  
+12 dimension for damped_newton
+status_report  for  
+13 dimension for damped_newton
+status_report  for  
+14 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+16 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+17 dimension for damped_newton
+status_report  for  
+18 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+19 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+20 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+21 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+24 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+28 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for damped_newton
+status_report  for  
+30 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for damped_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for compound_newton
+status_report  for  
+3 dimension for compound_newton
+status_report  for  
+4 dimension for compound_newton
+status_report  for  
+5 dimension for compound_newton
+status_report  for  
+6 dimension for compound_newton
+status_report  for  
+7 dimension for compound_newton
+status_report  for  
+8 dimension for compound_newton
+status_report  for  
+9 dimension for compound_newton
+status_report  for  
+10 dimension for compound_newton
+status_report  for  
+11 dimension for compound_newton
+status_report  for  
+12 dimension for compound_newton
+status_report  for  
+13 dimension for compound_newton
+status_report  for  
+14 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+16 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+17 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+18 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+19 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+20 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+21 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+24 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+28 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for compound_newton is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for LM
+status_report  for  
+3 dimension for LM
+status_report  for  
+4 dimension for LM
+status_report  for  
+5 dimension for LM
+status_report  for  
+6 dimension for LM
+status_report  for  
+7 dimension for LM
+status_report  for  
+8 dimension for LM
+status_report  for  
+9 dimension for LM
+status_report  for  
+10 dimension for LM
+status_report  for  
+11 dimension for LM
+status_report  for  
+12 dimension for LM
+status_report  for  
+13 dimension for LM
+status_report  for  
+14 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for LM
+status_report  for  
+16 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+17 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+18 dimension for LM
+status_report  for  
+19 dimension for LM
+status_report  for  
+20 dimension for LM
+status_report  for  
+21 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+24 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+28 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for LM is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for damped_newton_armijo
+status_report  for  
+3 dimension for damped_newton_armijo
+status_report  for  
+4 dimension for damped_newton_armijo
+status_report  for  
+5 dimension for damped_newton_armijo
+status_report  for  
+6 dimension for damped_newton_armijo
+status_report  for  
+7 dimension for damped_newton_armijo
+status_report  for  
+8 dimension for damped_newton_armijo
+status_report  for  
+9 dimension for damped_newton_armijo
+status_report  for  
+10 dimension for damped_newton_armijo
+status_report  for  
+11 dimension for damped_newton_armijo
+status_report  for  
+12 dimension for damped_newton_armijo
+status_report  for  
+13 dimension for damped_newton_armijo
+status_report  for  
+14 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+16 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+17 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+18 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+19 dimension for damped_newton_armijo
+status_report  for  
+20 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+21 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for damped_newton_armijo
+status_report  for  
+24 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for damped_newton_armijo
+status_report  for  
+28 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for damped_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for compound_newton_armijo
+status_report  for  
+3 dimension for compound_newton_armijo
+status_report  for  
+4 dimension for compound_newton_armijo
+status_report  for  
+5 dimension for compound_newton_armijo
+status_report  for  
+6 dimension for compound_newton_armijo
+status_report  for  
+7 dimension for compound_newton_armijo
+status_report  for  
+8 dimension for compound_newton_armijo
+status_report  for  
+9 dimension for compound_newton_armijo
+status_report  for  
+10 dimension for compound_newton_armijo
+status_report  for  
+11 dimension for compound_newton_armijo
+status_report  for  
+12 dimension for compound_newton_armijo
+status_report  for  
+13 dimension for compound_newton_armijo
+status_report  for  
+14 dimension for compound_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for compound_newton_armijo
+status_report  for  
+16 dimension for compound_newton_armijo
+status_report  for  
+17 dimension for compound_newton_armijo
+status_report  for  
+18 dimension for compound_newton_armijo
+status_report  for  
+19 dimension for compound_newton_armijo
+status_report  for  
+20 dimension for compound_newton_armijo
+status_report  for  
+21 dimension for compound_newton_armijo
+status_report  for  
+22 dimension for compound_newton_armijo
+status_report  for  
+23 dimension for compound_newton_armijo
+status_report  for  
+24 dimension for compound_newton_armijo
+status_report  for  
+25 dimension for compound_newton_armijo
+status_report  for  
+26 dimension for compound_newton_armijo
+status_report  for  
+27 dimension for compound_newton_armijo
+status_report  for  
+28 dimension for compound_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for compound_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for compound_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for compound_newton_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+2 dimension for LM_armijo
+status_report  for  
+3 dimension for LM_armijo
+status_report  for  
+4 dimension for LM_armijo
+status_report  for  
+5 dimension for LM_armijo
+status_report  for  
+6 dimension for LM_armijo
+status_report  for  
+7 dimension for LM_armijo
+status_report  for  
+8 dimension for LM_armijo
+status_report  for  
+9 dimension for LM_armijo
+status_report  for  
+10 dimension for LM_armijo
+status_report  for  
+11 dimension for LM_armijo
+status_report  for  
+12 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+13 dimension for LM_armijo
+status_report  for  
+14 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+15 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+16 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+17 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+18 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+19 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+20 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+21 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+22 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+23 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+24 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+25 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+26 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+27 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+28 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+29 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+30 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
+status_report  for  
+31 dimension for LM_armijo is too slow for this problem. already used up its time 60
+
