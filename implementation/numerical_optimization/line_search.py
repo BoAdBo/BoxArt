@@ -10,9 +10,9 @@ from profilehooks import coverage
 # In this sense, we keep the alpha low as start, if we want more accurate interval
 # And gamma should start out small as well, otherwise, we wouldn't cover the interval, given we might switch to the wrong direction when near the extreme point
 
-EPSILON = 10 ** (-8)
+EPSILON = 10 ** (-10)
 
-def back_forth(f, d, x, alpha = EPSILON, gamma = EPSILON):
+def back_forth(f, d, x, alpha = 1, gamma = EPSILON):
     # alpha should be non-negative
 
     alpha_next = alpha + gamma
@@ -49,7 +49,7 @@ def search_618(f, d, x, left, right, epsilon = EPSILON):
             return search_618(f, d, x, left, a_right, epsilon)
 
 def exact_line_search(f, d, x, epsilon = EPSILON):
-    interval = back_forth(f, d, x, epsilon, epsilon)
+    interval = back_forth(f, d, x)
     return search_618(f, d, x, *interval, epsilon)
 
 def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
@@ -57,11 +57,16 @@ def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
     # construct a one variable second degree interpolation function in the form ax^2 + bx + c
     # this only works when f(x + alpha * d) = lambda(alpha), lambda: alpha => y, function lambda one variable function is close to second degree
     # as a matter of fact it performed very well in practice
-    armijo_cond = True # to keep going
+
+    # If alpha is too little, return
     temp1 = f(x)
     temp2 = np.dot(gk, d) # no need to recompute these two
 
+    temp3 = f(x + alpha * d)
+    armijo_cond = temp3 > temp1 + rho * temp2 * alpha # to keep going
+
     while armijo_cond:
+
         temp3 = f(x + alpha * d)
         armijo_cond = temp3 > temp1 + rho * temp2 * alpha
 
@@ -70,7 +75,16 @@ def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
         c = temp1
 
         alpha = - b / (2 * a)
-        
+
+    # to avoid g(x + delta) too close to g(x) resulting zero, now just added a condition
+    # can add some down limit constraint here, to avoid the method converging too early or iteration is too slow, depends on the problem
+    if alpha < 10**(-10):
+        print("alpha_1: ", alpha)
+        return 0.1
+    elif alpha < 10**(-5):
+        print("alpha_2: ", alpha)
+        return 0.001
+
     return alpha
 
 

@@ -9,7 +9,7 @@ from line_search import exact_line_search
 from line_search import armijo
 import time
 
-EPSILON = 10 ** (-6)
+EPSILON = 10 ** (-8)
 
 # given that using grad is slow in actual. Give the option to provide self-calculated function g
 def sgd(f, g, x, epsilon = EPSILON):
@@ -38,6 +38,7 @@ def naive_newton(f, g, G, x, alpha = 1, epsilon = EPSILON):
     return x
 
 # damped_newton adding line_search for newton method
+
 def damped_newton(f, g, G, x, epsilon = EPSILON):
     g_x = 2 * epsilon
     try:
@@ -80,7 +81,7 @@ def compound_newton(f, g, G, x, epsilon = EPSILON):
 
         #print(d)
         print(x, linalg.norm(g_x))
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
         print(alpha)
         x = x + alpha * d
 
@@ -105,7 +106,7 @@ def LM(f, g, G, x, epsilon=EPSILON):
         print("v: ",v)
         d = - np.dot(linalg.inv(G_temp), g_x)
         print(x, linalg.norm(g_x))
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
         print(alpha)
         x = x + alpha * d
 
@@ -119,11 +120,17 @@ def SR1(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
+        #alpha = armijo(f, g_x, d, x)
 
         # save parameters
         s = alpha * d
         y = g(x + s) - g_x
+
+        # One more condition, to avoid the continue with y = 0, in such case the method can't possibly proceed
+        if linalg.norm(y, np.inf) == 0:
+            print("\nThe iteration ended early because of small delta x result 0 of y\n", alpha, d, "\n")
+            break
 
         # compute next H_x and x
 
@@ -134,6 +141,7 @@ def SR1(f, g, x, epsilon):
 
         x = x + s
         g_x = y + g_x
+
     return x
 
 def DFP(f, g, x, epsilon):
@@ -144,16 +152,20 @@ def DFP(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
+        #alpha = armijo(f, g_x, d, x)
 
         #save parameters
         s = alpha * d
         y = g(x + s) - g_x
+        if linalg.norm(y, np.inf) == 0:
+            print("\nThe iteration ended early because of small delta x result 0 of y\n", alpha, d, "\n")
+            break
 
         #compute next H_x and x
         temp = np.dot(H_x, y)
         print(x, linalg.norm(g_x))
-        #print(alpha)
+        print(alpha)
         H_x = H_x + np.outer(s, s) / np.dot(s, y) - np.outer(temp, temp) / np.dot(np.dot(H_x, y), y)
         x = x + s
         g_x = y + g_x
@@ -168,11 +180,16 @@ def BFGS(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
 
         #save parameters
         s = alpha * d
         y = g(x + s) - g_x
+
+        if linalg.norm(y, np.inf) == 0:
+            print("\nThe iteration ended early because of small delta x result 0 of y\n", alpha, d, "\n")
+            break
+
 
         #compute next H_x and x, two approaches, pick the complex one for performance, after tested, I have to admit they performance difference is not big, even using less variable is faster some time. Anyway, strange.
         temp = np.dot(H_x, y)
@@ -194,6 +211,184 @@ def BFGS(f, g, x, epsilon):
         g_x = y + g_x
 
     return x
+
+# ====================================================================================================
+# The following is just bad style of the same method but use different line search
+
+
+# damped_newton adding line_search for newton method
+def damped_newton_armijo(f, g, G, x, epsilon = EPSILON):
+    g_x = 2 * epsilon
+    try:
+        while linalg.norm(g_x) > epsilon:
+            g_x = g(x)
+            G_x = G(x)
+            #G_x = np.outer(np.transpose(np.array([1, 2])), np.array([1, 2]))
+            d = - np.dot(linalg.inv(G_x), g_x)
+            print(x, linalg.norm(g_x))
+            alpha = armijo(f, g_x, d, x)
+            x = x + alpha * d
+
+    except np.linalg.linalg.LinAlgError as err:
+        if 'Singular matrix'in str(err):
+            print('\n Singular matrix of G, cannot proceed with damped newton method')
+        else:
+            pass
+
+    return x
+
+def compound_newton_armijo(f, g, G, x, epsilon = EPSILON):
+    g_x = 2 * epsilon
+    # these parameters can change the world
+    epsilon1 = 0.0000001
+    epsilon2 = 0.0000001
+
+    while linalg.norm(g_x) > epsilon:
+        G_x = G(x)
+        g_x = g(x)
+
+        # find direction
+        if linalg.cond(G_x) < 1/sys.float_info.epsilon: # matrix is not singular
+            d = - np.dot(linalg.inv(G_x), g_x)
+            if np.dot(g_x, d) > epsilon1 * linalg.norm(g_x) * linalg.norm(d): # xx < 0, causing g*d > 0
+                d = -d
+            elif abs(np.dot(g_x, d)) <= epsilon2 * linalg.norm(g_x) * linalg.norm(d):
+                d = -g_x
+        else:
+            d = -g_x
+
+        print(x, linalg.norm(g_x))
+        alpha = armijo(f, g_x, d, x)
+        print(alpha)
+        x = x + alpha * d
+
+    return x
+
+def LM_armijo(f, g, G, x, epsilon=EPSILON):
+    g_x = 2 * epsilon
+    epsilon_v = 10 ** (-10) # getting it very small has great performance, since gradient descent is indeed slow, ineffective
+    I = np.eye(np.size(x))
+
+    while linalg.norm(g_x) > epsilon:
+        G_x = G(x)
+        v = epsilon_v
+
+        G_temp = G_x + v * I
+        g_x = g(x)
+
+        while linalg.cond(G_temp) > 1 / sys.float_info.epsilon:
+            v = 2 * v
+            G_temp = G_x + v
+
+        print("v: ",v)
+        d = - np.dot(linalg.inv(G_temp), g_x)
+        print(x, linalg.norm(g_x))
+        alpha = armijo(f, g_x, d, x)
+        print(alpha)
+        x = x + alpha * d
+
+    return x
+
+def SR1_armijo(f, g, x, epsilon):
+    g_x = 2 * epsilon
+    H_x = np.eye(np.size(x))
+
+    while linalg.norm(g_x) > epsilon:
+        g_x = g(x)
+        d = - np.dot(H_x, g_x)
+
+        alpha = armijo(f, g_x, d, x)
+        #alpha = armijo(f, g_x, d, x)
+
+        # save parameters
+        s = alpha * d
+        y = g(x + s) - g_x
+
+        # One more condition, to avoid the continue with y = 0, in such case the method can't possibly proceed
+        if linalg.norm(y, np.inf) == 0:
+            print("\nThe iteration ended early because of small delta x result 0 of y\n", alpha, d, "\n")
+            break
+
+        # compute next H_x and x
+
+        temp = s - np.dot(H_x, y)
+        print(x, linalg.norm(g_x))
+        print(alpha)
+        H_x = H_x + np.outer(temp, temp) / np.dot(temp, y)
+
+        x = x + s
+        g_x = y + g_x
+
+    return x
+
+def DFP_armijo(f, g, x, epsilon):
+    g_x = 2 * epsilon
+    H_x = np.eye(np.size(x))
+
+    while linalg.norm(g_x) > epsilon:
+        g_x = g(x)
+        d = - np.dot(H_x, g_x)
+
+        #alpha = armijo(f, g_x, d, x)
+        alpha = armijo(f, g_x, d, x)
+
+        #save parameters
+        s = alpha * d
+        y = g(x + s) - g_x
+        if linalg.norm(y, np.inf) == 0:
+            print("\nThe iteration ended early because of small delta x result 0 of y\n", alpha, d, "\n")
+            break
+
+        #compute next H_x and x
+        temp = np.dot(H_x, y)
+        print(x, linalg.norm(g_x))
+        print(alpha)
+        H_x = H_x + np.outer(s, s) / np.dot(s, y) - np.outer(temp, temp) / np.dot(np.dot(H_x, y), y)
+        x = x + s
+        g_x = y + g_x
+
+    return x
+
+def BFGS_armijo(f, g, x, epsilon):
+    g_x = 2 * epsilon
+    H_x = np.eye(np.size(x))
+
+    while linalg.norm(g_x) > epsilon:
+        g_x = g(x)
+        d = - np.dot(H_x, g_x)
+
+        alpha = armijo(f, g_x, d, x)
+
+        #save parameters
+        s = alpha * d
+        y = g(x + s) - g_x
+        if linalg.norm(y, np.inf) == 0:
+            print("\nThe iteration ended early because of small delta x result 0 of y\n", alpha, d, "\n")
+            break
+
+
+        #compute next H_x and x, two approaches, pick the complex one for performance, after tested, I have to admit they performance difference is not big, even using less variable is faster some time. Anyway, strange.
+        temp = np.dot(H_x, y)
+        temp2 = (np.outer(s, temp) + np.outer(temp, s)) / np.dot(y, s)
+        temp1 = (1 + np.dot(temp, y) / np.dot(y, s)) * (np.outer(s, s) / np.dot(y,s))
+
+        #performance use more variable less recomputation
+        # temp1 = np.dot(H_x, y)
+        # temp2 = np.dot(y, s)
+        # temp3 = np.outer(s, temp1)
+        # delta1 = (1 + np.dot(temp1, y) / temp2) * (np.outer(s, s) / temp2)
+        # delta2 = (temp3 + np.transpose(temp3)) / temp2
+
+        print(x, linalg.norm(g_x))
+        #print(alpha)
+        H_x = H_x + temp1 - temp2
+        #H_x = H_x + delta1 - delta2
+        x = x + s
+        g_x = y + g_x
+
+    return x
+
+
 
 
 #x = np.array([0.,0.,0.,0.,0.,0.,0.,0.,0.])

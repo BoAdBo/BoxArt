@@ -16,7 +16,7 @@ temp_f = fun.sum_sq_watson
 temp_g = grad(temp_f)
 temp_G = jacobian(temp_g)
 status_out = 'status_report'
-MAX_TIME = 800
+MAX_TIME = 30
 
 def f(x):
     return temp_f(x)
@@ -49,7 +49,7 @@ def handler(signum, frame):
 def status_report(output_file, info):
     print(output_file, " for ", info, file = open(output_file, 'a'))
 
-def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-4)):
+def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-10)):
 
     for i in range(start, to):
         # declare here to allow except to access
@@ -74,6 +74,7 @@ def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-
 
             info = '\n' + str(i) + ' dimension for ' + function_name
             status_report(status_out, info)
+            signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
 
         # reset the alarm in the exception
         except OverTime:
@@ -92,7 +93,7 @@ def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-
 
 
 
-def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-4)):
+def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-10)):
     for i in range(start, to):
         # declare here to allow except to access
         pr = cProfile.Profile()
@@ -115,6 +116,7 @@ def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10
 
             info = '\n' + str(i) + ' dimension for ' + function_name + '\n'
             status_report(status_out, info)
+            signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
 
         # reset the alarm in the exception
         except OverTime:
@@ -130,19 +132,29 @@ def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10
 
     return 0
 
-start = 2
-to = 32
-
-# setting pretty relatively high epsilon for newtons
-
-test_quasi_newtons(me.SR1, 'SR1', start, to, 0.000001)
-test_quasi_newtons(me.DFP, 'DFP', start, to, 0.000001)
-test_quasi_newtons(me.BFGS, 'BFGS', start, to, 0.000001)
-
-#test_newtons(me.naive_newton, 'naive_newton')
+start = 12
+to = 13
 signal.signal(signal.SIGALRM, handler)
 signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
+# setting pretty relatively high epsilon for newtons
+
+#test_quasi_newtons(me.SR1, 'SR1', start, to, 10**(-10))
+#test_quasi_newtons(me.DFP, 'DFP', start, to, 10**(-10))
+#test_quasi_newtons(me.DFP, 'DFP_armijo', start, to, 10**(-10))
+#test_quasi_newtons(me.BFGS, 'BFGS_armijo', start, to, 10**(-10))
+
+test_quasi_newtons(me.SR1_armijo, 'SR1_armijo', start, to, 10**(-10))
+test_quasi_newtons(me.DFP_armijo, 'DFP_armijo', start, to, 10**(-10))
+test_quasi_newtons(me.DFP_armijo, 'DFP_armijo', start, to, 10**(-10))
+test_quasi_newtons(me.BFGS_armijo, 'BFGS_armijo', start, to, 10**(-10))
+
+# #test_newtons(me.naive_newton, 'naive_newton')
 test_newtons(me.damped_newton, 'damped_newton', start, to)
 test_newtons(me.compound_newton, 'compound_newton', start, to)
 test_newtons(me.LM, 'LM', start, to)
+
+test_newtons(me.damped_newton_armijo, 'damped_newton_armijo', start, to)
+test_newtons(me.compound_newton_armijo, 'compound_newton_armijo', start, to)
+test_newtons(me.LM_armijo, 'LM_armijo', start, to)
+
 signal.alarm(0)
