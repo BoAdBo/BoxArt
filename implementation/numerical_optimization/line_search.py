@@ -10,9 +10,10 @@ from profilehooks import coverage
 # In this sense, we keep the alpha low as start, if we want more accurate interval
 # And gamma should start out small as well, otherwise, we wouldn't cover the interval, given we might switch to the wrong direction when near the extreme point
 
-EPSILON = 10 ** (-8)
+EPSILON = 10 ** (-10)
 
-def back_forth(f, d, x, alpha = EPSILON, gamma = EPSILON):
+# Let initial alpha be relatively large, to avoid the interval being to small, and result in slow iteration, gamma be small, to not miss the extreme point
+def back_forth(f, d, x, alpha = 1, gamma = EPSILON):
     # alpha should be non-negative
 
     alpha_next = alpha + gamma
@@ -49,8 +50,9 @@ def search_618(f, d, x, left, right, epsilon = EPSILON):
             return search_618(f, d, x, left, a_right, epsilon)
 
 def exact_line_search(f, d, x, epsilon = EPSILON):
-    interval = back_forth(f, d, x, epsilon, epsilon)
-    return search_618(f, d, x, *interval, epsilon)
+    interval = back_forth(f, d, x, gamma = epsilon)
+    print(interval)
+    return search_618(f, d, x, *interval, EPSILON)
 
 def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
     # alpha starts out not small
@@ -60,6 +62,8 @@ def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
     armijo_cond = True # to keep going
     temp1 = f(x)
     temp2 = np.dot(gk, d) # no need to recompute these two
+    # temp2, when  this is too small, very difficult
+    # The SR1 method gave the d as inf
 
     while armijo_cond:
         temp3 = f(x + alpha * d)
@@ -70,7 +74,7 @@ def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
         c = temp1
 
         alpha = - b / (2 * a)
-        
+
     return alpha
 
 

@@ -9,7 +9,7 @@ from line_search import exact_line_search
 from line_search import armijo
 import time
 
-EPSILON = 10 ** (-6)
+EPSILON = 10 ** (-8)
 
 # given that using grad is slow in actual. Give the option to provide self-calculated function g
 def sgd(f, g, x, epsilon = EPSILON):
@@ -80,7 +80,7 @@ def compound_newton(f, g, G, x, epsilon = EPSILON):
 
         #print(d)
         print(x, linalg.norm(g_x))
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
         print(alpha)
         x = x + alpha * d
 
@@ -105,7 +105,7 @@ def LM(f, g, G, x, epsilon=EPSILON):
         print("v: ",v)
         d = - np.dot(linalg.inv(G_temp), g_x)
         print(x, linalg.norm(g_x))
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
         print(alpha)
         x = x + alpha * d
 
@@ -119,11 +119,15 @@ def SR1(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
-        alpha = exact_line_search(f, d, x, 0.0001)
+        #alpha = exact_line_search(f, d, x)
+        alpha = armijo(f, g_x, d, x)
 
         # save parameters
         s = alpha * d
         y = g(x + s) - g_x
+        if linalg.norm(y) == 0:
+            return x
+            break
 
         # compute next H_x and x
 
@@ -131,6 +135,8 @@ def SR1(f, g, x, epsilon):
         print(x, linalg.norm(g_x))
         print(alpha)
         H_x = H_x + np.outer(temp, temp) / np.dot(temp, y)
+
+        # when g(x + s) and g_x has little difference, it's common to return H_x as inf matrix
 
         x = x + s
         g_x = y + g_x
@@ -144,7 +150,7 @@ def DFP(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
 
         #save parameters
         s = alpha * d
@@ -168,7 +174,7 @@ def BFGS(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
-        alpha = exact_line_search(f, d, x, 0.0001)
+        alpha = exact_line_search(f, d, x)
 
         #save parameters
         s = alpha * d

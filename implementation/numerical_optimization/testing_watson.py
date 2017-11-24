@@ -49,7 +49,7 @@ def handler(signum, frame):
 def status_report(output_file, info):
     print(output_file, " for ", info, file = open(output_file, 'a'))
 
-def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-4)):
+def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-6)):
 
     for i in range(start, to):
         # declare here to allow except to access
@@ -92,7 +92,7 @@ def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-
 
 
 
-def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-4)):
+def test_quasi_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-8)):
     for i in range(start, to):
         # declare here to allow except to access
         pr = cProfile.Profile()
@@ -135,9 +135,9 @@ to = 32
 
 # setting pretty relatively high epsilon for newtons
 
-test_quasi_newtons(me.SR1, 'SR1', start, to, 0.000001)
-test_quasi_newtons(me.DFP, 'DFP', start, to, 0.000001)
-test_quasi_newtons(me.BFGS, 'BFGS', start, to, 0.000001)
+test_quasi_newtons(me.SR1, 'SR1', start, to, 10**(-10))
+test_quasi_newtons(me.DFP, 'DFP', start, to, 10**(-10))
+test_quasi_newtons(me.BFGS, 'BFGS', start, to, 10**(-10))
 
 #test_newtons(me.naive_newton, 'naive_newton')
 signal.signal(signal.SIGALRM, handler)
