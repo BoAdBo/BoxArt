@@ -12,6 +12,7 @@ from profilehooks import coverage
 
 EPSILON = 10 ** (-10)
 
+
 # Let initial alpha be relatively large, to avoid the interval being to small, and result in slow iteration, gamma be small, to not miss the extreme point
 def back_forth(f, d, x, alpha = 1, gamma = EPSILON):
     # alpha should be non-negative
@@ -29,6 +30,7 @@ def back_forth(f, d, x, alpha = 1, gamma = EPSILON):
         alpha_next = alpha + gamma
 
     # being negative is not necessary a descent direction, prevent this situation, in such cases, it means approaching the extreme point in low gamma
+
     if alpha_next < 0:
         alpha_next = 0
 
@@ -50,30 +52,45 @@ def search_618(f, d, x, left, right, epsilon = EPSILON):
             return search_618(f, d, x, left, a_right, epsilon)
 
 def exact_line_search(f, d, x, epsilon = EPSILON):
-    interval = back_forth(f, d, x, gamma = epsilon)
-    print(interval)
-    return search_618(f, d, x, *interval, EPSILON)
+    interval = back_forth(f, d, x)
+    return search_618(f, d, x, *interval, epsilon)
 
 def armijo(f, gk, d, x, alpha = 1, rho = 0.25):
     # alpha starts out not small
     # construct a one variable second degree interpolation function in the form ax^2 + bx + c
     # this only works when f(x + alpha * d) = lambda(alpha), lambda: alpha => y, function lambda one variable function is close to second degree
     # as a matter of fact it performed very well in practice
-    armijo_cond = True # to keep going
+
+    # If alpha is too little, return
     temp1 = f(x)
     temp2 = np.dot(gk, d) # no need to recompute these two
     # temp2, when  this is too small, very difficult
     # The SR1 method gave the d as inf
 
+    b = temp2
+    c = temp1
+
+    temp3 = f(x + alpha * d)
+    armijo_cond = temp3 > temp1 + rho * temp2 * alpha # to keep going
+
     while armijo_cond:
+
+        a = (temp3 - temp1 - temp2 * alpha) / alpha / alpha
+        alpha = - b / (2 * a)
+
         temp3 = f(x + alpha * d)
         armijo_cond = temp3 > temp1 + rho * temp2 * alpha
 
-        a = (temp3 - temp1 - temp2 * alpha) / alpha / alpha
-        b = temp2
-        c = temp1
 
-        alpha = - b / (2 * a)
+    # to avoid g(x + delta) too close to g(x) resulting zero, now just added a condition
+    # can add some down limit constraint here, to avoid the method converging too early or iteration is too slow, depends on the problem
+    # it's possible that alpha becomes negative, causing the next f could be higher, fix by the following
+    if alpha < 10**(-10):
+        print("alpha_1: ", alpha)
+        return 0.1
+    elif alpha < 10**(-5):
+        print("alpha_2: ", alpha)
+        return 0.001
 
     return alpha
 
