@@ -135,14 +135,14 @@ to = 32
 
 # setting pretty relatively high epsilon for newtons
 
-test_quasi_newtons(me.SR1, 'SR1', start, to, 10**(-10))
-test_quasi_newtons(me.DFP, 'DFP', start, to, 10**(-10))
-test_quasi_newtons(me.BFGS, 'BFGS', start, to, 10**(-10))
+test_quasi_newtons(me.SR1, 'SR1', start, to, 0.000001)
+test_quasi_newtons(me.DFP, 'DFP', start, to, 0.000001)
+test_quasi_newtons(me.BFGS, 'BFGS', start, to, 0.000001)
 
 #test_newtons(me.naive_newton, 'naive_newton')
 signal.signal(signal.SIGALRM, handler)
 signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
-test_newtons(me.damped_newton, 'damped_newton', start, to, 10**(-10))
-test_newtons(me.compound_newton, 'compound_newton', start, to, 10**(-10))
-test_newtons(me.LM, 'LM', start, to, 10**(-10))
+test_newtons(me.damped_newton, 'damped_newton', start, to)
+test_newtons(me.compound_newton, 'compound_newton', start, to)
+test_newtons(me.LM, 'LM', start, to)
 signal.alarm(0)

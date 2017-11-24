@@ -1,6 +1,8 @@
 from autograd import grad
 from autograd import jacobian
 import autograd.numpy as np
+import math
+from functools import reduce
 #import numpy as np
 
 def test1(x):
@@ -48,3 +50,98 @@ def sum_sq_watson(x):
 
 # grad_sigmoid = grad(test1)
 # print(grad_sigmoid(x))
+
+
+# The follow functions are for homework assignment for constraint optimization
+# Behold, the goodness of lambda revealed!
+
+class assignment_test1():
+    '''simple class for a collection of function and constraints of assigmnet_test1
+    Two dimension
+    one equality constraint'''
+
+    def f(x):
+        # There is something curious about using math.log here, can only be used as numpy.log or np.log, limitation of autograd
+        result = np.log(1 + x[0] * x[0]) - x[1]
+        return result
+
+    def equality_con():
+        # equality constraint
+        c = list()
+        c.append(
+            lambda x: (1 + x[0] * x[0]) * (1 + x[0] * x[0]) + x[1] * x[1] - 4
+        )
+        return c
+
+    def inequality_con():
+        # empty set of inequality
+        return list()
+
+class assignment_test2():
+    ''' simple class for a collection of function and constraints of assigmnet_test1
+    Three dimension, one equality constraint and 6 inequality constraint'''
+
+    def f(x):
+        return ((x[0] - 1) * (x[0] - 1)
+                + (x[0] - x[1]) * (x[0] - x[1])
+                + (x[1] - x[2]) ** 4)
+
+    def equality_con():
+        c = list()
+
+        c.append(
+            lambda x: x[0] * (1 + x[1] * x[1]) + x[2] ** 4 - 4 - 3 * (2 ** (0.5))
+        )
+
+        return c
+
+    def inequality_con():
+        # It can only accept x as numpy.ndarray
+        c = list()
+
+        n = 3
+
+        i = list(range(n))
+
+        return list(map(lambda i : lambda x: x[i] + 10, i)) + list(map(lambda i : lambda x: 10 - x[i], i))
+
+        # for i in range(n):
+        #     c.append(lambda x: x[i] + 10)
+        #     c.append(lambda x: 10 - x[i])
+
+        # return c
+
+class assignment_test3():
+    # some magic in here my dear
+    def f(x):
+        return x[0] * x[3] * (x[0] + x[1] + x[2]) + x[2]
+
+    def equality_con():
+        c = list()
+
+        c.append(
+            lambda x: sum(map(lambda x: x **2, x)) - 40
+        )
+
+        return c
+
+    def inequality_con():
+        c = list()
+
+        c.append(
+            lambda x: reduce(lambda x, y: x*y, x) - 25
+        )
+
+        #i = list(range(4))
+        #lambda x: x[i] - 1
+
+        # for i in range(4):
+        #     c.append(lambda x: x[i] - 1)
+        #     c.append(lambda x: 5 - x[i])
+
+        # using carry and map, this is just amazing
+        return c + list(map(lambda i: lambda x: x[i] - 1, list(range(4)))) + list(map(lambda i: lambda x: 5 - x[i], list(range(4))))
+
+#f = assignment_test3.inequality_con()
+
+
