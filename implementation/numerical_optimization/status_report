@@ -492,3 +492,6 @@ status_report  for
 status_report  for  
 31 dimension for LM is too slow for this problem. already used up its time 800
 
+status_report  for  
+2 dimension for SR1
+
