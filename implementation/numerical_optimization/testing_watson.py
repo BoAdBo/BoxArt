@@ -72,7 +72,7 @@ def test_newtons(function, function_name, start = 2, to = 31, epsilon = 10 ** (-
 
             put_prof(pr, current_out_prof)
 
-            info = '\n' + str(i) + ' dimension for ' + function_name
+            info = '\n' + str(i) + ' dimension for ' + function_name + '\n'
             status_report(status_out, info)
             signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
 
