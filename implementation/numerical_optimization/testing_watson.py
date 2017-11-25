@@ -1,6 +1,11 @@
 # this script aimed to test the overall performance of different newton method on sum square of watson function
 # and output to a file, this is pretty hard, have to format the data very well and have to consider if there is enough space on the sever
 
+# ls -p | grep -v / | grep -e '^12[a-Z]' | xargs grep -e '^the end' --color | grep -e '[0-9]\..*' > /tmp/temp.log
+
+# extracting data
+
+
 import optimization_methods as me
 from autograd import grad
 from autograd import jacobian
@@ -145,7 +150,6 @@ signal.setitimer(signal.ITIMER_REAL, MAX_TIME)
 #test_quasi_newtons(me.BFGS, 'BFGS_armijo', start, to, 10**(-10))
 
 test_quasi_newtons(me.SR1_armijo, 'SR1_armijo', start, to, 10**(-10))
-test_quasi_newtons(me.DFP_armijo, 'DFP_armijo', start, to, 10**(-10))
 test_quasi_newtons(me.DFP_armijo, 'DFP_armijo', start, to, 10**(-10))
 test_quasi_newtons(me.BFGS_armijo, 'BFGS_armijo', start, to, 10**(-10))
 
