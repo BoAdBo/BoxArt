@@ -160,7 +160,8 @@ x = np.array([2., 2., 2.])
 #x = np.array([1.,5.,5.,1.])
 x = np.array([5000.,50000.,10000.])
 e = outer_penalty(f, g, G, pen, x, 1, 10**(-8))
-print("The optimum result", fun.f(e))
+method = 'outer_penalty'
+print("The optimal result given by %s: ", method, fun.f(e))
 #=========================================================================================================
 
 

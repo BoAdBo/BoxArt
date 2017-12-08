@@ -120,13 +120,7 @@ def SR1(f, g, x, epsilon):
         g_x = g(x)
         d = - np.dot(H_x, g_x)
 
-<<<<<<< HEAD
-        #alpha = exact_line_search(f, d, x)
-        alpha = armijo(f, g_x, d, x)
-=======
         alpha = exact_line_search(f, d, x)
-        #alpha = armijo(f, g_x, d, x)
->>>>>>> 501bd7815f7256259526108c06eb8298a6caf249
 
         # save parameters
         s = alpha * d
@@ -163,10 +157,6 @@ def DFP(f, g, x, epsilon):
         d = - np.dot(H_x, g_x)
 
         alpha = exact_line_search(f, d, x)
-<<<<<<< HEAD
-=======
-        #alpha = armijo(f, g_x, d, x)
->>>>>>> 501bd7815f7256259526108c06eb8298a6caf249
 
         #save parameters
         s = alpha * d
@@ -194,8 +184,6 @@ def BFGS(f, g, x, epsilon):
         d = - np.dot(H_x, g_x)
 
         alpha = exact_line_search(f, d, x)
-<<<<<<< HEAD
-=======
 
         #save parameters
         s = alpha * d
@@ -346,7 +334,6 @@ def DFP_armijo(f, g, x, epsilon):
 
         #alpha = armijo(f, g_x, d, x)
         alpha = armijo(f, g_x, d, x)
->>>>>>> 501bd7815f7256259526108c06eb8298a6caf249
 
         #save parameters
         s = alpha * d
