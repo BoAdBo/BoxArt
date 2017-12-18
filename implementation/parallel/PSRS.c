@@ -3,10 +3,7 @@
 #include <time.h>
 #include "mpi.h"
 
-#define MAX_ARRAY_SIZE (int)1e8
-
-int array[MAX_ARRAY_SIZE];
-int buffer[MAX_ARRAY_SIZE];
+#define comm MPI_COMM_WORLD
 
 // since c doesn't support reference, implement a simple swap function
 void swap(int * a, int * b) {
@@ -89,70 +86,93 @@ void merge(int * first, int * second, int * buffer, int low1, int high1, int low
   }
 }
 
-void test() {
-  // MPI_Init(argc, argv);
-  // int rank, size;
-
-  // MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  // MPI_Comm_size(MPI_COMM_WORLD, &size);
-
-  // MPI_Finalize();
-  srand(time(0));
-  int size = 1e8;
-  for(int i = 0; i < size; ++ i) {
-    //array[i] = size-i;
-    array[i] = rand() % 100000;
-  }
-
-  quicksort_rec(array, 0, size/2);
-  quicksort_rec(array, size/2+1, size-1);
-  merge(array, array,buffer,  0, size/2, size/2+1, size-1);
-
-  for(int i = 0; i < size-1; ++ i) {
-    /* if(array[i] > array[i + 1]) { */
-    /*   printf("Wrong!\n"); */
-    /* } */
-    if(buffer[i] > buffer[i + 1]) {
-      printf("Wrong!\n");
-    }
-  }
-
-  /* for(int i = 0; i < size; ++ i) { */
-  /*   //printf("%d, ", array[i]); */
-  /*   printf("%d, ", buffer[i]); */
-  /* } */
-}
-
-void divide_quicksort(int * array, int rank, int size, int n) {
+/*
+  pass in the divided array for quick sort
+ */
+void divide_quicksort(int * array, int start, int end) {
   // Send messages
-  if(rank == 0) {
-    
+  /* if(rank == 0) { */
+  /*   printf */
+  /* } */
+  /* else { */
+  /* } */
+  //printf("rank %d: ", rank);
+  printf("start: %d, end: %d\n", start, end);
+  for(int i = start; i < end; ++ i) {
+    printf("%d ", array[i]);
   }
-  else {
-    
-  }
+  printf("\n");
 }
-
 
 
 int main(int argc, char* argv[]) {
   MPI_Init(&argc, &argv);
+
+  /*
+    In preparation for dividing jobs and initialization
+   */
   int array_length = 10;
   int rank, size;
+  int local_length;
+  int start, end;
+  // end points to null, which is i + 1, where i is the last index
+  int *array; // to reduce ram consumption, allocate only in process 0
+  int *buffer;
+  int *local_array;
+  int *pivot_buffer, *cbuffer;
 
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  MPI_Comm_rank(comm, &rank);
+  MPI_Comm_size(comm, &size);
 
-  if(rank == 0) {
-    srand(time(0));
-    int size = array_length;
-    for(int i = 0; i < size; ++ i) {
-      //array[i] = size-i;
-      array[i] = rand() % 100000;
+  local_length = (array_length + size - 1) / size; // compute celling, to cooperate with passing same amount chunks of data
+  //printf("%d %d\n", rank, local_length);
+  // each process computes their range
+  if(rank == size - 1) {
+    start = 0;
+    end = ((array_length) % local_length);
+    if(end == 0) {
+      end = local_length;
     }
   }
+  else {
+    start = 0;
+    end = local_length;
+  }
 
-  divide_quicksort(array, rank, size, array_length);
+  // Input of data, using rand
+  if(rank == 0) {
+    // make the array a little bigger, to avoid out of bound index
+    array = (int*)malloc(sizeof(int)*(local_length * size));
+    srand(time(0));
+    for(int i = 0; i < array_length; ++ i) {
+      //array[i] = array_length - i;
+      array[i] = rand() % 100000;
+    }
+    //MPI_Send(array, array_length, MPI_INT, )
+  }
+  local_array = (int*)malloc(sizeof(int)*local_length);
+  MPI_Scatter(array, local_length, MPI_INT,
+              local_array, local_length, MPI_INT,
+              0, comm);
+  //MPI_Bcast(array, array_length, MPI_INT, 0, comm);
+
+  divide_quicksort(local_array, start, end);
+
+  int cbuf_size = (size-1);
+  cbuffer = (int*)malloc(sizeof(int) * cbuf_size);
+  int w = array_length / (size * size);
+  // assume big enough array, no exception handling
+  for(int i = 1; i <= size-1; ++ i) {
+    cbuffer[i-1] = local_array[w * i];
+  }
+
+  if(rank == 0) {
+    pivot_buffer = (int*)malloc(sizeof(int) * cbuf_size * size);
+  }
+
+  MPI_Gather(cbuffer, cbuf_size, MPI_INT,
+             pivot_buffer, cbuf_size, MPI_INT,
+             0, comm);
 
   MPI_Finalize();
   /* if(rank == 0) { */
