@@ -124,7 +124,13 @@ void test() {
 }
 
 void divide_quicksort(int * array, int rank, int size, int n) {
-  // Send  
+  // Send messages
+  if(rank == 0) {
+    
+  }
+  else {
+    
+  }
 }
 
 
