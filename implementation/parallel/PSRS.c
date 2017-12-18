@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "mpi.h"
+#include <stdbool.h>
 
 #define comm MPI_COMM_WORLD
 
@@ -51,6 +52,58 @@ void quicksort(int * array, int length) {
   quicksort_rec(array, 0, length - 1);
 }
 
+/* Try an easy implementation first*/
+void k_way_merge(int ** arrays, int * merged, int * epos, int k) {
+  // find mean
+  int * ps = (int*)malloc(sizeof(int)*k);
+  bool * ended_array = (bool *)malloc(sizeof(bool)*k);
+  int p_merged = 0;
+  for(int i = 0; i < k; ++ i) {
+    ps[i] = 0;// stores the pointer to current number
+  }
+
+  int min = arrays[0][0];
+  int min_index = 0;
+  //printf("In k way merge\n");
+  for(int i = 0; i < k; ++ i) {
+    ended_array[i] = false;
+  }
+
+  while(true) {
+    for(int i = 0; i < k; ++ i) {
+      if(ps[i] < epos[i]) {
+        if(min > arrays[i][ps[i]]) {
+          min = arrays[i][ps[i]];
+          min_index = i;
+        }
+      }
+      else {
+        ended_array[i] = true;
+      }
+    }
+
+    merged[p_merged] = min;
+    p_merged++;
+    ps[min_index]++;
+
+    bool out = true;
+    for(int i = 0; i < k; ++ i) {
+      out = out && ended_array[i];
+    }
+    if(out) {
+      break;
+    }
+  }
+
+  for(int i = 0; i < k*epos[0]; ++ i) {
+    printf("%d ", merged[i]);
+  }
+  printf("\n");
+
+  free(ps);
+  free(ended_array);
+}
+
 /*
   After calling, the merged list will be in the buffer space, index starts from 0, and have enough space to hold the new array
   with length of (high2 + high1 - (low1 + low2) + 2)
@@ -98,6 +151,7 @@ void divide_quicksort(int * array, int start, int end) {
   /* } */
   //printf("rank %d: ", rank);
   printf("start: %d, end: %d\n", start, end);
+  quicksort_rec(array, start, end-1);
   for(int i = start; i < end; ++ i) {
     printf("%d ", array[i]);
   }
@@ -111,7 +165,7 @@ int main(int argc, char* argv[]) {
   /*
     In preparation for dividing jobs and initialization
    */
-  int array_length = 10;
+  int array_length = 20;
   int rank, size;
   int local_length;
   int start, end;
@@ -119,7 +173,7 @@ int main(int argc, char* argv[]) {
   int *array; // to reduce ram consumption, allocate only in process 0
   int *buffer;
   int *local_array;
-  int *pivot_buffer, *cbuffer;
+  int *pivot_buffer, *cbuffer, *temp_buffer;
 
   MPI_Comm_rank(comm, &rank);
   MPI_Comm_size(comm, &size);
@@ -170,9 +224,41 @@ int main(int argc, char* argv[]) {
     pivot_buffer = (int*)malloc(sizeof(int) * cbuf_size * size);
   }
 
+
   MPI_Gather(cbuffer, cbuf_size, MPI_INT,
              pivot_buffer, cbuf_size, MPI_INT,
              0, comm);
+  // in this case the cbuffers are in the smae size
+
+  // next, in order to pass in size number of array for k way merge, make a pointer array
+  {
+    if(rank == 0) {
+      int** pivot_spos = (int **)malloc(sizeof(int*)*size); // pointing to the corresponding start
+      int* pivot_epos = (int *)malloc(sizeof(int)*size);    // the corresponding end index
+      temp_buffer = (int *)malloc(sizeof(int)*size*cbuf_size);
+
+      for(int i = 0; i < size; ++ i) {
+        pivot_spos[i] = pivot_buffer + i * (cbuf_size);
+        pivot_epos[i] = (i+1) * cbuf_size;
+      }
+
+      k_way_merge(pivot_spos, temp_buffer, pivot_epos, size);
+
+      free(pivot_spos);
+      free(pivot_epos);
+    }
+  }
+
+  //MPI_Barrier(comm);
+
+
+  if(rank == 0) {
+    printf("pivot list: ");
+    for(int i = 0; i < cbuf_size * size; ++ i) {
+      printf("%d ", pivot_buffer[i]);
+    }
+    printf("\n");
+  }
 
   MPI_Finalize();
   /* if(rank == 0) { */
