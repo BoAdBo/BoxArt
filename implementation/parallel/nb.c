@@ -7,7 +7,7 @@
 #define DIM 2
 #define X 0
 #define Y 1
-#define G 6.67e-11
+#define G 6.67e-3
 typedef double vect_t[DIM];
 
 struct particle {

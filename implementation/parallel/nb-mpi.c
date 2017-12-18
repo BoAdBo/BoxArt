@@ -9,58 +9,79 @@
 #define X 0
 #define Y 1
 #define G 6.67e-3
-typedef double vect_t[DIM];
 
-double masses[MAX_PARTICLES];
-vect_t pos[MAX_PARTICLES];
-vect_t vel[MAX_PARTICLES];
-vect_t forces[MAX_PARTICLES];
 
-int n;
-double delta_t, T;
-
-void get_input() {
+void get_input(int n,
+               double* pos_x, double* pos_y,
+               double* vel_x, double* vel_y,
+               double * masses) {
   double mass, s_x, s_y, v_x, v_y;
-
-  scanf("%d\n", &n);
-  scanf("%lf %lf", &delta_t, &T);
 
   for(int i = 0; i < n; ++ i) {
     scanf("%lf %lf %lf %lf %lf\n", &mass, &s_x, &s_y, &v_x, &v_y);
     masses[i] = mass;
-    pos[i][X] = s_x;
-    pos[i][Y] = s_y;
-    vel[i][X] = v_x;
-    vel[i][Y] = v_y;
+    pos_x[i] = s_x;
+    pos_y[i] = s_y;
+    vel_x[i] = v_x;
+    vel_y[i] = v_y;
   }
 }
 
 int main(int argc, char * argv[]) {
+  double * masses;
+  double * pos_x;
+  double * pos_y;
+  double * vel_x;
+  double * vel_y;
+  int n;
+  double delta_t, T;
 
-  MPI_Init(&argc, &argv);
+  // local vel, local pos
+  double * loc_vel_x;
+  double * loc_vel_y;
+  double * loc_pos_x;
+  double * loc_pos_y;
 
   int rank, size;
-  int temp;
+  int loc_n;
+
+  MPI_Init(&argc, &argv);
 
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-  //printf("%d\n", rank);
+  // initialization, allocating space
   if(rank == 0) {
-    get_input();
-    int dest = 1;
-    while(dest < size) {
-      MPI_Send(&temp, 1, MPI_INT, dest, 0, MPI_COMM_WORLD);
-      dest++;
-    }
+    scanf("%d\n", &n);
+    scanf("%lf %lf", &delta_t, &T);
   }
-  else {
-    // just for sync waiting for the input
-    MPI_Recv(&temp, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+  MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&delta_t, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+  masses = (double * )malloc(sizeof(double) * n);
+  pos_x = (double *)malloc(sizeof(double) * n);
+  pos_y = (double *)malloc(sizeof(double) * n);
+  vel_x = (double *)malloc(sizeof(double) * n);
+  vel_y = (double *)malloc(sizeof(double) * n);
+
+  // serial input
+  if(rank == 0) {
+    get_input(n, pos_x, pos_y, vel_x, vel_y, masses);// info in process 0, broadcast
   }
+
+  // broadcast
+  /* MPI_Bcast(masses, n, MPI_DOUBLE, 0, MPI_COMM_WORLD); */
+  /* MPI_Bcast(pos_x, n, MPI_DOUBLE, 0, MPI_COMM_WORLD); */
+  /* MPI_Bcast(pos_y, n, MPI_DOUBLE, 0, MPI_COMM_WORLD); */
+  /* MPI_Bcast(vel_x, n, MPI_DOUBLE, 0, MPI_COMM_WORLD); */
+  /* MPI_Bcast(vel_y, n, MPI_DOUBLE, 0, MPI_COMM_WORLD); */
+
+  /* MPI_Barrier(MPI_COMM_WORLD); */
   //printf("hello?\n");
-  printf("%d\n", n/size);
-  int local_n = n / size * rank;
+  printf("%d %d \n", n, size);
+  int local_start = n / size * rank;
   int local_end;
 
   if(rank == size - 1) {
@@ -70,77 +91,89 @@ int main(int argc, char * argv[]) {
     local_end = n / size * (rank+1);
   }
 
-  printf("rank: %d, %d - %d\n", rank, local_n, local_end);
+  printf("rank: %d, %d - %d\n", rank, local_start, local_end);
+
+  MPI_Bcast(masses, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  MPI_Bcast(pos_x, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  MPI_Bcast(pos_y, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  MPI_Bcast(vel_x, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  MPI_Bcast(vel_y, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
   int total_timestep = T / delta_t + 1;
   double x_diff, y_diff;
   double dist, dist_cubed;
+  loc_n = local_end - local_start;
+  double *forces_x = (double *)malloc(sizeof(double)*loc_n);
+  double *forces_y = (double *)malloc(sizeof(double)*loc_n);
+
   for(int timestep = 0; timestep < total_timestep; ++ timestep) {
     // clean forces
+    MPI_Bcast(pos_x, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(pos_y, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(vel_x, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(vel_y, n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     if(rank == 0) {
       // print current position and velocity
       for(int i = 0; i < n; ++ i) {
         printf("particle[%d]: v (%lf, %lf), position (%lf, %lf) at time %lf%s\n",
                i,
-               vel[i][X], vel[i][Y],
-               pos[i][X], pos[i][Y],
+               vel_x[i], vel_y[i],
+               pos_x[i], pos_y[i],
                delta_t * timestep, "s");
       }
-      for(int i = 0; i < n; ++ i) {
-        forces[i][X] = 0;
-        forces[i][Y] = 0;
+      for(int i = 0; i < loc_n; ++ i) {
+        forces_x[i] = 0;
+        forces_y[i] = 0;
       }
-
-      /* int dest = 1; */
-      /* while(dest < size) { */
-      /*   MPI_Send(&temp, 1, MPI_INT, dest, 0, MPI_COMM_WORLD); */
-      /*   dest++; */
-      /* } */
     }
-    else {// sync
-      //MPI_Recv(&temp, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-    }
-    //MPI_Scatter(&temp, 1, MPI_INT, &temp, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     // compute forces
 
-    for(int i = local_n; i < local_end; ++ i) {
+    for(int i = local_start; i < local_end; ++ i) {
       for(int j = 0; j < n; ++ j) {
         if(i != j) {
-          x_diff = pos[i][X] - pos[j][X];
-          y_diff = pos[i][Y] - pos[j][Y];
+          x_diff = pos_x[i] - pos_x[j];
+          y_diff = pos_y[i] - pos_y[j];
           dist = sqrt(x_diff * x_diff + y_diff * y_diff);
           dist_cubed = dist*dist*dist;
-          forces[i][X] -= G * masses[i] * masses[j] / dist_cubed * x_diff;
-          forces[i][Y] -= G * masses[i] * masses[j] / dist_cubed * y_diff;
+          forces_x[i] -= G * masses[i] * masses[j] / dist_cubed * x_diff;
+          forces_y[i] -= G * masses[i] * masses[j] / dist_cubed * y_diff;
         }
       }
     }
 
-    //vect_t* loc_pos = (vect_t*)malloc((local_end - local_n) * sizeof(vect_t));
-    //vect_t* loc_vel = (vect_t*)malloc((local_end - local_n) * sizeof(vect_t));
+    //vect_t* loc_pos = (vect_t*)malloc((local_end - local_start) * sizeof(vect_t));
+    //vect_t* loc_vel = (vect_t*)malloc((local_end - local_start) * sizeof(vect_t));
 
-    for(int i = local_n; i < local_end; ++ i) {
-      double temp_X = forces[i][X] / masses[i];
-      double temp_Y = forces[i][Y] / masses[i];
-      //printf("%lf %lf\n", forces[i][X], forces[i][Y]);
-      pos[i][X] += (vel[i][X] + temp_X * delta_t / 2) * delta_t;
-      pos[i][Y] += (vel[i][Y] + temp_Y * delta_t / 2) * delta_t;
-      vel[i][X] += temp_X * delta_t;
-      vel[i][Y] += temp_Y * delta_t;
+    for(int i = local_start; i < local_end; ++ i) {
+      double temp_x = forces_x[i] / masses[i];
+      double temp_y = forces_y[i] / masses[i];
+      //printf("%lf %lf\n", forces[i][x], forces[i][y]);
+      pos_x[i] += (vel_x[i] + temp_x * delta_t / 2) * delta_t;
+      pos_y[i] += (vel_y[i] + temp_y * delta_t / 2) * delta_t;
+      vel_x[i] += temp_x * delta_t;
+      vel_y[i] += temp_y * delta_t;
     }
 
-    int * temp_recv = NULL;
-    if(rank == 0) {
-      temp_recv = (int*)malloc(sizeof(int)*size);
-    }
-    // sync
-    //printf("hello?\n");
-    //int temp1 = 1;
-    //MPI_Gather(&temp, 1, MPI_INT, temp_recv, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Allgather(pos_x+local_start, loc_n, MPI_DOUBLE, pos_x, loc_n, MPI_DOUBLE, MPI_COMM_WORLD);
+    MPI_Allgather(pos_y+local_start, loc_n, MPI_DOUBLE, pos_y, loc_n, MPI_DOUBLE, MPI_COMM_WORLD);
+    MPI_Allgather(vel_x+local_start, loc_n, MPI_DOUBLE, vel_x, loc_n, MPI_DOUBLE, MPI_COMM_WORLD);
+    MPI_Allgather(vel_y+local_start, loc_n, MPI_DOUBLE, vel_y, loc_n, MPI_DOUBLE, MPI_COMM_WORLD);
+    //printf("rank:%d from %d to %d\n", rank, local_start, local_end);
 
   }
+
+  free(masses);
+  free(pos_x);
+  free(pos_y);
+  free(vel_x);
+  free(vel_y);
+  free(forces_y);
+  free(forces_y);
+  MPI_Barrier(MPI_COMM_WORLD);
+
   MPI_Finalize();
 }
 
