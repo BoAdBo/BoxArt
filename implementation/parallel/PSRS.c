@@ -52,51 +52,79 @@ void quicksort(int * array, int length) {
   quicksort_rec(array, 0, length - 1);
 }
 
-/* Try an easy implementation first*/
 void k_way_merge(int ** arrays, int * merged, int * epos, int k) {
   // find mean
   int * ps = (int*)malloc(sizeof(int)*k);
   bool * ended_array = (bool *)malloc(sizeof(bool)*k);
   int p_merged = 0;
+  int min_index;
+  int min;
   for(int i = 0; i < k; ++ i) {
     ps[i] = 0;// stores the pointer to current number
   }
 
-  int min = arrays[0][0];
-  int min_index = 0;
   //printf("In k way merge\n");
   for(int i = 0; i < k; ++ i) {
     ended_array[i] = false;
   }
 
+  // test print
+  /* for(int i = 0; i < k; ++ i) { */
+  /*   printf("This is size %d array[%d]: ", epos[i], i); */
+  /*   for(int j = 0; j < epos[i]; ++ j) { */
+  /*     printf("%d, ", arrays[i][j]); */
+  /*   } */
+  /*   printf("\n"); */
+  /* } */
+
   while(true) {
+    // pick the first index to start the iteration
+    // rule out the ended array here
+    bool out = true;
     for(int i = 0; i < k; ++ i) {
+      // have to pick the array that has not ended
       if(ps[i] < epos[i]) {
+        min_index = i;
+        min = arrays[min_index][ps[min_index]];
+        out = false; // signal turned off
+        break;
+      }
+      else {
+        //        printf("array[%d] is ended\n", i);
+        ended_array[i] = true;
+      }
+    }
+
+    // exit if all array has ended
+    if(out) {
+      break;
+    }
+
+    for(int i = 0; i < k; ++ i) {
+      if(!ended_array[i] && ps[i] < epos[i]) {
         if(min > arrays[i][ps[i]]) {
           min = arrays[i][ps[i]];
           min_index = i;
         }
       }
-      else {
-        ended_array[i] = true;
-      }
     }
 
+    //printf("pick (index) %d from array %d to merge\n", ps[min_index], min_index);
     merged[p_merged] = min;
     p_merged++;
     ps[min_index]++;
-
-    bool out = true;
-    for(int i = 0; i < k; ++ i) {
-      out = out && ended_array[i];
-    }
-    if(out) {
-      break;
-    }
   }
 
+  printf("The merge pointers: ");
+  for(int i = 0; i < k; ++ i) {
+    printf("%d ", ps[i]);
+  }
+  printf("\n");
+
+
+  // In this case, because the arrays passed in have the same size
   for(int i = 0; i < k*epos[0]; ++ i) {
-    printf("%d ", merged[i]);
+    //printf("%d ", merged[i]);
   }
   printf("\n");
 
@@ -158,7 +186,8 @@ void divide_quicksort(int * array, int start, int end) {
   printf("\n");
 }
 
-
+/* In this program, I have not considered the case for n > p^2, which can cause out of bound for some operation
+   where n is the size of array and p as the number of threading*/
 int main(int argc, char* argv[]) {
   MPI_Init(&argc, &argv);
 
@@ -204,6 +233,7 @@ int main(int argc, char* argv[]) {
     }
     //MPI_Send(array, array_length, MPI_INT, )
   }
+
   local_array = (int*)malloc(sizeof(int)*local_length);
   MPI_Scatter(array, local_length, MPI_INT,
               local_array, local_length, MPI_INT,
@@ -216,7 +246,7 @@ int main(int argc, char* argv[]) {
   cbuffer = (int*)malloc(sizeof(int) * cbuf_size);
   int w = array_length / (size * size);
   // assume big enough array, no exception handling
-  for(int i = 1; i <= size-1; ++ i) {
+  for(int i = 1; i <= cbuf_size; ++ i) {
     cbuffer[i-1] = local_array[w * i];
   }
 
@@ -224,12 +254,11 @@ int main(int argc, char* argv[]) {
     pivot_buffer = (int*)malloc(sizeof(int) * cbuf_size * size);
   }
 
-
   MPI_Gather(cbuffer, cbuf_size, MPI_INT,
              pivot_buffer, cbuf_size, MPI_INT,
              0, comm);
-  // in this case the cbuffers are in the smae size
 
+  // in this case the cbuffers are in the same size
   // next, in order to pass in size number of array for k way merge, make a pointer array
   {
     if(rank == 0) {
@@ -239,7 +268,7 @@ int main(int argc, char* argv[]) {
 
       for(int i = 0; i < size; ++ i) {
         pivot_spos[i] = pivot_buffer + i * (cbuf_size);
-        pivot_epos[i] = (i+1) * cbuf_size;
+        pivot_epos[i] = cbuf_size;
       }
 
       k_way_merge(pivot_spos, temp_buffer, pivot_epos, size);
@@ -249,16 +278,29 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  //MPI_Barrier(comm);
+  if(rank == 0) {
+    // now have the pivots, sample the pivots
+      for(int i = 1; i < cbuf_size; ++ i) {
+        cbuffer[i-1] = temp_buffer[cbuf_size*i];
+      }
+  }
 
-
+  MPI_Bcast(cbuffer, cbuf_size, MPI_INT, 0, comm);
   if(rank == 0) {
     printf("pivot list: ");
     for(int i = 0; i < cbuf_size * size; ++ i) {
-      printf("%d ", pivot_buffer[i]);
+      printf("%d ", temp_buffer[i]);
     }
     printf("\n");
   }
+
+  printf("rank %d gets sampled pivots: ", rank);
+  for(int i = 0; i < cbuf_size; ++ i) {
+    printf("%d ", cbuffer[i]);
+  }
+  printf("\n");
+
+  // well done!
 
   MPI_Finalize();
   /* if(rank == 0) { */
