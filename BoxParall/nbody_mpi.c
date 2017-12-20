@@ -19,7 +19,7 @@
 typedef double vect_t[DIM];
 
 double* masses;
-vect_t *pos, *loc_pos, *vel, *loc_vel, *forces;
+vect_t *pos, *vel, *forces;
 
 int n, T; /* n for the number of the particles, T for timesteps */
 int my_rank, comm_sz;
@@ -51,7 +51,7 @@ void initiateSystem(char* fileName) {
 	fclose(fp);
 }
 
-void Computing(int rank, int loca_n, vect_t * loca_pos) {
+void Computing(int rank, int loca_n, vect_t * loca_pos, vect_t* loc_vel) {
 
   for (int q = 0; q < n; q++) {
     /* Assign 0 to each element of the forces array */
@@ -81,10 +81,12 @@ void Computing(int rank, int loca_n, vect_t * loca_pos) {
 
   /* Gather to all*/
   MPI_Allgather(loca_pos, loca_n, vect_mpi_t, pos, loca_n, vect_mpi_t, comm);
+  /* for(int i = 0; i < size; ++ i) { */
+  /*   MPI_Gather(loca_pos, loca_n, vect_mpi_t, pos, loca_n, vect_mpi_t, i, comm); */
+  /* } */
 }
 
 int main(int argc, char* argv[]) {
-
   vect_t* loc_vel;
   vect_t* loc_pos;
   MPI_Init(&argc, &argv);
@@ -95,24 +97,55 @@ int main(int argc, char* argv[]) {
 
   double start, finish;  /* Time record */
   if (argc == 2) {
-    loc_pos = (vect_t *)malloc(loc_n * sizeof(double));  /* Position of local particles */
-    loc_pos = pos + my_rank*loc_n;
-    loc_vel = (vect_t*)malloc(n * sizeof(vect_t));
     MPI_Type_contiguous(2, MPI_DOUBLE, &vect_mpi_t);
     MPI_Type_commit(&vect_mpi_t);
 
+
     if (my_rank == 0) {
       initiateSystem(argv[1]);  /* Get the data */
+    }
+
+    MPI_Bcast(&n, 1, MPI_INT, 0, comm);
+    MPI_Bcast(&loc_n, 1, MPI_INT, 0, comm);
+    MPI_Bcast(&T, 1, MPI_INT, 0, comm);
+
+    loc_pos = (vect_t *)malloc(loc_n * sizeof(vect_t));  /* Position of local particles */
+    loc_vel = (vect_t*)malloc(loc_n * sizeof(vect_t));
+
+    if (my_rank != 0) {
+      masses = (double*)malloc(n * sizeof(double));
+      pos = (vect_t*)malloc(n * sizeof(vect_t));
+      vel = (vect_t*)malloc(n * sizeof(vect_t));
+      forces = (vect_t*)malloc(n * sizeof(vect_t));
     }
 
     start = MPI_Wtime();
     MPI_Bcast(masses, n, MPI_DOUBLE, 0, comm);  /* Broatcast the same masses to all processes */
     MPI_Bcast(pos, n, vect_mpi_t, 0, comm);  /* Broatcast the position to all processes */
     MPI_Scatter(vel, loc_n, vect_mpi_t, loc_vel, loc_n, vect_mpi_t, 0, comm);  /* Scatter the vel to all processes*/
+    MPI_Scatter(pos, loc_n, vect_mpi_t, loc_pos, loc_n, vect_mpi_t, 0, comm);
+    /* MPI_Barrier(comm); */
 
+    /* printf("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11\n"); */
+    /* printf("%lf\n", *(loc_vel[0])); */
+    // testing broadcast
+    /* printf("rank[%d] :", my_rank); */
+    /* for(int i = 0; i < n; ++ i) { */
+    /*   printf("mass[%d]: %lf, pos[%d], (%lf, %lf)\n", i, masses[i], i, pos[i][X], pos[i][Y]); */
+    /* } */
+    /* printf("\n\n"); */
+
+    /* // testing local broadcast */
+    /* printf("rank[%d] :", my_rank); */
+    /* for(int i = 0; i < loc_n; ++ i) { */
+    /*   printf("loc_vel[%d]: (%lf, %lf), loc_pos[%d], (%lf, %lf)", */
+    /*          i, loc_vel[i][X], loc_vel[i][Y], */
+    /*          i, loc_pos[i][X], loc_pos[i][Y]); */
+    /* } */
+    /* printf("\n"); */
+    printf("Hello! %d \n", my_rank);
     for (int i = 0; i < T; i++) {
-
-      Computing(my_rank, loc_n, loc_pos);
+      Computing(my_rank, loc_n, loc_pos, loc_vel);
 
       printf("Hello! %d \n", my_rank);
 
@@ -124,19 +157,23 @@ int main(int argc, char* argv[]) {
         }
       }
     }
+    MPI_Barrier(comm);
+    finish = MPI_Wtime();
   }
 
-  finish = MPI_Wtime();
+
   if (my_rank == 0)
     printf("Running time = %e seconds\n", finish-start);
   //  MPI_Type_free(&vect_mpi_t);
 
-  if (my_rank == 0) {
-    free(vel);
+  if(argc == 2) {
+
     free(masses);
     free(pos);
+    free(vel);
     free(forces);
     free(loc_vel);
+    free(loc_pos);
   }
 
   MPI_Finalize();
