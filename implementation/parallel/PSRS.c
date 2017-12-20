@@ -6,6 +6,11 @@
 
 #define comm MPI_COMM_WORLD
 
+void print_delimiter(const char * message) {
+  printf("================================================================================\n");
+  printf("%s", message);
+}
+
 // since c doesn't support reference, implement a simple swap function
 void swap(int * a, int * b) {
   int temp = *a;
@@ -18,7 +23,7 @@ void swap(int * a, int * b) {
   Put the elements smaller than pivot before index n, and the elements larger than pivot after index n
   return n
  */
-int parition(int* array, int pivot_pos, int low, int high) {
+int partition(int* array, int pivot_pos, int low, int high) {
   // isolate the low(i.e the first position), which puts the pivot here
   int pivot = array[pivot_pos];
   swap(array + low, array + pivot_pos);// passing pointers here
@@ -41,7 +46,7 @@ void quicksort_rec(int * array, int low, int high) {
   if(low < high) {
     int pivot_pos = (low + high) / 2;
 
-    pivot_pos = parition(array, pivot_pos, low, high);
+    pivot_pos = partition(array, pivot_pos, low, high);
 
     quicksort_rec(array, low, pivot_pos-1);
     quicksort_rec(array, pivot_pos+1, high);
@@ -115,6 +120,7 @@ void k_way_merge(int ** arrays, int * merged, int * epos, int k) {
     ps[min_index]++;
   }
 
+  print_delimiter("In k way merge\n");
   printf("The merge pointers: ");
   for(int i = 0; i < k; ++ i) {
     printf("%d ", ps[i]);
@@ -126,10 +132,43 @@ void k_way_merge(int ** arrays, int * merged, int * epos, int k) {
   for(int i = 0; i < k*epos[0]; ++ i) {
     //printf("%d ", merged[i]);
   }
-  printf("\n");
+  //printf("\n");
 
   free(ps);
   free(ended_array);
+}
+
+/*
+  p_size is the (last index of pivots + 1) == (size of pivots)
+  array to be divided into n parts, where n == p_size + 1
+  partition_head[i] points to the start of partition array of index i, partition_size is the (last index of partition + 1)
+ */
+void mul_partition(int * array, int * pivots, int array_size, int p_size, int** partition_head, int * partition_size) {
+  int j = 0;
+  int i = 0;
+  int head_index = -1;
+
+  for(i = 0; i < p_size; ++ i) {
+    // before iteration, note down the head
+    head_index = j;
+    partition_head[i] = array + j;
+
+    // since array is sorted
+    // iterate through array until elements are greater than pivots
+    while(array[j] < pivots[i]) {
+      j++;
+    }
+    // now array[j] is the first one to be larger than pivots[i], update the partition
+    partition_size[i] = j - head_index;
+
+    // next iteration
+  }
+
+  // leaving last one partition, i should be equal to p_size
+  partition_head[i] = array + j;
+  partition_size[i] = array_size - j;
+
+  // partition done
 }
 
 /*
@@ -177,6 +216,8 @@ void divide_quicksort(int * array, int start, int end) {
   /* } */
   /* else { */
   /* } */
+
+  print_delimiter("in divide_quicksort\n");
   //printf("rank %d: ", rank);
   printf("start: %d, end: %d\n", start, end);
   quicksort_rec(array, start, end-1);
@@ -194,7 +235,7 @@ int main(int argc, char* argv[]) {
   /*
     In preparation for dividing jobs and initialization
    */
-  int array_length = 20;
+  int array_length = 200;
   int rank, size;
   int local_length;
   int start, end;
@@ -280,12 +321,14 @@ int main(int argc, char* argv[]) {
 
   if(rank == 0) {
     // now have the pivots, sample the pivots
-      for(int i = 1; i < cbuf_size; ++ i) {
-        cbuffer[i-1] = temp_buffer[cbuf_size*i];
+      for(int i = 0; i < cbuf_size; ++ i) {
+        cbuffer[i] = temp_buffer[cbuf_size*(i + 1)];
       }
   }
 
+  // broadcast the pivots to other nodes
   MPI_Bcast(cbuffer, cbuf_size, MPI_INT, 0, comm);
+
   if(rank == 0) {
     printf("pivot list: ");
     for(int i = 0; i < cbuf_size * size; ++ i) {
@@ -294,6 +337,7 @@ int main(int argc, char* argv[]) {
     printf("\n");
   }
 
+  print_delimiter("sample pivots test print\n");
   printf("rank %d gets sampled pivots: ", rank);
   for(int i = 0; i < cbuf_size; ++ i) {
     printf("%d ", cbuffer[i]);
@@ -301,6 +345,115 @@ int main(int argc, char* argv[]) {
   printf("\n");
 
   // well done!
+  // partition and sent the partition to the itch node
+  int** partition_head = (int**)malloc(sizeof(int*) * (size));
+  int* partition_size = (int*)malloc(sizeof(int) * size);
+
+  mul_partition(local_array, cbuffer, end, cbuf_size, partition_head, partition_size);
+
+  // testing partition
+  print_delimiter("");
+  for(int i = 0; i < size; ++ i) {
+    printf("[%d] partition of rank[%d]: ", i, rank);
+    for(int j = 0; j < partition_size[i]; ++ j) {
+      printf("%d ", partition_head[i][j]);
+    }
+    printf("\n");
+  }
+
+  //MPI_Barrier(comm);
+  // after partition, gather from other nodes
+  int* recv_partition_size = (int*)malloc(sizeof(int)*size);
+  int** recv_partition_head = (int**)malloc(sizeof(int)*size);
+
+  // first receive the size from each node, and reserve space for them
+
+  // ??? what seems like a good approach
+  for(int i = 0; i < size; ++ i) {
+    MPI_Gather(partition_size + i, 1, MPI_INT,
+               recv_partition_size, 1, MPI_INT,
+               i, comm);
+  }
+  // remember to not add an displacement for recv_parition_size, and this method is shorter than below
+
+  /* for(int i = 0; i < size; ++ i) { */
+  /*   MPI_Send(partition_size+i, 1, MPI_INT, */
+  /*            i, 0, comm); */
+  /* } */
+
+  /* for(int i = 0; i < size; ++ i) { */
+  /*   MPI_Recv(recv_partition_size+i, 1, MPI_INT, i, 0, comm, MPI_STATUS_IGNORE); */
+  /* } */
+
+  // testing sending
+  /* for (int i = 0; i < size; ++ i) { */
+  /*   printf("rank [%d]: %d ", rank, recv_partition_size[i]); */
+  /* }   printf("\n"); */
+
+  // moving onto send receives partitions, first declare length for each
+  for(int i = 0; i < size; ++ i) {
+    // may receive bad size and cause crashes
+    recv_partition_head[i] = (int*)malloc(sizeof(int)*recv_partition_size[i]);
+  }
+
+  for(int i = 0; i < size; ++ i) {
+    MPI_Send(partition_head[i], partition_size[i], MPI_INT,
+             i, 0, comm);
+  }
+
+  for(int i = 0; i < size; ++ i) {
+    MPI_Recv(recv_partition_head[i], recv_partition_size[i], MPI_INT,
+             i, 0, comm, MPI_STATUS_IGNORE);
+  }
+
+  print_delimiter("In testing receiving final pivot partition array\n");
+  for(int i = 0; i < size; ++ i) {
+    printf("[%d] receive partition of rank[%d]: ", i, rank);
+    for(int j = 0; j < recv_partition_size[i]; ++ j) {
+      printf("%d ", recv_partition_head[i][j]);
+    }
+    printf("\n");
+  }
+
+  int partition_length = 0;
+  for(int i = 0; i < size; ++ i) {
+    partition_length += recv_partition_size[i];
+  }
+
+  int* local_merge = (int*)malloc(sizeof(int)* partition_length);
+  // after performing a k_way_merge, the partition will be sorted
+  k_way_merge(recv_partition_head, local_merge, recv_partition_size, size);
+
+  print_delimiter("After final merging, showing the local_merge array\n");
+  printf("rank[%d]: ", rank);
+  for(int i = 0; i < partition_length; ++ i) {
+    printf("%d ", local_merge[i]);
+  }
+  printf("\n");
+
+  // send local_merge to root node, and concatenate the arrays for a sorted array
+  int* recv_merge_size = (int*)malloc(sizeof(int) * size);
+  MPI_Gather(&partition_length, 1, MPI_INT,
+             recv_merge_size, 1, MPI_INT,
+             0, comm);
+
+  int* disp = (int*)malloc(sizeof(int) * size);
+  disp[0] = 0;
+  for(int i = 1; i < size; ++ i) {
+    disp[i] = recv_merge_size[i-1] + disp[i - 1];
+  }
+
+  int* sorted_array = (int*)malloc(sizeof(int)*array_length);
+  MPI_Gatherv(local_merge, partition_length, MPI_INT,
+              sorted_array, recv_merge_size, disp, MPI_INT, 0, comm);
+
+  if(rank == 0) {
+    printf("The sorted array: ");
+    for(int i = 0; i < array_length; ++ i) {
+      printf("%d ", sorted_array[i]);
+    }
+    printf("\n");
+  }
 
   MPI_Finalize();
   /* if(rank == 0) { */
