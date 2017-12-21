@@ -81,9 +81,6 @@ void Computing(int rank, int loca_n, vect_t * loca_pos, vect_t* loc_vel) {
 
   /* Gather to all*/
   MPI_Allgather(loca_pos, loca_n, vect_mpi_t, pos, loca_n, vect_mpi_t, comm);
-  /* for(int i = 0; i < size; ++ i) { */
-  /*   MPI_Gather(loca_pos, loca_n, vect_mpi_t, pos, loca_n, vect_mpi_t, i, comm); */
-  /* } */
 }
 
 int main(int argc, char* argv[]) {
@@ -102,7 +99,7 @@ int main(int argc, char* argv[]) {
 
 
     if (my_rank == 0) {
-      initiateSystem(argv[1]);  /* Get the data */
+      initiateSystem(argv[1]);  /* Process 0 read the data */
     }
 
     MPI_Bcast(&n, 1, MPI_INT, 0, comm);
@@ -120,34 +117,15 @@ int main(int argc, char* argv[]) {
     }
 
     start = MPI_Wtime();
-    MPI_Bcast(masses, n, MPI_DOUBLE, 0, comm);  /* Broatcast the same masses to all processes */
-    MPI_Bcast(pos, n, vect_mpi_t, 0, comm);  /* Broatcast the position to all processes */
+    MPI_Bcast(masses, n, MPI_DOUBLE, 0, comm);  /* Broatcast the masses[] to all processes */
+    MPI_Bcast(pos, n, vect_mpi_t, 0, comm);  /* Broatcast the pos[] to all processes, as every process needs the pos to calculate forces */
     MPI_Scatter(vel, loc_n, vect_mpi_t, loc_vel, loc_n, vect_mpi_t, 0, comm);  /* Scatter the vel to all processes*/
     MPI_Scatter(pos, loc_n, vect_mpi_t, loc_pos, loc_n, vect_mpi_t, 0, comm);
-    /* MPI_Barrier(comm); */
 
-    /* printf("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11\n"); */
-    /* printf("%lf\n", *(loc_vel[0])); */
-    // testing broadcast
-    /* printf("rank[%d] :", my_rank); */
-    /* for(int i = 0; i < n; ++ i) { */
-    /*   printf("mass[%d]: %lf, pos[%d], (%lf, %lf)\n", i, masses[i], i, pos[i][X], pos[i][Y]); */
-    /* } */
-    /* printf("\n\n"); */
-
-    /* // testing local broadcast */
-    /* printf("rank[%d] :", my_rank); */
-    /* for(int i = 0; i < loc_n; ++ i) { */
-    /*   printf("loc_vel[%d]: (%lf, %lf), loc_pos[%d], (%lf, %lf)", */
-    /*          i, loc_vel[i][X], loc_vel[i][Y], */
-    /*          i, loc_pos[i][X], loc_pos[i][Y]); */
-    /* } */
-    /* printf("\n"); */
-    printf("Hello! %d \n", my_rank);
     for (int i = 0; i < T; i++) {
       Computing(my_rank, loc_n, loc_pos, loc_vel);
 
-      printf("Hello! %d \n", my_rank);
+      //      printf("Hello! %d \n", my_rank);
 
       if (my_rank == 0) {
         printf("\nStep %d\n", i + 1);
@@ -157,7 +135,7 @@ int main(int argc, char* argv[]) {
         }
       }
     }
-    MPI_Barrier(comm);
+    MPI_Barrier(comm);  /* block all the processes until comm has reached */
     finish = MPI_Wtime();
   }
 
