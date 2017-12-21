@@ -572,6 +572,14 @@ int main(int argc, char* argv[]) {
     quicksort(array, array_length);
     time_end = MPI_Wtime();
     printf("Serial : Elapsed time is %f\n", time_end - time_start);
+
+    // assume serial quicksort is correct
+    for(int i = 0; i < array_length; ++ i) {
+      if(array[i] != sorted_array[i]) {
+        printf("Error in PSRS sorting\n");
+        return -1;
+      }
+    }
   }
   // the job is done, sorted array in sorted_array
 
