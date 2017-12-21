@@ -328,7 +328,7 @@ int main(int argc, char* argv[]) {
               local_array, local_fixed_length, MPI_INT,
               0, comm);
 
-  myfree(array);
+  //myfree(array); // don't free for comparison
 
   // every node sort their own unsorted array
   divide_quicksort(local_array, start, end);
@@ -567,7 +567,11 @@ int main(int argc, char* argv[]) {
 
   time_end = MPI_Wtime();
   if(rank == 0) {
-    printf("Elapsed time is %f\n", time_end - time_start);
+    printf("PSRS.c : Elapsed time is %f\n", time_end - time_start);
+    time_start = MPI_Wtime();
+    quicksort(array, array_length);
+    time_end = MPI_Wtime();
+    printf("Serial : Elapsed time is %f\n", time_end - time_start);
   }
   // the job is done, sorted array in sorted_array
 
