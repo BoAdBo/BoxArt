@@ -11,6 +11,10 @@ void print_delimiter(const char * message) {
   printf("%s", message);
 }
 
+void myfree(void * pointer) {
+  if(!pointer) {free(pointer);}
+}
+
 // since c doesn't support reference, implement a simple swap function
 void swap(int * a, int * b) {
   int temp = *a;
@@ -307,7 +311,7 @@ int main(int argc, char* argv[]) {
               local_array, local_fixed_length, MPI_INT,
               0, comm);
 
-  free(array);
+  myfree(array);
 
   // every node sort their own unsorted array
   divide_quicksort(local_array, start, end);
@@ -330,18 +334,16 @@ int main(int argc, char* argv[]) {
              pivot_buffer, sample_size, MPI_INT,
              0, comm);
 
-  free(cbuffer);
+  myfree(cbuffer);
 
   int* temp_buffer;
   //in this case the cbuffers are in the same size
   //next, in order to pass in size number of array for k way merge, make a pointer array
-  if(rank < 0) {
+  if(rank == 0) {
+    print_delimiter("In multi way merge\n");
     int** pivot_spos;
     int* pivot_epos;
     pivot_spos = (int **)malloc(sizeof(int*)*size); //pointing to the corresponding start
-    for(int i = 0; i < size; ++ i) {
-      pivot_spos[i] = (int*)malloc(sizeof(int)*sample_size);
-    }
     pivot_epos = (int *)malloc(sizeof(int)*size);    //the corresponding end index
     temp_buffer = (int *)malloc(sizeof(int)*size*sample_size);
 
@@ -352,16 +354,12 @@ int main(int argc, char* argv[]) {
 
     k_way_merge(pivot_spos, temp_buffer, pivot_epos, size);
 
-    for(int i = 0; i < size; ++ i) {
-      free(pivot_spos[i]);
-    }
-    free(pivot_spos);
-    free(pivot_epos);
-    //free(temp_buffer);
+    myfree(pivot_spos);
+    myfree(pivot_epos);
   }
 
   if(rank == 0) {
-    free(pivot_buffer);
+    myfree(pivot_buffer);
   }
 
   int* sampled_pivot;
@@ -382,7 +380,7 @@ int main(int argc, char* argv[]) {
       printf("%d ", temp_buffer[i]);
     }
     printf("\n");
-    free(temp_buffer);
+    myfree(temp_buffer);
   }
 
   print_delimiter("sample pivots test print\n");
@@ -411,17 +409,25 @@ int main(int argc, char* argv[]) {
 
   // after partition, gather from other nodes
   int* recv_partition_size = (int*)malloc(sizeof(int)*size);
-  int** recv_partition_head = (int**)malloc(sizeof(int)*size);
+  int** recv_partition_head = (int**)malloc(sizeof(int*)*size);
 
   // first receive the size from each node, and reserve space for them
 
   // ??? what seems like a good approach
+  // this doesn't work
+  /* MPI_Allgather(partition_size, 1, MPI_INT, */
+  /*               recv_partition_size, 1, MPI_INT, comm); */
   for(int i = 0; i < size; ++ i) {
     MPI_Gather(partition_size + i, 1, MPI_INT,
                recv_partition_size, 1, MPI_INT,
                i, comm);
   }
   // remember to not add an displacement for recv_parition_size, and this method is shorter than below
+  print_delimiter("Receive size:\n");
+  for(int i = 0; i < size; ++ i) {
+    printf("%d ", recv_partition_size[i]);
+  }
+  printf("\n");
 
   // moving onto send receives partitions, first declare length for each
   for(int i = 0; i < size; ++ i) {
@@ -456,8 +462,8 @@ int main(int argc, char* argv[]) {
   int* local_merge = (int*)malloc(sizeof(int)* partition_length);
   // after performing a k_way_merge, the partition will be sorted
   k_way_merge(recv_partition_head, local_merge, recv_partition_size, size);
-  free(recv_partition_head);
-  free(recv_partition_size);
+  myfree(recv_partition_head);
+  myfree(recv_partition_size);
 
   print_delimiter("After final merging, showing the local_merge array\n");
   printf("rank[%d]: ", rank);
@@ -499,19 +505,14 @@ int main(int argc, char* argv[]) {
     printf("\n");
   }
 
+  printf("rank[%d] exits!\n", rank);
 
-  if(rank == 0) {
-    free(disp);
-    free(recv_merge_size);
-    free(sorted_array);
-  }
-  free(partition_head);
-  free(partition_size);
+  myfree(disp);
+  myfree(recv_merge_size);
+  myfree(sorted_array);
+  myfree(partition_head);
+  myfree(partition_size);
 
   MPI_Finalize();
-  if(rank == 0) {
-    for(int i = 0; i < array_length; ++ i) {
-      printf("%d ", array[i]);
-    }
-  }
+
 }
