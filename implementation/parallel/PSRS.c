@@ -124,15 +124,15 @@ void k_way_merge(int ** arrays, int * merged, int * epos, int k) {
     ps[min_index]++;
   }
 
-  print_delimiter("In k way merge\n");
-  printf("The merge pointers: ");
-  for(int i = 0; i < k; ++ i) {
-    printf("%d ", ps[i]);
-  }
-  printf("\n");
+  /* print_delimiter("In k way merge\n"); */
+  /* printf("The merge pointers: "); */
+  /* for(int i = 0; i < k; ++ i) { */
+  /*   printf("%d ", ps[i]); */
+  /* } */
+  /* printf("\n"); */
 
-  free(ps);
-  free(ended_array);
+  myfree(ps);
+  myfree(ended_array);
 }
 
 /*
@@ -214,14 +214,14 @@ void divide_quicksort(int * array, int start, int end) {
   /* else { */
   /* } */
 
-  print_delimiter("in divide_quicksort\n");
+  //print_delimiter("in divide_quicksort\n");
   //printf("rank %d: ", rank);
-  printf("start: %d, end: %d\n", start, end);
+  //printf("start: %d, end: %d\n", start, end);
   quicksort_rec(array, start, end-1);
-  for(int i = start; i < end; ++ i) {
-    printf("%d ", array[i]);
-  }
-  printf("\n");
+  /* for(int i = start; i < end; ++ i) { */
+  /*   printf("%d ", array[i]); */
+  /* } */
+  /* printf("\n"); */
 }
 
 /*
@@ -229,7 +229,8 @@ void divide_quicksort(int * array, int start, int end) {
   Note that would need the size of nodes in order to allocate reasonable space
  */
 void input(int** array, int* length, int size) {
-  int array_length = 200;
+  int array_length;
+  scanf("%d", &array_length);
   // get size of the array, make changes to pointer
   *length = array_length;
   int local_length = (array_length + size - 1) / size;
@@ -340,7 +341,7 @@ int main(int argc, char* argv[]) {
   //in this case the cbuffers are in the same size
   //next, in order to pass in size number of array for k way merge, make a pointer array
   if(rank == 0) {
-    print_delimiter("In multi way merge\n");
+    //print_delimiter("In multi way merge\n");
     int** pivot_spos;
     int* pivot_epos;
     pivot_spos = (int **)malloc(sizeof(int*)*size); //pointing to the corresponding start
@@ -383,12 +384,12 @@ int main(int argc, char* argv[]) {
     myfree(temp_buffer);
   }
 
-  print_delimiter("sample pivots test print\n");
-  printf("rank %d gets sampled pivots: ", rank);
-  for(int i = 0; i < sample_size; ++ i) {
-    printf("%d ", sampled_pivot[i]);
-  }
-  printf("\n");
+  /* print_delimiter("sample pivots test print\n"); */
+  /* printf("rank %d gets sampled pivots: ", rank); */
+  /* for(int i = 0; i < sample_size; ++ i) { */
+  /*   printf("%d ", sampled_pivot[i]); */
+  /* } */
+  /* printf("\n"); */
 
   // well done!
   // partition and send the partition to the each node
@@ -398,14 +399,14 @@ int main(int argc, char* argv[]) {
   mul_partition(local_array, sampled_pivot, end, sample_size, partition_head, partition_size);
 
   // testing partition
-  print_delimiter("");
-  for(int i = 0; i < size; ++ i) {
-    printf("[%d] partition of rank[%d]: ", i, rank);
-    for(int j = 0; j < partition_size[i]; ++ j) {
-      printf("%d ", partition_head[i][j]);
-    }
-    printf("\n");
-  }
+  /* print_delimiter(""); */
+  /* for(int i = 0; i < size; ++ i) { */
+  /*   printf("[%d] partition of rank[%d]: ", i, rank); */
+  /*   for(int j = 0; j < partition_size[i]; ++ j) { */
+  /*     printf("%d ", partition_head[i][j]); */
+  /*   } */
+  /*   printf("\n"); */
+  /* } */
 
   // after partition, gather from other nodes
   int* recv_partition_size = (int*)malloc(sizeof(int)*size);
@@ -465,12 +466,12 @@ int main(int argc, char* argv[]) {
   myfree(recv_partition_head);
   myfree(recv_partition_size);
 
-  print_delimiter("After final merging, showing the local_merge array\n");
-  printf("rank[%d]: ", rank);
-  for(int i = 0; i < partition_length; ++ i) {
-    printf("%d ", local_merge[i]);
-  }
-  printf("\n");
+  /* print_delimiter("After final merging, showing the local_merge array\n"); */
+  /* printf("rank[%d]: ", rank); */
+  /* for(int i = 0; i < partition_length; ++ i) { */
+  /*   printf("%d ", local_merge[i]); */
+  /* } */
+  /* printf("\n"); */
 
   // send local_merge to root node, and concatenate the arrays for a sorted array
   int* recv_merge_size;
@@ -497,13 +498,13 @@ int main(int argc, char* argv[]) {
   MPI_Gatherv(local_merge, partition_length, MPI_INT,
               sorted_array, recv_merge_size, disp, MPI_INT, 0, comm);
 
-  if(rank == 0) {
-    printf("The sorted array: ");
-    for(int i = 0; i < array_length; ++ i) {
-      printf("%d ", sorted_array[i]);
-    }
-    printf("\n");
-  }
+  /* if(rank == 0) { */
+  /*   printf("The sorted array: "); */
+  /*   for(int i = 0; i < array_length; ++ i) { */
+  /*     printf("%d ", sorted_array[i]); */
+  /*   } */
+  /*   printf("\n"); */
+  /* } */
 
   printf("rank[%d] exits!\n", rank);
 
