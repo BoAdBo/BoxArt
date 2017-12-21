@@ -11,6 +11,10 @@ void print_delimiter(const char * message) {
   printf("%s", message);
 }
 
+void myfree(void * pointer) {
+  if(!pointer) {free(pointer);}
+}
+
 // since c doesn't support reference, implement a simple swap function
 void swap(int * a, int * b) {
   int temp = *a;
@@ -127,13 +131,6 @@ void k_way_merge(int ** arrays, int * merged, int * epos, int k) {
   }
   printf("\n");
 
-
-  // In this case, because the arrays passed in have the same size
-  for(int i = 0; i < k*epos[0]; ++ i) {
-    //printf("%d ", merged[i]);
-  }
-  //printf("\n");
-
   free(ps);
   free(ended_array);
 }
@@ -227,6 +224,57 @@ void divide_quicksort(int * array, int start, int end) {
   printf("\n");
 }
 
+/*
+  allocate space for array, and return the size of array
+  Note that would need the size of nodes in order to allocate reasonable space
+ */
+void input(int** array, int* length, int size) {
+  int array_length = 200;
+  // get size of the array, make changes to pointer
+  *length = array_length;
+  int local_length = (array_length + size - 1) / size;
+
+  // Input of data, using rand
+  // make the array a little bigger, to avoid out of bound index, notice the extra 1 at local_length
+  *array = (int*)malloc(sizeof(int)*(local_length * size));
+  srand(time(0));
+  for(int i = 0; i < array_length; ++ i) {
+    (*array)[i] = rand() % 100000;
+  }
+}
+
+void get_range(int * low, int * high, int rank, int size, int array_length, int local_fixed_length) {
+  int start, end;
+
+  if(rank == size - 1) {
+    start = 0;
+    end = ((array_length) % local_fixed_length);
+    if(end == 0) {
+      end = local_fixed_length;
+    }
+    printf("local_fixed_length %d\n", local_fixed_length);
+  }
+  else {
+    start = 0;
+    end = local_fixed_length;
+  }
+
+  *low = start;
+  *high = end;
+}
+
+/*
+  Return the sampled pivots
+ */
+int * sample(int * array, int interval, int sample_size) {
+  int* sample_array = (int*)malloc(sizeof(int)*sample_size);
+  for(int i = 0; i < sample_size; ++ i) {
+    // assume big enough array, no exception handling
+    sample_array[i] = array[interval * (i + 1)];
+  }
+  return sample_array;
+}
+
 /* In this program, I have not considered the case for n > p^2, which can cause out of bound for some operation
    where n is the size of array and p as the number of threading*/
 int main(int argc, char* argv[]) {
@@ -235,121 +283,119 @@ int main(int argc, char* argv[]) {
   /*
     In preparation for dividing jobs and initialization
    */
-  int array_length = 200;
   int rank, size;
-  int local_length;
-  int start, end;
-  // end points to null, which is i + 1, where i is the last index
-  int *array; // to reduce ram consumption, allocate only in process 0
-  int *buffer;
-  int *local_array;
-  int *pivot_buffer, *cbuffer, *temp_buffer;
 
   MPI_Comm_rank(comm, &rank);
   MPI_Comm_size(comm, &size);
 
-  local_length = (array_length + size - 1) / size; // compute celling, to cooperate with passing same amount chunks of data
-  //printf("%d %d\n", rank, local_length);
-  // each process computes their range
-  if(rank == size - 1) {
-    start = 0;
-    end = ((array_length) % local_length);
-    if(end == 0) {
-      end = local_length;
-    }
-  }
-  else {
-    start = 0;
-    end = local_length;
-  }
+  int local_fixed_length;
+  int array_length;
+  int *array;
 
-  // Input of data, using rand
   if(rank == 0) {
-    // make the array a little bigger, to avoid out of bound index
-    array = (int*)malloc(sizeof(int)*(local_length * size));
-    srand(time(0));
-    for(int i = 0; i < array_length; ++ i) {
-      //array[i] = array_length - i;
-      array[i] = rand() % 100000;
-    }
-    //MPI_Send(array, array_length, MPI_INT, )
+    input(&array, &array_length, size);
   }
+  // broadcast array_length for nodes to compute local_fixed_length
+  MPI_Bcast(&array_length, 1, MPI_INT, 0, comm);
 
-  local_array = (int*)malloc(sizeof(int)*local_length);
-  MPI_Scatter(array, local_length, MPI_INT,
-              local_array, local_length, MPI_INT,
+  local_fixed_length = (array_length + size - 1) / size; // compute celling, to cooperate with passing same amount chunks of data
+  // each process computes their range
+  // the actual range of local array
+  int start, end;
+  get_range(&start, &end, rank, size, array_length, local_fixed_length);
+
+  // after input ,scatter arrays
+  int *local_array;
+  local_array = (int*)malloc(sizeof(int)*local_fixed_length);
+  MPI_Scatter(array, local_fixed_length, MPI_INT,
+              local_array, local_fixed_length, MPI_INT,
               0, comm);
-  //MPI_Bcast(array, array_length, MPI_INT, 0, comm);
 
+  myfree(array);
+
+  // every node sort their own unsorted array
   divide_quicksort(local_array, start, end);
 
-  int cbuf_size = (size-1);
-  cbuffer = (int*)malloc(sizeof(int) * cbuf_size);
+  // regular sample the sorted local array of each node
+  // end points to null, which is i + 1, where i is the last index
+  int *pivot_buffer, // for root node to gather sampled potential pivots
+    *cbuffer;        // local sampled potential pivots
+
+  int sample_size = (size-1);
+
   int w = array_length / (size * size);
-  // assume big enough array, no exception handling
-  for(int i = 1; i <= cbuf_size; ++ i) {
-    cbuffer[i-1] = local_array[w * i];
-  }
+  cbuffer = sample(local_array, w, sample_size);
 
   if(rank == 0) {
-    pivot_buffer = (int*)malloc(sizeof(int) * cbuf_size * size);
+    pivot_buffer = (int*)malloc(sizeof(int) * sample_size * size);
   }
 
-  MPI_Gather(cbuffer, cbuf_size, MPI_INT,
-             pivot_buffer, cbuf_size, MPI_INT,
+  MPI_Gather(cbuffer, sample_size, MPI_INT,
+             pivot_buffer, sample_size, MPI_INT,
              0, comm);
 
-  // in this case the cbuffers are in the same size
-  // next, in order to pass in size number of array for k way merge, make a pointer array
-  {
-    if(rank == 0) {
-      int** pivot_spos = (int **)malloc(sizeof(int*)*size); // pointing to the corresponding start
-      int* pivot_epos = (int *)malloc(sizeof(int)*size);    // the corresponding end index
-      temp_buffer = (int *)malloc(sizeof(int)*size*cbuf_size);
+  myfree(cbuffer);
 
-      for(int i = 0; i < size; ++ i) {
-        pivot_spos[i] = pivot_buffer + i * (cbuf_size);
-        pivot_epos[i] = cbuf_size;
-      }
+  int* temp_buffer;
+  //in this case the cbuffers are in the same size
+  //next, in order to pass in size number of array for k way merge, make a pointer array
+  if(rank == 0) {
+    print_delimiter("In multi way merge\n");
+    int** pivot_spos;
+    int* pivot_epos;
+    pivot_spos = (int **)malloc(sizeof(int*)*size); //pointing to the corresponding start
+    pivot_epos = (int *)malloc(sizeof(int)*size);    //the corresponding end index
+    temp_buffer = (int *)malloc(sizeof(int)*size*sample_size);
 
-      k_way_merge(pivot_spos, temp_buffer, pivot_epos, size);
-
-      free(pivot_spos);
-      free(pivot_epos);
+    for(int i = 0; i < size; ++ i) {
+      pivot_spos[i] = pivot_buffer + i * (sample_size);
+      pivot_epos[i] = sample_size;
     }
+
+    k_way_merge(pivot_spos, temp_buffer, pivot_epos, size);
+
+    myfree(pivot_spos);
+    myfree(pivot_epos);
   }
 
   if(rank == 0) {
-    // now have the pivots, sample the pivots
-      for(int i = 0; i < cbuf_size; ++ i) {
-        cbuffer[i] = temp_buffer[cbuf_size*(i + 1)];
-      }
+    myfree(pivot_buffer);
+  }
+
+  int* sampled_pivot;
+  if(rank == 0) {
+    // now have the potential pivots, sample the pivots
+      sampled_pivot = sample(temp_buffer, sample_size, sample_size);
+  }
+  else {
+    sampled_pivot = (int*)malloc(sizeof(int)*sample_size);
   }
 
   // broadcast the pivots to other nodes
-  MPI_Bcast(cbuffer, cbuf_size, MPI_INT, 0, comm);
+  MPI_Bcast(sampled_pivot, sample_size, MPI_INT, 0, comm);
 
   if(rank == 0) {
     printf("pivot list: ");
-    for(int i = 0; i < cbuf_size * size; ++ i) {
+    for(int i = 0; i < sample_size * size; ++ i) {
       printf("%d ", temp_buffer[i]);
     }
     printf("\n");
+    myfree(temp_buffer);
   }
 
   print_delimiter("sample pivots test print\n");
   printf("rank %d gets sampled pivots: ", rank);
-  for(int i = 0; i < cbuf_size; ++ i) {
-    printf("%d ", cbuffer[i]);
+  for(int i = 0; i < sample_size; ++ i) {
+    printf("%d ", sampled_pivot[i]);
   }
   printf("\n");
 
   // well done!
-  // partition and sent the partition to the itch node
+  // partition and send the partition to the each node
   int** partition_head = (int**)malloc(sizeof(int*) * (size));
   int* partition_size = (int*)malloc(sizeof(int) * size);
 
-  mul_partition(local_array, cbuffer, end, cbuf_size, partition_head, partition_size);
+  mul_partition(local_array, sampled_pivot, end, sample_size, partition_head, partition_size);
 
   // testing partition
   print_delimiter("");
@@ -361,34 +407,27 @@ int main(int argc, char* argv[]) {
     printf("\n");
   }
 
-  //MPI_Barrier(comm);
   // after partition, gather from other nodes
   int* recv_partition_size = (int*)malloc(sizeof(int)*size);
-  int** recv_partition_head = (int**)malloc(sizeof(int)*size);
+  int** recv_partition_head = (int**)malloc(sizeof(int*)*size);
 
   // first receive the size from each node, and reserve space for them
 
   // ??? what seems like a good approach
+  // this doesn't work
+  /* MPI_Allgather(partition_size, 1, MPI_INT, */
+  /*               recv_partition_size, 1, MPI_INT, comm); */
   for(int i = 0; i < size; ++ i) {
     MPI_Gather(partition_size + i, 1, MPI_INT,
                recv_partition_size, 1, MPI_INT,
                i, comm);
   }
   // remember to not add an displacement for recv_parition_size, and this method is shorter than below
-
-  /* for(int i = 0; i < size; ++ i) { */
-  /*   MPI_Send(partition_size+i, 1, MPI_INT, */
-  /*            i, 0, comm); */
-  /* } */
-
-  /* for(int i = 0; i < size; ++ i) { */
-  /*   MPI_Recv(recv_partition_size+i, 1, MPI_INT, i, 0, comm, MPI_STATUS_IGNORE); */
-  /* } */
-
-  // testing sending
-  /* for (int i = 0; i < size; ++ i) { */
-  /*   printf("rank [%d]: %d ", rank, recv_partition_size[i]); */
-  /* }   printf("\n"); */
+  print_delimiter("Receive size:\n");
+  for(int i = 0; i < size; ++ i) {
+    printf("%d ", recv_partition_size[i]);
+  }
+  printf("\n");
 
   // moving onto send receives partitions, first declare length for each
   for(int i = 0; i < size; ++ i) {
@@ -423,6 +462,8 @@ int main(int argc, char* argv[]) {
   int* local_merge = (int*)malloc(sizeof(int)* partition_length);
   // after performing a k_way_merge, the partition will be sorted
   k_way_merge(recv_partition_head, local_merge, recv_partition_size, size);
+  myfree(recv_partition_head);
+  myfree(recv_partition_size);
 
   print_delimiter("After final merging, showing the local_merge array\n");
   printf("rank[%d]: ", rank);
@@ -432,18 +473,27 @@ int main(int argc, char* argv[]) {
   printf("\n");
 
   // send local_merge to root node, and concatenate the arrays for a sorted array
-  int* recv_merge_size = (int*)malloc(sizeof(int) * size);
+  int* recv_merge_size;
+  int* disp;
+  if(rank == 0) {
+    recv_merge_size = (int*)malloc(sizeof(int) * size);
+  }
   MPI_Gather(&partition_length, 1, MPI_INT,
              recv_merge_size, 1, MPI_INT,
              0, comm);
 
-  int* disp = (int*)malloc(sizeof(int) * size);
-  disp[0] = 0;
-  for(int i = 1; i < size; ++ i) {
-    disp[i] = recv_merge_size[i-1] + disp[i - 1];
+  if(rank == 0) {
+    disp = (int*)malloc(sizeof(int) * size);
+    disp[0] = 0;
+    for(int i = 1; i < size; ++ i) {
+      disp[i] = recv_merge_size[i-1] + disp[i - 1];
+    }
   }
 
-  int* sorted_array = (int*)malloc(sizeof(int)*array_length);
+  int* sorted_array;
+  if(rank == 0) {
+    sorted_array= (int*)malloc(sizeof(int)*array_length);
+  }
   MPI_Gatherv(local_merge, partition_length, MPI_INT,
               sorted_array, recv_merge_size, disp, MPI_INT, 0, comm);
 
@@ -455,10 +505,14 @@ int main(int argc, char* argv[]) {
     printf("\n");
   }
 
+  printf("rank[%d] exits!\n", rank);
+
+  myfree(disp);
+  myfree(recv_merge_size);
+  myfree(sorted_array);
+  myfree(partition_head);
+  myfree(partition_size);
+
   MPI_Finalize();
-  /* if(rank == 0) { */
-  /*   for(int i = 0; i < array_length; ++ i) { */
-  /*     printf("%d ", array[i]); */
-  /*   } */
-  /* } */
+
 }
