@@ -253,7 +253,7 @@ void get_range(int * low, int * high, int rank, int size, int array_length, int 
     if(end == 0) {
       end = local_fixed_length;
     }
-    printf("local_fixed_length %d\n", local_fixed_length);
+    //printf("local_fixed_length %d\n", local_fixed_length);
   }
   else {
     start = 0;
@@ -301,7 +301,10 @@ int main(int argc, char* argv[]) {
   // broadcast array_length for nodes to compute local_fixed_length
   MPI_Bcast(&array_length, 1, MPI_INT, 0, comm);
 
+  // starting time counting here
+  double time_start, time_end;
 
+  time_start = MPI_Wtime();
 
   /*
     Phase two: Scatter data, local sort and regular samples collected
@@ -388,14 +391,14 @@ int main(int argc, char* argv[]) {
     sampled_pivot = (int*)malloc(sizeof(int)*sample_size);
   }
 
-  if(rank == 0) {
-    printf("sorted sample points:\n");
-    for(int i = 0; i < sample_size * size; ++ i) {
-      printf("%d ", temp_buffer[i]);
-    }
-    printf("\n");
-    myfree(temp_buffer);
-  }
+  /* if(rank == 0) { */
+  /*   printf("sorted sample points:\n"); */
+  /*   for(int i = 0; i < sample_size * size; ++ i) { */
+  /*     printf("%d ", temp_buffer[i]); */
+  /*   } */
+  /*   printf("\n"); */
+  /*   myfree(temp_buffer); */
+  /* } */
 
   // broadcast the pivots to other nodes
   MPI_Bcast(sampled_pivot, sample_size, MPI_INT, 0, comm);
@@ -458,11 +461,11 @@ int main(int argc, char* argv[]) {
   }
 
   // remember to not add an displacement for recv_parition_size, and this method is shorter than below
-  print_delimiter("Receive size:\n");
-  for(int i = 0; i < size; ++ i) {
-    printf("%d ", recv_partition_size[i]);
-  }
-  printf("\n");
+  /* print_delimiter("Receive size:\n"); */
+  /* for(int i = 0; i < size; ++ i) { */
+  /*   printf("%d ", recv_partition_size[i]); */
+  /* } */
+  /* printf("\n"); */
 
   // moving onto send receives partitions, first declare length for each, after knowing the size
   for(int i = 0; i < size; ++ i) {
@@ -498,14 +501,14 @@ int main(int argc, char* argv[]) {
   myfree(local_array);
   // cannot pass pointer... since processes don't share memory :(
 
-  print_delimiter("In testing receiving final pivot partition array\n");
-  for(int i = 0; i < size; ++ i) {
-    printf("[%d] receive partition of rank[%d]: ", i, rank);
-    for(int j = 0; j < recv_partition_size[i]; ++ j) {
-      printf("%d ", recv_partition_head[i][j]);
-    }
-    printf("\n");
-  }
+  /* print_delimiter("In testing receiving final pivot partition array\n"); */
+  /* for(int i = 0; i < size; ++ i) { */
+  /*   printf("[%d] receive partition of rank[%d]: ", i, rank); */
+  /*   for(int j = 0; j < recv_partition_size[i]; ++ j) { */
+  /*     printf("%d ", recv_partition_head[i][j]); */
+  /*   } */
+  /*   printf("\n"); */
+  /* } */
 
   // multimerging the receive partition
   int partition_length = 0;
@@ -562,6 +565,10 @@ int main(int argc, char* argv[]) {
   MPI_Gatherv(local_merge, partition_length, MPI_INT,
               sorted_array, recv_merge_size, disp, MPI_INT, 0, comm);
 
+  time_end = MPI_Wtime();
+  if(rank == 0) {
+    printf("Elapsed time is %f\n", time_end - time_start);
+  }
   // the job is done, sorted array in sorted_array
 
   /* if(rank == 0) { */
@@ -572,7 +579,7 @@ int main(int argc, char* argv[]) {
   /*   printf("\n"); */
   /* } */
 
-  printf("rank[%d] exits!\n", rank);
+  //printf("rank[%d] exits!\n", rank);
 
   myfree(disp);
   myfree(recv_merge_size);
