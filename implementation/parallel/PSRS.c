@@ -124,15 +124,15 @@ void k_way_merge(int ** arrays, int * merged, int * epos, int k) {
     ps[min_index]++;
   }
 
-  print_delimiter("In k way merge\n");
-  printf("The merge pointers: ");
-  for(int i = 0; i < k; ++ i) {
-    printf("%d ", ps[i]);
-  }
-  printf("\n");
+  /* print_delimiter("In k way merge\n"); */
+  /* printf("The merge pointers: "); */
+  /* for(int i = 0; i < k; ++ i) { */
+  /*   printf("%d ", ps[i]); */
+  /* } */
+  /* printf("\n"); */
 
-  free(ps);
-  free(ended_array);
+  myfree(ps);
+  myfree(ended_array);
 }
 
 /*
@@ -214,14 +214,14 @@ void divide_quicksort(int * array, int start, int end) {
   /* else { */
   /* } */
 
-  print_delimiter("in divide_quicksort\n");
+  //print_delimiter("in divide_quicksort\n");
   //printf("rank %d: ", rank);
-  printf("start: %d, end: %d\n", start, end);
+  //printf("start: %d, end: %d\n", start, end);
   quicksort_rec(array, start, end-1);
-  for(int i = start; i < end; ++ i) {
-    printf("%d ", array[i]);
-  }
-  printf("\n");
+  /* for(int i = start; i < end; ++ i) { */
+  /*   printf("%d ", array[i]); */
+  /* } */
+  /* printf("\n"); */
 }
 
 /*
@@ -229,7 +229,8 @@ void divide_quicksort(int * array, int start, int end) {
   Note that would need the size of nodes in order to allocate reasonable space
  */
 void input(int** array, int* length, int size) {
-  int array_length = 200;
+  int array_length;
+  scanf("%d", &array_length);
   // get size of the array, make changes to pointer
   *length = array_length;
   int local_length = (array_length + size - 1) / size;
@@ -282,6 +283,8 @@ int main(int argc, char* argv[]) {
 
   /*
     In preparation for dividing jobs and initialization
+    Phase one: Initialization
+    Start up p processors, let the root processor, 0, get data and the size
    */
   int rank, size;
 
@@ -298,13 +301,24 @@ int main(int argc, char* argv[]) {
   // broadcast array_length for nodes to compute local_fixed_length
   MPI_Bcast(&array_length, 1, MPI_INT, 0, comm);
 
-  local_fixed_length = (array_length + size - 1) / size; // compute celling, to cooperate with passing same amount chunks of data
+
+
+  /*
+    Phase two: Scatter data, local sort and regular samples collected
+    Scatter the data values to the p processors. Each processor sorts its local data, here the local size is the ceiling of (n/p), using quicksort.
+    Each processor chooses (p - 1) sample points, in a very regular manner, from its locally sorted data
+   */
+
+  // compute celling, to cooperate with passing same amount chunks of data
   // each process computes their range
   // the actual range of local array
+
+  local_fixed_length = (array_length + size - 1) / size;
   int start, end;
   get_range(&start, &end, rank, size, array_length, local_fixed_length);
 
-  // after input ,scatter arrays
+
+  // after input and divide length, scatter arrays
   int *local_array;
   local_array = (int*)malloc(sizeof(int)*local_fixed_length);
   MPI_Scatter(array, local_fixed_length, MPI_INT,
@@ -318,33 +332,38 @@ int main(int argc, char* argv[]) {
 
   // regular sample the sorted local array of each node
   // end points to null, which is i + 1, where i is the last index
-  int *pivot_buffer, // for root node to gather sampled potential pivots
-    *cbuffer;        // local sampled potential pivots
+  int *cbuffer;        // local sampled potential pivots
 
   int sample_size = (size-1);
-
   int w = array_length / (size * size);
   cbuffer = sample(local_array, w, sample_size);
 
+  /*
+    Phase three: Gather and merge samples, choose and broadcast (p-1) pivots
+    The root processor, 0, gathers the p sets of (p-1) sample points. It is important to realize that each set of these p points is sorted.
+    These p sets are sorted using multimerge, from these p(p-1) sorted points, (p-1) pivot values are regularly chosen and are broadcast to the other (p-1) processors
+
+   */
+  int *pivot_buffer; // for root node to gather sampled potential pivots
   if(rank == 0) {
     pivot_buffer = (int*)malloc(sizeof(int) * sample_size * size);
   }
 
+  // Gathers the p sets of p sample points
   MPI_Gather(cbuffer, sample_size, MPI_INT,
              pivot_buffer, sample_size, MPI_INT,
              0, comm);
 
   myfree(cbuffer);
 
+  // Multimerge the p sets of (p-1) sample points
   int* temp_buffer;
-  //in this case the cbuffers are in the same size
-  //next, in order to pass in size number of array for k way merge, make a pointer array
+  // next, in order to pass in size number of array for k way merge, make a pointer array
   if(rank == 0) {
-    print_delimiter("In multi way merge\n");
     int** pivot_spos;
     int* pivot_epos;
-    pivot_spos = (int **)malloc(sizeof(int*)*size); //pointing to the corresponding start
-    pivot_epos = (int *)malloc(sizeof(int)*size);    //the corresponding end index
+    pivot_spos = (int **)malloc(sizeof(int*)*size);  // pointing to the corresponding start
+    pivot_epos = (int *)malloc(sizeof(int)*size);    // the corresponding end index
     temp_buffer = (int *)malloc(sizeof(int)*size*sample_size);
 
     for(int i = 0; i < size; ++ i) {
@@ -358,9 +377,7 @@ int main(int argc, char* argv[]) {
     myfree(pivot_epos);
   }
 
-  if(rank == 0) {
-    myfree(pivot_buffer);
-  }
+  myfree(pivot_buffer);
 
   int* sampled_pivot;
   if(rank == 0) {
@@ -371,11 +388,8 @@ int main(int argc, char* argv[]) {
     sampled_pivot = (int*)malloc(sizeof(int)*sample_size);
   }
 
-  // broadcast the pivots to other nodes
-  MPI_Bcast(sampled_pivot, sample_size, MPI_INT, 0, comm);
-
   if(rank == 0) {
-    printf("pivot list: ");
+    printf("sorted sample points:\n");
     for(int i = 0; i < sample_size * size; ++ i) {
       printf("%d ", temp_buffer[i]);
     }
@@ -383,29 +397,48 @@ int main(int argc, char* argv[]) {
     myfree(temp_buffer);
   }
 
-  print_delimiter("sample pivots test print\n");
-  printf("rank %d gets sampled pivots: ", rank);
-  for(int i = 0; i < sample_size; ++ i) {
-    printf("%d ", sampled_pivot[i]);
-  }
-  printf("\n");
+  // broadcast the pivots to other nodes
+  MPI_Bcast(sampled_pivot, sample_size, MPI_INT, 0, comm);
 
-  // well done!
+  /* print_delimiter("sample pivots test print\n"); */
+  /* printf("rank %d gets sampled pivots: ", rank); */
+  /* for(int i = 0; i < sample_size; ++ i) { */
+  /*   printf("%d ", sampled_pivot[i]); */
+  /* } */
+  /* printf("\n"); */
+
+  /*
+    Phase four: Local data is partitioned
+    Each of the p processors partitions its local sorted data, roughly of size (n/p), which is a well-conditioned situation,
+    into p classes using the (p-1) pivot values
+   */
+
   // partition and send the partition to the each node
   int** partition_head = (int**)malloc(sizeof(int*) * (size));
   int* partition_size = (int*)malloc(sizeof(int) * size);
 
+  // end is the actual size of local_array
   mul_partition(local_array, sampled_pivot, end, sample_size, partition_head, partition_size);
 
   // testing partition
-  print_delimiter("");
-  for(int i = 0; i < size; ++ i) {
-    printf("[%d] partition of rank[%d]: ", i, rank);
-    for(int j = 0; j < partition_size[i]; ++ j) {
-      printf("%d ", partition_head[i][j]);
-    }
-    printf("\n");
-  }
+  /* print_delimiter(""); */
+  /* for(int i = 0; i < size; ++ i) { */
+  /*   printf("[%d] partition of rank[%d]: ", i, rank); */
+  /*   for(int j = 0; j < partition_size[i]; ++ j) { */
+  /*     printf("%d ", partition_head[i][j]); */
+  /*   } */
+  /*   printf("\n"); */
+  /* } */
+
+  /*
+    Phase five: All *ith* classes are gathered and merged
+    Processor i gathers the ith class of data from every other processor. Each of these classes is sorted using multimerge.
+    To be frank, this is some of the challenging part
+
+    To do this, every processor must know its array size received from ith processor, then it can receive their own array.
+    Naturally, it goes into two parts. First, each processor gathers the size of i partition from ith processor.
+    Second, each processor sends the partition buffer, then receive their own partition buffer after knowing the sizes
+   */
 
   // after partition, gather from other nodes
   int* recv_partition_size = (int*)malloc(sizeof(int)*size);
@@ -414,7 +447,8 @@ int main(int argc, char* argv[]) {
   // first receive the size from each node, and reserve space for them
 
   // ??? what seems like a good approach
-  // this doesn't work
+  // this doesn't work, because it gathers partition_size from ith processor to i position
+  // where we actually want (partition_size + i) to i position from each processor
   /* MPI_Allgather(partition_size, 1, MPI_INT, */
   /*               recv_partition_size, 1, MPI_INT, comm); */
   for(int i = 0; i < size; ++ i) {
@@ -422,6 +456,7 @@ int main(int argc, char* argv[]) {
                recv_partition_size, 1, MPI_INT,
                i, comm);
   }
+
   // remember to not add an displacement for recv_parition_size, and this method is shorter than below
   print_delimiter("Receive size:\n");
   for(int i = 0; i < size; ++ i) {
@@ -429,21 +464,39 @@ int main(int argc, char* argv[]) {
   }
   printf("\n");
 
-  // moving onto send receives partitions, first declare length for each
+  // moving onto send receives partitions, first declare length for each, after knowing the size
   for(int i = 0; i < size; ++ i) {
     // may receive bad size and cause crashes
     recv_partition_head[i] = (int*)malloc(sizeof(int)*recv_partition_size[i]);
   }
 
+  /*
+    Notice that for large messages, the below methods will be blocked due to the semantic of send,
+    it blocks itself when messages are large.
+    Waiting for the receive.
+    So a solution is to use MPI_Sendrecv to concurrent run send and receive
+    It blocks until all processes finishes their send as well as receive.
+
+    However in this situation it won't work due to different data size of processes
+   */
+
+  // each processor send their ith partition to ith processor, and receive ith partition from ith processor
+  // after this, local_array can be freed
+  MPI_Request mpi_send;
+
   for(int i = 0; i < size; ++ i) {
-    MPI_Send(partition_head[i], partition_size[i], MPI_INT,
-             i, 0, comm);
+    MPI_Isend(partition_head[i], partition_size[i], MPI_INT,
+              i, 0, comm, &mpi_send);
   }
+  // mind that use Immediate send here to avoid deadlock
 
   for(int i = 0; i < size; ++ i) {
     MPI_Recv(recv_partition_head[i], recv_partition_size[i], MPI_INT,
              i, 0, comm, MPI_STATUS_IGNORE);
   }
+
+  myfree(local_array);
+  // cannot pass pointer... since processes don't share memory :(
 
   print_delimiter("In testing receiving final pivot partition array\n");
   for(int i = 0; i < size; ++ i) {
@@ -454,6 +507,7 @@ int main(int argc, char* argv[]) {
     printf("\n");
   }
 
+  // multimerging the receive partition
   int partition_length = 0;
   for(int i = 0; i < size; ++ i) {
     partition_length += recv_partition_size[i];
@@ -465,23 +519,33 @@ int main(int argc, char* argv[]) {
   myfree(recv_partition_head);
   myfree(recv_partition_size);
 
-  print_delimiter("After final merging, showing the local_merge array\n");
-  printf("rank[%d]: ", rank);
-  for(int i = 0; i < partition_length; ++ i) {
-    printf("%d ", local_merge[i]);
-  }
-  printf("\n");
+  /* print_delimiter("After final merging, showing the local_merge array\n"); */
+  /* printf("rank[%d]: ", rank); */
+  /* for(int i = 0; i < partition_length; ++ i) { */
+  /*   printf("%d ", local_merge[i]); */
+  /* } */
+  /* printf("\n"); */
 
+  /*
+    Phase Six: Root processor collects all the data
+    The root processor gathers all the data and assembles the sorted list of n values.
+
+    Like phase five, first need to know the size of each partition from each processor
+    then pass in the partition
+   */
   // send local_merge to root node, and concatenate the arrays for a sorted array
   int* recv_merge_size;
   int* disp;
   if(rank == 0) {
     recv_merge_size = (int*)malloc(sizeof(int) * size);
   }
+
+  // gather size
   MPI_Gather(&partition_length, 1, MPI_INT,
              recv_merge_size, 1, MPI_INT,
              0, comm);
 
+  // using gatherv to gather the array for root processor
   if(rank == 0) {
     disp = (int*)malloc(sizeof(int) * size);
     disp[0] = 0;
@@ -494,16 +558,19 @@ int main(int argc, char* argv[]) {
   if(rank == 0) {
     sorted_array= (int*)malloc(sizeof(int)*array_length);
   }
+
   MPI_Gatherv(local_merge, partition_length, MPI_INT,
               sorted_array, recv_merge_size, disp, MPI_INT, 0, comm);
 
-  if(rank == 0) {
-    printf("The sorted array: ");
-    for(int i = 0; i < array_length; ++ i) {
-      printf("%d ", sorted_array[i]);
-    }
-    printf("\n");
-  }
+  // the job is done, sorted array in sorted_array
+
+  /* if(rank == 0) { */
+  /*   printf("The sorted array: "); */
+  /*   for(int i = 0; i < array_length; ++ i) { */
+  /*     printf("%d ", sorted_array[i]); */
+  /*   } */
+  /*   printf("\n"); */
+  /* } */
 
   printf("rank[%d] exits!\n", rank);
 
