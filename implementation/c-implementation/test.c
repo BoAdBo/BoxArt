@@ -3,13 +3,30 @@
 #include <limits.h>
 #include <stdbool.h>
 
-int test(int *really) {
-  return 0;
-}
-
 int main() {
-  int a[] = {1,2,3};
-  return 0;
+  unsigned char buffer[10];
+
+  FILE *prt;
+
+  prt = fopen("test.bin", "rb");
+
+  //fread(buffer, sizeof(buffer), 1, prt);
+  fread(buffer, sizeof(char), sizeof(buffer)/sizeof(char), prt);
+
+  char temp;
+  for(int i = 0; i < 10; i ++) {
+    //fread(&temp, sizeof(char), 1, prt);
+    //printf("%x ", buffer[i]);
+    printf("%x ", buffer[i]);
+  }
+
+  /* prt = fopen("test.bin", "wb"); */
+
+  /* fwrite (buffer, sizeof(char), sizeof(buffer), prt); */
+
+  /* fclose(prt); */
+
+  /* return 0; */
 }
 
 //#include <iostream>
