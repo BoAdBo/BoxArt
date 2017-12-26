@@ -484,6 +484,7 @@ int main(int argc, char* argv[]) {
               sorted_array, recv_merge_size, disp, MPI_INT, 0, comm);
 
   time_end = MPI_Wtime();
+
   if(rank == 0) {
     printf("PSRS.c : Elapsed time is %f\n", time_end - time_start);
     time_start = MPI_Wtime();
@@ -491,7 +492,7 @@ int main(int argc, char* argv[]) {
     time_end = MPI_Wtime();
     printf("Serial : Elapsed time is %f\n", time_end - time_start);
 
-    // assume serial quicksort is correct
+    //assume serial quicksort is correct
     for(int i = 0; i < array_length; ++ i) {
       if(array[i] != sorted_array[i]) {
         printf("Error in PSRS sorting\n");
