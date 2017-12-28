@@ -1,6 +1,0 @@
-MANIFEST.in
-flask.egg-info/PKG-INFO
-flask.egg-info/SOURCES.txt
-flask.egg-info/dependency_links.txt
-flask.egg-info/requires.txt
-flask.egg-info/top_level.txt
