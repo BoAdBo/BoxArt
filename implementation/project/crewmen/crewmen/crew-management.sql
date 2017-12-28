@@ -1,23 +1,22 @@
 -- with debug if and if not
 
-create database crewmen character set utf8 collate utf8_general_ci;
-use crewmen
+-- create database crewmen character set utf8 collate utf8_general_ci;
+use crewmen;
 
 drop table if exists user;
+drop table if exists plan_maker;
+drop table if exists schedule_maker;
+drop table if exists who_train;
+drop table if exists paid_by;
 drop table if exists member;
 drop table if exists schedule;
-drop table if exists user;
-drop table if exists schedule_maker;
 drop table if exists fee_log;
-drop table if exists paid_by;
-drop table if exists training_item;
-drop table if exists training_record;
-drop table if exists who_train;
-drop table if exists training_plan;
 drop table if exists log_in_plan;
-drop table if exists plan_maker;
-drop table if exists ship_type_table;
+drop table if exists training_record;
+drop table if exists training_plan;
+drop table if exists training_item;
 drop table if exists ship;
+drop table if exists ship_type_table;
 
 
 create table if not exists member
@@ -31,7 +30,7 @@ create table if not exists member
        weight smallint unsigned,
        ID int unsigned,
        -- big chunk for information
-       job enum('couch', 'crew leader', 'crew member'),
+       job enum('couch', 'crew leader', 'crew member') default 'crew member',
        training_level enum('newbie', 'medium', 'old bird') default 'newbie',
        primary key(ID)
        );-- character set utf8 collate utf8_general_ci;
@@ -39,10 +38,10 @@ create table if not exists member
 create table if not exists user
        (username varchar(20) not null,
        password binary(128) not null, -- half byte each, so 128 * 0.5 * 8 is 512 using sha2('pass', 512)
-       priority tinyint unsigned not null, -- the lower the better
-       ID int unsigned,
+       priority tinyint unsigned not null defalut 2, -- the lower the better
+       ID int unsigned unique,
        primary key(username),
-       foreign key(ID) references member(ID)
+       foreign key(ID) references member(ID) on delete cascade
        );
 
 -- how to enforce constraint on full participation, every schedule should have at least a maker...
@@ -61,7 +60,7 @@ create table if not exists schedule_maker
        ID int unsigned,
        primary key(event_ID, ID),
        foreign key(event_ID) references schedule(event_ID),
-       foreign key(ID) references member(ID)
+       foreign key(ID) references member(ID) on delete cascade
        );
 
 
@@ -78,7 +77,7 @@ create table if not exists paid_by
        (ID int unsigned,
        fee_ID int unsigned,
        primary key(ID, fee_ID),
-       foreign key(ID) references member(ID),
+       foreign key(ID) references member(ID) on delete cascade,
        foreign key(fee_ID) references fee_log(fee_ID)
        );
 
@@ -111,7 +110,7 @@ create table if not exists who_train
        ID int unsigned,
        primary key(record_ID, ID),
        foreign key(record_ID) references training_record(record_ID),
-       foreign key(ID) references member(ID)
+       foreign key(ID) references member(ID) on delete cascade
        );
 
 create table if not exists training_plan
@@ -144,8 +143,8 @@ create table if not exists plan_maker
        (ID int unsigned,
        plan_ID int unsigned,
        primary key(ID, plan_ID),
-       foreign key(ID) references member(ID),
-       foreign key(plan_ID) references member(plan_ID)
+       foreign key(ID) references member(ID) on delete cascade,
+       foreign key(plan_ID) references training_plan(plan_ID)
        );
 
 create table if not exists ship_type_table
@@ -161,3 +160,4 @@ create table if not exists ship
        primary key(ship_name),
        foreign key(ship_type_ID) references ship_type_table(ship_type_ID)
        );
+
