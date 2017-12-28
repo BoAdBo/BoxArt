@@ -8,12 +8,17 @@ app = Flask(__name__)
 
 
 def get_db(priority):
-    root = 'root'
     db_name = 'crewmen'
-    return {
-        0, MySQLdb.connect(host='localhost', *root, db=db_name)
-    }
+    user_passwd = [
+        ('root', 'root'),
+        ('leader', 'leader'),
+        ('member', 'member')
+    ]
 
+    if priority < 0 or priority > 2:
+        raise "priority out of bound!"
+
+    return MySQLdb.connect(host='localhost', user_passwd[priority], db=db_name)
 
 def init_db():
     """ Need root access to initialize database """
@@ -31,7 +36,8 @@ def initdb_command():
 
 @app.route('/login')
 def login():
-    
+    db = get_db(0)
+    cur = db.execute('select * from ')
 
 # print(__name__)
 # print(os.path.join(app.root_path, 'something'))
