@@ -1,0 +1,7 @@
+MANIFEST.in
+crewmen/crewmen.py
+crewmen.egg-info/PKG-INFO
+crewmen.egg-info/SOURCES.txt
+crewmen.egg-info/dependency_links.txt
+crewmen.egg-info/requires.txt
+crewmen.egg-info/top_level.txt
