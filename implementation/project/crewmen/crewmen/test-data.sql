@@ -14,3 +14,9 @@ insert into users(username, password, ID, email) values
 ('Swei', sha2('hello', 512), '3', '126@happygirlzt.com'),
 ('Huze', sha2('hello', 512), '4', '128@happygirlzt.com');
 
+insert into training_item(item_name, item_ID, is_strength, is_test) values
+('卧拉', '1', 'y', 'n'),
+('平板支撑', '2', 'y', 'n');
+
+insert into training_plan(train_at, item_ID) values
+('2017-12-29 12:00:00', 1);

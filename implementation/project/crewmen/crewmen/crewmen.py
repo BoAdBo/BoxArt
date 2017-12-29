@@ -28,6 +28,28 @@ class Member(db.Model):
     __table_args__ = {'autoload':True,
                       'autoload_with': db.engine}
 
+class Training_plan(db.Model):
+    __tablename__ = 'training_plan'
+    __table_args__ = {'autoload':True,
+                      'autoload_with': db.engine}
+
+class Who_train(db.Model):
+    __tablename__ = 'who_train'
+    __table_args__ = {'autoload':True,
+                      'autoload_with': db.engine}
+
+class Training_item(db.Model):
+    __tablename__ = 'training_item'
+    __table_args__ = {'autoload':True,
+                      'autoload_with': db.engine}
+
+class Plan_maker(db.Model):
+    __tablename__ = 'plan_maker'
+    __table_args__ = {'autoload':True,
+                      'autoload_with': db.engine}
+
+
+
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -38,13 +60,20 @@ def login_required(f):
             return redirect(url_for('login'))
     return wrap
 
-@app.route('/')
+@app.route('/home')
 @login_required
 def home():
     #return "hello world"
     return render_template('home.html', error=None)
 
-@app.route('/welcome')
+@app.route('/training_plan')
+@login_required
+def show_training_plan():
+    today_plan = Training_plan.query.all()
+    return render_template('training_plan.html', strength_plan=today_plan)
+
+
+@app.route('/')
 def welcome():
     return render_template('welcome.html', error=None)
 
@@ -64,8 +93,9 @@ def login():
             password = request.form['password']
 
             db_pass = User.query.filter_by(username=username).first().password
-
+            print(db_pass)
             hashcode = bytes(hashing.hash_value(password), 'utf8')
+            print(hashcode)
             if db_pass == hashcode:
                 session['logged_in'] = True
                 return redirect(url_for('home'))

@@ -15,12 +15,6 @@ def Init_app():
 app = Init_app()
 db = SQLAlchemy(app)
 
-class User(db.Model):
-    __tablename__ = 'users'
-    __table_args__ = {'autoload':True,
-                      'autoload_with': db.engine}
-
-
 @app.teardown_appcontext
 def close_connection(error):
     """Closes the database again at the end of the request."""
@@ -41,7 +35,6 @@ def get_connection(priority):
     if not hasattr(g, 'mysql_con'):
         g.mysql_con = pymysql.connect(host='localhost', user=user_passwd[priority][0], password=user_passwd[priority][1], db=db_name, charset='utf8')
     return g.mysql_con
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -67,7 +60,7 @@ def init_db():
     connection = get_connection(0)
 
     try:
-        with app.open_resource('crew-management.sql', mode='r') as f:
+        with app.open_resource('crew-management.sql', mode='rb') as f:
             with connection.cursor() as cursor:
                 cursor.execute(f.read())
                 connection.commit()

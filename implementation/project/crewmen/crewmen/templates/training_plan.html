@@ -1,0 +1,10 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Training for today{% endblock %}
+{% block content %}
+<h3>Today's Plan</h3>
+{% for plan in strength_plan %}
+<strong>item_ID:</strong>{{ plan.item_ID }}<br>
+<strong>item_weight</strong>{{ plan.item_weight }}<br>
+<string>training_level</string>{{ plan.training_level }}<br>
+{% endfor %}
+{% endblock %}
