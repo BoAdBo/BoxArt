@@ -4,16 +4,14 @@ import pymysql
 from flask import Flask, redirect, url_for, render_template, session, g, request
 from flask_bootstrap import Bootstrap
 
-
-
-#app.config.from_object(__name__)
-
-def create_app():
+def Init_app():
     app = Flask(__name__)
+    app.config.from_object('config.DevelopmentConfig')
     Bootstrap(app)
+
     return app
 
-app = create_app()
+app = Init_app()
 
 @app.teardown_appcontext
 def close_connection(error):
