@@ -1,0 +1,26 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<h2>Register</h2>
+<form action="{{ url_for('register')}}" method="post">
+    <dl>
+        <dt>Username:
+            <dd><input type="text" name="username">
+        <dt>Password:
+            <dd><input type="password" name="password">
+        <dt>Password Confirm:
+            <dd><input type="password" name="sec_password">
+            {% if password_error %}
+                <p class="password_error"><strong>Error:</strong> {{ password_error }}</p>
+            {% endif %}
+        <dt>Email:
+            <dd><input type="text" name="email">
+        <dt>ID
+            <dd><input type="text" name="ID">
+            <dd><input type="submit" value="submit">
+            {% if noID_error %}
+                <p class="noID_error"><strong>Error:</strong>{{ noID_error }}</p>
+            {% endif %}
+            <dd><a href="{{ url_for('login') }}">Login</a>
+</form>
+{% endblock %}

@@ -3,7 +3,7 @@
 -- create database crewmen character set utf8 collate utf8_general_ci;
 use crewmen;
 
-drop table if exists user;
+drop table if exists users;
 drop table if exists plan_maker;
 drop table if exists schedule_maker;
 drop table if exists who_train;
@@ -35,11 +35,12 @@ create table if not exists member
        primary key(ID)
        );-- character set utf8 collate utf8_general_ci;
 
-create table if not exists user
+create table if not exists users
        (username varchar(20) not null,
        password binary(128) not null, -- half byte each, so 128 * 0.5 * 8 is 512 using sha2('pass', 512)
-       priority tinyint unsigned not null defalut 2, -- the lower the better
-       ID int unsigned unique,
+       -- priority tinyint unsigned not null defalut 2, -- the lower the better
+       ID int unsigned, -- don't have to be unique, since it's PK for member
+       email varchar(50) not null unique,
        primary key(username),
        foreign key(ID) references member(ID) on delete cascade
        );

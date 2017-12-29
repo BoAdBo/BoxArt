@@ -4,12 +4,13 @@ insert into member(name, ID, training_level) values
 ('郭D胜', '1', 'old bird'),
 ('X德昊', '2', 'old bird'),
 ('S炜焜', '3', 'old bird'),
-('胡泽Q', '4', 'old bird');
+('胡泽Q', '4', 'old bird'),
+('happygirlzt', '520', 'old bird');
 
-insert into user(username, password, priority, ID) values
-('yuH', sha2('hello', 512), '1', '0'),
-('guoD', sha2('hello', 512), '2', '1'),
-('Xde', sha2('hello', 512), '2', '2'),
-('Swei', sha2('hello', 512), '2', '3'),
-('Huze', sha2('hello', 512), '2', '4');
+insert into users(username, password, ID, email) values
+('yuH', sha2('hello', 512), '0', '123@happygirlzt.com'),
+('guoD', sha2('hello', 512), '1', '124@happygirlzt.com'),
+('Xde', sha2('hello', 512), '2', '125@happygirlzt.com'),
+('Swei', sha2('hello', 512), '3', '126@happygirlzt.com'),
+('Huze', sha2('hello', 512), '4', '128@happygirlzt.com');
 

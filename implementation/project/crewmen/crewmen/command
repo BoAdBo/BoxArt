@@ -1,0 +1,6 @@
+* sqlacodegen
+  #+BEGIN_EXAMPLE
+  sqlacodegen mysql+pymysql://user:password@localhost/dbname
+  #+END_EXAMPLE
+* Planning on using sqlalchemy later on
+  Since it can switch database effortless
