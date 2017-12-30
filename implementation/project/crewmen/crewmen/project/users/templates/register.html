@@ -18,8 +18,8 @@
         <dt>ID
             <dd><input type="text" name="ID">
             <dd><input type="submit" value="submit">
-            {% if noID_error %}
-                <p class="noID_error"><strong>Error:</strong>{{ noID_error }}</p>
+            {% if ID_error %}
+                <p class="noID_error"><strong>Error:</strong>{{ ID_error }}</p>
             {% endif %}
             <dd><a href="{{ url_for('login') }}">Login</a>
 </form>

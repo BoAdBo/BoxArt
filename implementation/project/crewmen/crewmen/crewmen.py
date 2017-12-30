@@ -7,6 +7,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from init_crew import init_db
+import datetime
 
 ########################
 ### helper function ####
@@ -47,12 +48,17 @@ def home():
     #return "hello world"
     return render_template('home.html', error=None)
 
+
+
 @app.route('/training_plan')
 @login_required
 def show_training_plan():
-    today_plan = Training_plan.query.all()
+    today = datetime.date.today()
+    nextday = today + datetime.timedelta(days=1)
+    today_plan = TrainingPlan.query.filter(TrainingPlan.train_at >= today, TrainingPlan.train_at < nextday).all()
+    #today_plan = TrainingPlan.query.all()
+    print(today_plan)
     return render_template('training_plan.html', strength_plan=today_plan)
-
 
 @app.route('/')
 def welcome():

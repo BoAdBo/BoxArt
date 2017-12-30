@@ -1,10 +1,19 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
 {% block title %}Training for today{% endblock %}
 {% block content %}
 <h3>Today's Plan</h3>
 {% for plan in strength_plan %}
-<strong>item_ID:</strong>{{ plan.item_ID }}<br>
-<strong>item_weight</strong>{{ plan.item_weight }}<br>
-<string>training_level</string>{{ plan.training_level }}<br>
+<strong>plan_ID:</strong>{{ plan.plan_ID }}<br>
+<strong>training_level:</strong>{{ plan.training_level }}<br>
+<strong>training_time:</strong>{{ plan.training_last }}<br>
+    {% for item in plan.items %}
+        <strong>item_ID</strong>{{ plan.items.item_ID }}<br>
+        <strong>item time</strong>{{ plan.items.item_name }}<br>
+        {% if item.is_strength == 'y' %}
+            <strong>This is the strength section</strong>
+        {% else %}
+            <strong>This is the aerobic section</strong>
+        {% endif %}
+    {% endfor%}
 {% endfor %}
 {% endblock %}

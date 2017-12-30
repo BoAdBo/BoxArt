@@ -1,12 +1,13 @@
 bcrypt==3.1.4
 cffi==1.11.2
 click==6.7
--e git+https://github.com/BoAdBo/BoxArt@745426609549291d182901b8f18b7539a0acb2d5#egg=crewmen&subdirectory=implementation/project/crewmen
+-e git+https://github.com/BoAdBo/BoxArt@cc141bb30d0601d086f4b6e321d65fee15c1b2f2#egg=crewmen&subdirectory=implementation/project/crewmen
 dominate==2.3.1
 Flask==0.12.2
 Flask-Bcrypt==0.7.1
 Flask-Bootstrap==3.3.7.1
 Flask-Hashing==1.1
+flask-nav==0.6
 Flask-SQLAlchemy==2.3.2
 itsdangerous==0.24
 Jinja2==2.10

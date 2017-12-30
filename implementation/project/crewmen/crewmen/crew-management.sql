@@ -11,6 +11,7 @@ drop table if exists paid_by;
 drop table if exists member;
 drop table if exists schedule;
 drop table if exists fee_log;
+drop table if exists item_in_plan;
 drop table if exists log_in_plan;
 drop table if exists training_record;
 drop table if exists training_plan;
@@ -31,7 +32,7 @@ create table if not exists member
        ID int unsigned,
        -- big chunk for information
        job enum('couch', 'crew leader', 'crew member') default 'crew member',
-       training_level enum('newbie', 'medium', 'old bird') default 'newbie',
+       training_level enum('newbie', 'medium', 'old bird', 'all') default 'newbie',
        primary key(ID)
        );-- character set utf8 collate utf8_general_ci;
 
@@ -85,7 +86,7 @@ create table if not exists paid_by
 -- may need to define training item
 create table if not exists training_item
        (item_name varchar(100),
-       item_ID smallint unsigned,
+       item_ID smallint unsigned auto_increment,
        is_strength enum('y', 'n'), -- strength or aerobic
        is_test enum('y', 'n'),     -- test or regular
        primary key(item_ID)
@@ -118,6 +119,14 @@ create table if not exists training_plan
        (
        plan_ID int unsigned auto_increment,
        train_at datetime,
+       training_last time,
+       training_level enum('newbie', 'medium', 'old bird', 'all') default 'all',
+       primary key(plan_ID)
+       );
+
+create table if not exists item_in_plan
+       (
+       plan_ID int unsigned,
        item_ID smallint unsigned,
        -- the same chunk of record fields, as requirement
        distance int unsigned,
@@ -126,10 +135,9 @@ create table if not exists training_plan
        item_weight smallint unsigned,
        required_time smallint unsigned, -- 组数
        -- the same chunk of record fields, as requirement
-       time_length time,
-       training_level enum('newbie', 'medium', 'old bird'),
-       primary key(plan_ID),
-       foreign key(item_ID) references training_item(item_ID)
+       primary key(plan_ID, item_ID),
+       foreign key(item_ID) references training_item(item_ID),
+       foreign key(plan_ID) references training_plan(plan_ID)
        );
 
 create table if not exists log_in_plan
