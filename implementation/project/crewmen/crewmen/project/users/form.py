@@ -6,11 +6,11 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 class UpdatePasswordForm(FlaskForm):
     old_password = PasswordField(
         'old password',
-        validators=[DataRequired(), Length(min=5, max=25)]
+        validators=[DataRequired(), Length(min=8, max=25)]
     )
     new_password = PasswordField(
         'new password',
-        validators=[DataRequired(), Length(min=5, max=25)]
+        validators=[DataRequired(), Length(min=8, max=25)]
     )
     sec_new_password = PasswordField(
         'Double Check',

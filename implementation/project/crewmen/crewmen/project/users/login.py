@@ -134,6 +134,7 @@ def password_update():
         db_hash = current_user.password.decode("utf8")
         if hashing.check_value(db_hash, form.old_password.data):
             current_user.password = bytes(hashing.hash_value(form.new_password.data), 'utf8')
+            db.session.commit()
             flash("you have successfully changed your password!")
             return redirect(url_for('welcome'))
 
