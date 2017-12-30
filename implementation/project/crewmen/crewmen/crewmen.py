@@ -45,7 +45,6 @@ app.register_blueprint(users_blueprint)
 @app.route('/home')
 @login_required
 def home():
-    #return "hello world"
     return render_template('home.html', error=None)
 
 

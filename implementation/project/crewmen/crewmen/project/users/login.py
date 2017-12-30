@@ -9,9 +9,10 @@ from models import *
 from flask_bcrypt import Bcrypt
 from flask_nav import Nav
 from flask_nav.elements import *
+from .form import UpdatePasswordForm
 
 nav = Nav()
-topbar = Navbar('Home Center', Navbar('',
+topbar = Navbar('User Center', Navbar('',
                               View('home', 'home'),
                               View('Log out', 'logout'),
                               View('Change Password', 'password_update'),)
@@ -47,22 +48,27 @@ User system information, to log in/out, to register, (unimplemented)to change pa
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    If the user doesn't exist, return error accordingly, if the user exists, with wrong password, return error
+    if successfully logged in, query db for ID and priority, store in session
+    """
     error = None
     try:
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
 
-            db_pass = User.query.filter_by(username=username).first().password
-            db_pass = db_pass.decode("utf8")
+            login_user = User.query.filter_by(username=username).first()
+            db_hash = login_user.password.decode("utf8")
 
             hashcode = hashing.hash_value(password)
 
-            if hashing.check_value(db_pass, password):
+            if hashing.check_value(db_hash, password):
                 session['logged_in'] = True
+                User.query.filter_by
+                session['login_username'] = login_user.username
                 return redirect(url_for('home'))
             else:
-
                 error = 'Invalid credentials. Please try again'
         else:
             return render_template('login.html')
@@ -113,11 +119,29 @@ def register():
 @login_required
 def password_update():
     error = None
-    return render_template('password_update.html', error=error)
+    form = UpdatePasswordForm()
+
+    """ https://stackoverflow.com/questions/43002323/difference-between-form-validate-on-submit-and-form-validate"""
+    """https://stackoverflow.com/questions/10722968/flask-wtf-validate-on-submit-is-never-executed"""
+    """
+    valid needs CSRF
+    is_sumbit check 'POST'
+    """
+
+    if form.validate_on_submit():
+        current_user = User.query.filter_by(username = session['login_username']).first_or_404()
+        db_hash = current_user.password.decode("utf8")
+        if hashing.check_value(db_hash, form.old_password.data):
+            current_user.password = bytes(hashing.hash_value(form.new_password.data), 'utf8')
+            flash("you have successfully changed your password!")
+            return redirect(url_for('welcome'))
+
+    return render_template('password_update.html', error=error, form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
+    session.pop('login_username', None)
     session.pop('logged_in', None)
     flash('You were just logged out!')
     return redirect(url_for('welcome'))
