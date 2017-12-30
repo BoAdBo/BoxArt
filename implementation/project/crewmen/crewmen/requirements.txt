@@ -1,5 +1,19 @@
-flask
-pymysql
-flask_bootstrap
-flask_sqlalchemy
-flask-hashing
+bcrypt==3.1.4
+cffi==1.11.2
+click==6.7
+-e git+https://github.com/BoAdBo/BoxArt@745426609549291d182901b8f18b7539a0acb2d5#egg=crewmen&subdirectory=implementation/project/crewmen
+dominate==2.3.1
+Flask==0.12.2
+Flask-Bcrypt==0.7.1
+Flask-Bootstrap==3.3.7.1
+Flask-Hashing==1.1
+Flask-SQLAlchemy==2.3.2
+itsdangerous==0.24
+Jinja2==2.10
+MarkupSafe==1.0
+pycparser==2.18
+PyMySQL==0.8.0
+six==1.11.0
+SQLAlchemy==1.2.0
+visitor==0.1.3
+Werkzeug==0.13

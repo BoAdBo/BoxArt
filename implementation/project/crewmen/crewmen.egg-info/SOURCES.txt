@@ -1,7 +1,16 @@
 MANIFEST.in
+crewmen/config.py
 crewmen/crewmen.py
+crewmen/init_crew.py
+crewmen/models.py
+crewmen/test.py
 crewmen.egg-info/PKG-INFO
 crewmen.egg-info/SOURCES.txt
 crewmen.egg-info/dependency_links.txt
 crewmen.egg-info/requires.txt
 crewmen.egg-info/top_level.txt
+crewmen/templates/home.html
+crewmen/templates/login.html
+crewmen/templates/register.html
+crewmen/templates/training_plan.html
+crewmen/templates/welcome.html

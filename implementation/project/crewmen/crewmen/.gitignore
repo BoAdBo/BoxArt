@@ -1,2 +1,4 @@
 config.py
 test-moz.py
+/__pycache__/*
+/project/__pycache__/*
