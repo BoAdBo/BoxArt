@@ -32,7 +32,8 @@ class TrainingPlan(db.Model):
                       'autoload_with': db.engine}
 
     # cannot pass in the class
-    items = relationship("TrainingItem", secondary=ItemInPlan.__table__)
+    items = relationship("TrainingItem",
+                         secondary=ItemInPlan.__table__)
 
 class WhoTrain(db.Model):
     __tablename__ = 'who_train'

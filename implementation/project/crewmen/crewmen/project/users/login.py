@@ -11,17 +11,6 @@ from flask_nav import Nav
 from flask_nav.elements import *
 from .form import UpdatePasswordForm
 
-nav = Nav()
-topbar = Navbar('User Center', Navbar('',
-                              View('home', 'home'),
-                              View('Log out', 'logout'),
-                              View('Change Password', 'password_update'),
-                              View('Training', 'show_training_plan'),)
-)
-
-nav.register_element('top', topbar)
-nav.init_app(app)
-
 hashing = Hashing(app)
 bcrypt = Bcrypt(app)
 
@@ -60,13 +49,14 @@ def login():
             password = request.form['password']
 
             login_user = User.query.filter_by(username=username).first()
+
             db_hash = login_user.password.decode("utf8")
 
             hashcode = hashing.hash_value(password)
 
             if hashing.check_value(db_hash, password):
                 session['logged_in'] = True
-                User.query.filter_by
+                session['login_job'] = login_user.member.job
                 session['login_username'] = login_user.username
                 return redirect(url_for('home'))
             else:
@@ -143,6 +133,7 @@ def password_update():
 @app.route('/logout')
 @login_required
 def logout():
+    session.pop('login_job', None)
     session.pop('login_username', None)
     session.pop('logged_in', None)
     flash('You were just logged out!')

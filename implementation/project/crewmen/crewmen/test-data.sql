@@ -4,8 +4,9 @@ insert into member(name, ID, training_level) values
 ('郭D胜', '1', 'old bird'),
 ('X德昊', '2', 'old bird'),
 ('S炜焜', '3', 'old bird'),
-('胡泽Q', '4', 'old bird'),
 ('happygirlzt', '520', 'old bird');
+
+insert into member(name, ID, training_level, job) values ('胡泽Q', '4', 'old bird', 'crew leader');
 
 insert into users(username, password, ID, email) values
 ('yuH', sha2('hello-world', 512), '0', '123@happygirlzt.com'),

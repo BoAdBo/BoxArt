@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}adding item{% endblock%}
+{% block content %}
+
+<ul>
+    {% for item in items %}
+    <li>
+        <strong>Item ID: </strong>
+        {{ item.item_ID }}
+        <strong>Item name</strong>
+        {{ item.item_name }}
+        {% if item.is_strength == 'y' %}
+        This is a strength item
+        {% else %}
+        This is a aerobic item
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

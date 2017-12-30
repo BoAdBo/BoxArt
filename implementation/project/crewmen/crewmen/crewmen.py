@@ -7,7 +7,8 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from init_crew import init_db
-import datetime
+from flask_nav import Nav
+from flask_nav.elements import *
 
 ########################
 ### helper function ####
@@ -38,29 +39,32 @@ app = Init_app()
 db = SQLAlchemy(app)
 from models import *
 from project.users.login import users_blueprint
+from project.training.core import training_blueprint
 
 app.register_blueprint(users_blueprint)
+app.register_blueprint(training_blueprint)
+
+nav = Nav()
+@nav.navigation()
+def top():
+    items = [View('home', 'home'),
+             View('Log out', 'logout'),
+             View('Change Password', 'password_update'),
+             View('Training', 'show_training_plan'),
+             View('Training Item', 'show_item')]
+
+    if session['login_job'] in ['crew leader', 'couch']:
+        items = items + [View('Add training plan', 'add_plan'),
+                         View('Add Training item', 'add_item')]
+
+    return Navbar('Home', *items)
+nav.init_app(app)
 
 
 @app.route('/home')
 @login_required
 def home():
     return render_template('home.html', error=None)
-
-@app.route('/add_plan')
-def add_plan():
-
-    return render_template('add_plan.html')
-
-@app.route('/training_plan')
-@login_required
-def show_training_plan():
-    today = datetime.date.today()
-    nextday = today + datetime.timedelta(days=1)
-    today_plan = TrainingPlan.query.filter(TrainingPlan.train_at >= today, TrainingPlan.train_at < nextday).all()
-    #today_plan = TrainingPlan.query.all()
-    print(today_plan)
-    return render_template('training_plan.html', strength_plan=today_plan)
 
 @app.route('/')
 def welcome():
