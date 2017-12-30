@@ -47,7 +47,10 @@ app.register_blueprint(users_blueprint)
 def home():
     return render_template('home.html', error=None)
 
+@app.route('/add_plan')
+def add_plan():
 
+    return render_template('add_plan.html')
 
 @app.route('/training_plan')
 @login_required

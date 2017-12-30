@@ -15,7 +15,8 @@ nav = Nav()
 topbar = Navbar('User Center', Navbar('',
                               View('home', 'home'),
                               View('Log out', 'logout'),
-                              View('Change Password', 'password_update'),)
+                              View('Change Password', 'password_update'),
+                              View('Training', 'show_training_plan'),)
 )
 
 nav.register_element('top', topbar)

@@ -8,11 +8,11 @@ insert into member(name, ID, training_level) values
 ('happygirlzt', '520', 'old bird');
 
 insert into users(username, password, ID, email) values
-('yuH', sha2('hello', 512), '0', '123@happygirlzt.com'),
-('guoD', sha2('hello', 512), '1', '124@happygirlzt.com'),
-('Xde', sha2('hello', 512), '2', '125@happygirlzt.com'),
-('Swei', sha2('hello', 512), '3', '126@happygirlzt.com'),
-('Huze', sha2('hello', 512), '4', '128@happygirlzt.com');
+('yuH', sha2('hello-world', 512), '0', '123@happygirlzt.com'),
+('guoD', sha2('hello-world', 512), '1', '124@happygirlzt.com'),
+('Xde', sha2('hello-world', 512), '2', '125@happygirlzt.com'),
+('Swei', sha2('hello-world', 512), '3', '126@happygirlzt.com'),
+('Huze', sha2('hello-world', 512), '4', '128@happygirlzt.com');
 
 insert into training_item(item_name, is_strength, is_test) values
 ('卧拉', 'y', 'n'),
