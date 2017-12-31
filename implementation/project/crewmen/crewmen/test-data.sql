@@ -15,6 +15,12 @@ insert into users(username, password, ID, email) values
 ('Swei', sha2('hello-world', 512), '3', '126@happygirlzt.com'),
 ('Huze', sha2('hello-world', 512), '4', '128@happygirlzt.com');
 
+-- for test --
+insert into users(username, password, ID, email) values
+('admin', sha2('admin', 512), '0', '122@happygirlzt.com'),
+('normal', sha2('normal', 512), '0', '11@happygirlzt.com');
+
+
 insert into training_item(item_name, is_strength, is_test) values
 ('卧拉', 'y', 'n'),
 ('平板支撑','y', 'n'),

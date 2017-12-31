@@ -1,8 +1,9 @@
 bcrypt==3.1.4
 cffi==1.11.2
 click==6.7
--e git+https://github.com/BoAdBo/BoxArt@47c2f347d78462fb79ecd1a91e882da22a00a079#egg=crewmen&subdirectory=implementation/project/crewmen
+-e git+https://github.com/BoAdBo/BoxArt@3ab1c630c0defb3db2b3e01a3b3fbea7d74f1171#egg=crewmen&subdirectory=implementation/project/crewmen
 DateTime==4.2
+decorator==4.1.2
 dominate==2.3.1
 Flask==0.12.2
 Flask-Bcrypt==0.7.1
@@ -11,6 +12,8 @@ Flask-Hashing==1.1
 flask-nav==0.6
 Flask-SQLAlchemy==2.3.2
 Flask-WTF==0.14.2
+infinity==1.4
+intervals==0.8.1
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
@@ -19,7 +22,9 @@ PyMySQL==0.8.0
 pytz==2017.3
 six==1.11.0
 SQLAlchemy==1.2.0
+validators==0.12.0
 visitor==0.1.3
 Werkzeug==0.13
 WTForms==2.1
+WTForms-Components==0.10.3
 zope.interface==4.4.3
