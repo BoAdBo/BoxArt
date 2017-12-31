@@ -18,8 +18,8 @@ bcrypt = Bcrypt(app)
 ### config ###
 ##############
 
-users_blueprint = Blueprint(
-    'users', __name__,
+user_blueprint = Blueprint(
+    'user', __name__,
     template_folder='templates'
 )
 
@@ -36,7 +36,7 @@ User system information, to log in/out, to register, (unimplemented)to change pa
 ###########################
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@user_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     """
     If the user doesn't exist, return error accordingly, if the user exists, with wrong password, return error
@@ -69,7 +69,7 @@ def login():
 
     return render_template('login.html', error=error)
 
-@app.route('/register', methods=['GET', 'POST'])
+@user_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     password_error = None
     # information provided break integrity constraint:
@@ -106,7 +106,7 @@ def register():
                 flash('You have just registered. Welcome!')
     return render_template('register.html', password_error=password_error, ID_error=ID_error)
 
-@app.route('/password_update', methods=['GET', 'POST'])
+@user_blueprint.route('/password_update', methods=['GET', 'POST'])
 @login_required
 def password_update():
     error = None
@@ -130,7 +130,7 @@ def password_update():
 
     return render_template('password_update.html', error=error, form=form)
 
-@app.route('/logout')
+@user_blueprint.route('/logout')
 @login_required
 def logout():
     session.pop('login_job', None)

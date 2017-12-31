@@ -1,0 +1,15 @@
+21   Swiper: 
+ from flask_wtf import FlaskForm, RecaptchaField
+ from wtforms import BooleanField, StringField, PasswordField, validators, RadioField, SelectField, DecimalField, DateTimeField
+ from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired, NumberRange, DateRange
+ 
+ class AddFeeForm(FlaskForm):
+     cost = DecimalField(
+         'Cost',
+         places=2,
+         rounding=2,
+         validators=[InputRequired(), NumberRange(min=0, message='cost can\'t be negative')]
+     )
+ 
+     used_at = DateTimeField(
+         'Date',

@@ -49,3 +49,16 @@ class PlanMaker(db.Model):
     __tablename__ = 'plan_maker'
     __table_args__ = {'autoload':True,
                       'autoload_with': db.engine}
+
+class PaidBy(db.Model):
+    __tablename__ = 'paid_by'
+    __table_args__ = {'autoload':True,
+                      'autoload_with': db.engine}
+
+class FeeLog(db.Model):
+    __tablename__ = 'fee_log'
+    __table_args__ = {'autoload':True,
+                      'autoload_with': db.engine}
+
+    payer = relationship("Member",
+                         secondary=PaidBy.__table__)

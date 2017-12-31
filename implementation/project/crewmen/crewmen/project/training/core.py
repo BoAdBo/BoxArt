@@ -35,20 +35,20 @@ def power_required(f):
 
 
 
-@app.route('/show_item')
+@training_blueprint.route('/show_item')
 @login_required
 def show_item():
     items = TrainingItem.query.all()
     return render_template('show_item.html', items=items)
 
-@app.route('/add_plan')
+@training_blueprint.route('/add_plan')
 @login_required
 @power_required
 def add_plan():
     error = None
     return render_template('add_plan.html', power=True)
 
-@app.route('/add_item', methods=['GET', 'POST'])
+@training_blueprint.route('/add_item', methods=['GET', 'POST'])
 @login_required
 @power_required
 def add_item():
@@ -67,7 +67,7 @@ def add_item():
 
     return render_template('add_item.html', forms=forms, form=form)
 
-@app.route('/training_plan')
+@training_blueprint.route('/training_plan')
 @login_required
 def show_training_plan():
     today = datetime.date.today()

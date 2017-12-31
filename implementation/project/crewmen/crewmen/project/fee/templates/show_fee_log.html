@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}show fee{% endblock %}
+
+
+{% block content %}
+
+{% for log in logs %}
+    <p><strong></strong>{{log.cost}}</p>
+    <p><strong></strong>{{log.used_at}}</p>
+    <p><strong></strong>{{log.cause}}</p>
+    <p><strong></strong>{{log.payer.name}}</p>
+{% endfor %}
+{% endblock %}

@@ -21,7 +21,7 @@ def login_required(f):
             return f(*args, **kwargs)
         else:
             flash('You need to login first.')
-            return redirect(url_for('login'))
+            return redirect(url_for('user.login'))
     return wrap
 
 ########################
@@ -38,24 +38,32 @@ def Init_app():
 app = Init_app()
 db = SQLAlchemy(app)
 from models import *
-from project.users.login import users_blueprint
+from project.user.core import user_blueprint
 from project.training.core import training_blueprint
+from project.member.core import member_blueprint
+from project.fee.core import fee_blueprint
 
-app.register_blueprint(users_blueprint)
+app.register_blueprint(user_blueprint)
 app.register_blueprint(training_blueprint)
+app.register_blueprint(member_blueprint)
+app.register_blueprint(fee_blueprint)
+
 
 nav = Nav()
 @nav.navigation()
 def top():
     items = [View('home', 'home'),
-             View('Log out', 'logout'),
-             View('Change Password', 'password_update'),
-             View('Training', 'show_training_plan'),
-             View('Training Item', 'show_item')]
+             View('Profile', 'member.member_profile'),
+             View('Log out', 'user.logout'),
+             View('Change Password', 'user.password_update'),
+             View('Training', 'training.show_training_plan'),
+             View('Training Item', 'training.show_item'),
+             View('Show Fee Log', 'fee.show_fee_log'),
+             View('Add Fee Log', 'fee.add_fee_log'),]
 
     if session['login_job'] in ['crew leader', 'couch']:
-        items = items + [View('Add training plan', 'add_plan'),
-                         View('Add Training item', 'add_item')]
+        items = items + [View('Add training plan', 'training.add_plan'),
+                         View('Add Training item', 'training.add_item')]
 
     return Navbar('Home', *items)
 nav.init_app(app)
