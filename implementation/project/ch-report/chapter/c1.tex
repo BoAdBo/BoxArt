@@ -1,78 +1,135 @@
 \chapter{艇员管理系统}
+A crew management system can store the training record and provide a great feed
+back for the training crew. Our crew is training on a daily basis, one finds
+that by comparing and contrast, would make a positive and huge impact on the
+confidence and momentum of he training individuals as well as crew members.
+In the old school ways, our crew members have to use pen and paper to write down
+their training results, and later need to be typed into computers. Therefore
+developing a crew management system would greatly enhance the efficiency in
+terms of designing training plans and logging training results
+.
+艇员管理系统是一个能够发布训练计划，统计训练记录的系统。并能通过统计得到的训练记
+录进行反馈，为队员提供参考。一个体育团队通过收集每天的训练情况来定期给队员提供积
+极科学的反馈，并以此能够修正训练计划，从而使训练更加高效有序。可是现实团队里面在
+即时通讯软件（wechat）里面发布和收集训练记录，或者说用纸来记录数据。这样的做法费
+时费力而且数据也不完整，即使通信软件里面有相当强大的搜索功能。但是如果每次进行数
+据收集都是对聊天记录进行搜索的话，数据难免丢失（数据格式不一致等原因）因此开发一
+个数据库应用来进行队内事务管理是相当有必要的。
+
+\newpage
 
 \section{开发环境与开发工具}
 
 \section{系统需求分析}% need further investigation, query somebody maybe
+% \begin{enumerate}
+% \item
+%   {system user management
+%     \begin{enumerate}
+%     \item{user adding\\
+%         include 3 kinds of member type: Crew Coach, Crew Leader, Crew member\\
+        
+%         Crew Coach can announce the plans for this year: have access to
+%         modifying the calender: dates for group extra training program, dates for out
+%         field races, etc..\\
+        
+%         Crew Leader can design and publish training plans(in the form of
+%         notice-board) and specify the training program for the day. Have access
+%         to team budgets, logging of team budgets.\\
+        
+%         Crew members can update their status on the training program of the day.
+%         How many push-ups and squats(training programs of the day), how much time
+%         for the 10 laps running, etc..\\
+
+%         Crew member information: Entrance date, height, weight, age.
+        
+%         To be continued...
+%         }
+%       \item{user deletion\\
+%           the deletion of the mentioned crew member types. Cascade deletion(deleting
+%           team members would also delete their training records)
+%         }
+%       \item{password modification
+%           add password, update password. Involves registration.\\
+%         }
+%     \end{enumerate}
+%   }
+
+% \item{training plans management\\
+%     training plans CRUD(Create, Read, Update, Delete):
+%   }
+
+% \item {
+%     training log management\\
+%     training log CRUD
+%   }
+
+% \item {
+%     Crew members information management\\
+%     crew members information CRUD
+%   }
+
+% \item {
+    
+%   }
+  
+% \end{enumerate}
+
+\begin{enumerate}
+\item
+  {系统的用户管理\\
+    包括用户的添加、删除、修改信息、修改密码等。}
+
+\item{艇员信息管理\\
+    艇员信息的添加、删除、修改、查询。
+  }
+
+\item{训练计划管理\\
+    训练计划的添加，修改，删除，查询。
+  }
+
+\item {训练记录管理\\
+    训练记录的添加，修改，删除，查询。
+  }
+
+\item {船艇信息\\
+    艇的信息添加，修改，删除，查询。
+  }
+
+\item {开支信息\\
+    开支记录的添加，修改，删除，查询。
+  }
+
+\end{enumerate}
 
 
-A crew management system can store the training record and provide a great feed
-back for the training crew. Our crew is training on a daily basis, one finds
-that by comparing and contrast, would make a positive and huge impact on the
-confidence and momentum of the training individuals as well as crew members.
-In the old school ways, our crew members have to use pen and paper to write down
-their training results, and later need to be typed into computers. Therefore
-developing a crew management system would greatly enhance the efficiency in
-terms of designing training plans and logging training results.
+
 
 
 %making the blow text smaller perhaps?
-\textbf{A basic crew management system would require the following N functionalities:}
-\begin{enumerate}
-\item
-  {system user management
-    \begin{enumerate}
-    \item{user adding\\
-        include 3 kinds of member type: Crew Coach, Crew Leader, Crew member\\
-        
-        Crew Coach can announce the plans for this year: have access to
-        modifying the calender: dates for group extra training program, dates for out
-        field races, etc..\\
-        
-        Crew Leader can design and publish training plans(in the form of
-        notice-board) and specify the training program for the day. Have access
-        to team budgets, logging of team budgets.\\
-        
-        Crew members can update their status on the training program of the day.
-        How many push-ups and squats(training programs of the day), how much time
-        for the 10 laps running, etc..\\
-
-        Crew member information: Entrance date, height, weight, age.
-        
-        To be continued...
-        }
-      \item{user deletion\\
-          the deletion of the mentioned crew member types. Cascade deletion(deleting
-          team members would also delete their training records)
-        }
-      \item{password modification
-          add password, update password. Involves registration.\\
-        }
-    \end{enumerate}
-  }
-
-\item{training plans management\\
-    training plans CRUD(Create, Read, Update, Delete):
-  }
-
-\item {
-    training log management\\
-    training log CRUD
-  }
-
-\item {
-    Crew members information management\\
-    crew members information CRUD
-  }
-
-\item {
-    
-  }
-  
-\end{enumerate}
 
 \section{功能需求分析}
+艇员管理系统按照上面所述，管理功能主要在艇员信息、训练计划和训练记录的管理上面。
+下面还有一些主要的功能说明
+\begin{enumerate}
+\item{其中用户分为两个级别。普通用户级别和特权用户级别。特权用户级别的操作是普通用户级别的超集。}
+
+\item{其中添加、删除操作输入特权用户级别，AKA只有特权用户能够添加新的成员。而每个用户需要自己的艇员信息被录入才能注册新的用户。每个用户能够对自己的信息进行查询，对部分信息能够进行修改。}
+
+\item{其中添加，修改，删除属于特权用户级别。}
+
+\item{每个用户只能对自己的训练记录进行(CUD--Create, Update, Delete)。每个用户可以查询其他用户的训练记录。}
+
+\item{普通用户只能部分修改，能够查询。}
+\end{enumerate}
+
 
 \section{系统设计}
+\input{chapter/ER}
+\newpage
+\input{chapter/diagram}
+\newpage
+\includegraphics[width=\textwidth]{figure/relation-schema}
+\input{chapter/flow-chart}
 
 \section{系统功能的实现}
 
