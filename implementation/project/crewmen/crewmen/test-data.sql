@@ -4,9 +4,12 @@ insert into member(name, ID, training_level) values
 ('郭D胜', '1', 'old bird'),
 ('X德昊', '2', 'old bird'),
 ('S炜焜', '3', 'old bird'),
-('happygirlzt', '520', 'old bird');
+('happygirlzt', '520', 'old bird'),
+('normal','1997','newbie');
 
-insert into member(name, ID, training_level, job) values ('胡泽Q', '4', 'old bird', 'crew leader');
+insert into member(name, ID, training_level, job) values
+('胡泽Q', '4', 'old bird', 'crew leader'),
+('admin', '1996', 'newbie', 'couch');
 
 insert into users(username, password, ID, email) values
 ('yuH', sha2('hello-world', 512), '0', '123@happygirlzt.com'),
@@ -17,8 +20,8 @@ insert into users(username, password, ID, email) values
 
 -- for test --
 insert into users(username, password, ID, email) values
-('admin', sha2('admin', 512), '0', '122@happygirlzt.com'),
-('normal', sha2('normal', 512), '0', '11@happygirlzt.com');
+('admin', sha2('admin', 512), '1996', '122@happygirlzt.com'),
+('normal', sha2('normal', 512), '1997', '11@happygirlzt.com');
 
 
 insert into training_item(item_name, is_strength, is_test) values
