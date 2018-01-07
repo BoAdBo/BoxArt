@@ -86,13 +86,52 @@ foo1
 ;; The defun Macro
 
 ;; template
-(defune FUNCITON-NAME (ARGUMENTS...)
+(defun FUNCITON-NAME (ARGUMENTS...)
   "OPTIONAL-DOCUMENTATION..."
   (interactive ARGUMENT-PASSING-INFO) ; optional
   BODY...)
 
-(defune multiply-by-seven (number)
+;; you can change the value of such a symbol inside the body of a function without changingits value outside the function.
+
+;; The effect is similar to that produced by a 'let' expression
+
+
+(defun multiply-by-seven (number)
   "Multiply NUMBER by seven."
   (* 7 number))
 
+;; type 'C-x C-e'
+;; By evaluating this 'defun', you have just installed the function
+;; it wil stay installed until you quit Emacs.
 
+(multiply-by-seven 3)
+
+;; You make a function interactive by placing a list 'interactive' immediately after the documentation
+;; A user can invoke an interactive function by typing 'M-x' and then the name of the function
+(defun foo (arg buf)
+  "Doc string"
+  (interactive "P\nbbuffer:"))
+
+;; Interestingly, when you call an interactive function interactively, no value is returned.
+;; Because we call it for its side effect, which is needed to be avoided by the code of functional programming
+
+;; function 'zap-to-char'
+;; (interactive "p\ncZap to char: ")
+
+
+
+
+
+;;fsadfsadfsadfsdafsadfsadfsdkljk;kljljhklhh
+
+(defune NAME-OF-FUNCTION (arg char)
+  "DOC"
+  (interactive "p\ncZap to Char: ")
+  BODY-OF-FUNCTION...)
+
+;; on spacemacs <META> followed by a number is the function "digit-argument"
+
+
+;; The 'mark-whole-buffer' function, binding to C-x h
+
+;; left on 3.5 Install Code permanently <2018-01-07 日>
