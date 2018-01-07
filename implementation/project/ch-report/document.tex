@@ -1,0 +1,50 @@
+% !Mode:: "TeX:UTF-8"
+%\documentclass[a4paper, 12pt]{article}
+
+\documentclass[twoside]{linux_thesis}
+\usepackage{latexsym,bm}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{lipsum}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{setspace}
+\usepackage{fontspec}
+\usepackage{supertabular}
+\usepackage{indentfirst}
+\usepackage{multirow}
+\usepackage{ulem}
+
+%\linespread{1.3}
+
+\definecolor{VerbatimColor}{rgb}{0.9,0.9,0.9}
+
+\begin{document}
+
+\newcommand{\shell}[1]{\noindent\texttt{\$: #1}}
+
+%\begin{titlepage}
+%\titleLY
+%\end{titlepage}
+
+\input{chapter/titlepage}
+
+%\include{chapter/version}
+
+\tableofcontents
+
+% 实验三
+\input{chapter/c1}
+
+%\input{chapter/ER}
+
+% 通用样式
+% \include{chapter/c2}
+
+\end{document}
+
+% Local Variables:
+% TeX-engine: xetex
+% End:
