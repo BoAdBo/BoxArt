@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.80.0 (TeX Live 2015/Debian) (rev 5238)  (format=lualatex 2017.8.24)  7 JAN 2018 12:34
+This is LuaTeX, Version beta-0.80.0 (TeX Live 2015/Debian) (rev 5238)  (format=lualatex 2017.8.24)  7 JAN 2018 21:05
  restricted \write18 enabled.
 **document.tex
 (./document.tex
@@ -273,7 +273,7 @@ Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font
 '.
 Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'
 .
-luaotfload | main : initialization completed in 0.041 seconds)
+luaotfload | main : initialization completed in 0.040 seconds)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
@@ -2078,6 +2078,13 @@ ra_lmroman6-regular.luc)
 luaotfload | load : path lookup of "FandolSong-Regular.otf" unsuccessful, fallin
 g back to file:
 luaotfload | load : path lookup of "FandolSong-Regular.otf" unsuccessful, fallin
+g back to file:
+luaotfload | load : path lookup of "FandolSong-Regular.otf" unsuccessful, fallin
+g back to file:
+LaTeX Font Info:    Calculating math sizes for size <10.5> on input line 6.
+luaotfload | load : path lookup of "FandolSong-Regular.otf" unsuccessful, fallin
+g back to file:
+luaotfload | load : path lookup of "FandolSong-Regular.otf" unsuccessful, fallin
 g back to file:)
 \tf@toc=\write7
 
@@ -2100,6 +2107,15 @@ g back to file:
 luaotfload | load : path lookup of "FandolSong-Bold.otf" unsuccessful, falling b
 ack to file: (./chapter/ER.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
+
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshape
+s.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2008/06/26 v3.0.1a (rcs-revision 1.1)
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryarrows.code.tex
 File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 
@@ -2109,7 +2125,7 @@ File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
 \arrowsize=\dimen327
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarydecorations.pathmorphing.code.tex
+zlibrarydecorations.markings.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarydecorations.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduledecorations.cod
@@ -2126,69 +2142,180 @@ e.tex
 \tikz@lib@dec@box=\box76
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrary
-decorations.pathmorphing.code.tex))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarybackgrounds.code.tex
-File: tikzlibrarybackgrounds.code.tex 2013/07/18 v3.0.1a (rcs-revision 1.3)
-\pgf@layerbox@background=\box77
-\pgf@layerboxsaved@background=\box78
-)
+decorations.markings.code.tex))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
-)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibraryfit.code.tex
-File: tikzlibraryfit.code.tex 2013/07/12 v3.0.1a (rcs-revision 1.5)
-)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarypetri.code.tex
-File: tikzlibrarypetri.code.tex 2013/07/17 v3.0.1a (rcs-revision 1.3)
-)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibraryshapes.geometric.code.tex
-File: tikzlibraryshapes.geometric.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
-
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshape
-s.geometric.code.tex
-File: pgflibraryshapes.geometric.code.tex 2008/06/26 v3.0.1a (rcs-revision 1.1)
-))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarydecorations.markings.code.tex
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrary
-decorations.markings.code.tex))) [6] [7] (./chapter/diagram.tex) [8]
-<figure/relation-schema.png, id=39, 2000.47375pt x 1316.92pt>
+)) [6] (./chapter/flow-chart.tex) [7]
+<figure/relation-schema.png, id=35, 2000.47375pt x 1316.92pt>
 File: figure/relation-schema.png Graphic file (type png)
 
 <use figure/relation-schema.png>
 Package pdftex.def Info: figure/relation-schema.png used on input line 131.
 (pdftex.def)             Requested size: 452.96793pt x 298.1831pt.
- (./chapter/flow-chart.tex)) [9<./figure/relation-schema.png>] [10] (./document
-.aux))
+ (./chapter/diagram.tex) [8<./figure/relation-schema.png>] (./chapter/physical.
+tex
+
+Package xcolor Warning: Incompatible color definition on input line 1.
+
+(compiling luc: /var/lib/texmf/luatex-cache/generic/fonts/otf/lmroman9-regular.l
+uc)(load luc: /home/king-kong/.texmf-var/luatex-cache/generic/fonts/otf/lmroman9
+-regular.luc)(load cache: /home/king-kong/.texmf-var/luatexja/extra_lmroman9-reg
+ular.luc)
+luaotfload | load : path lookup of "FandolSong-Regular.otf" unsuccessful, fallin
+g back to file:
+luaotfload | load : path lookup of "FandolFang-Regular.otf" unsuccessful, fallin
+g back to file:
+luaotfload | load : path lookup of "FandolFang-Regular.otf" unsuccessful, fallin
+g back to file:
+luaotfload | load : path lookup of "FandolFang-Regular.otf" unsuccessful, fallin
+g back to file:
+luaotfload | load : path lookup of "FandolFang-Regular.otf" unsuccessful, fallin
+g back to file:
+luaotfload | aux : font no 192 (FandolFang-Regular) does not define feature smcp
+ for script latn with language dflt
+luaotfload | aux : no font with id 192
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'FandolFang-Regular(1)' created for font 'FandolFang-Regular'
+. with options [JFM=quanjiao,Extension={.otf},LTJFONTUID=3].
+. 
+. This font family consists of the following NFSS series/shapes:
+. - 'normal' (m/n) with NFSS spec.:
+. <->"[FandolFang-Regular.otf]:mode=node;script=latn;language=DFLT;jfm=quanjiao;
+"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+luaotfload | load : path lookup of "FandolFang-Regular.otf" unsuccessful, fallin
+g back to file:
+LaTeX Font Info:    Try loading font information for EU2+lmtt on input line 209.
+
+ (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu2lmtt.fd
+File: eu2lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)(compiling luc: /var/lib/texmf/luatex-cache/generic/fonts/otf/lmmono9-regular.l
+uc)(load luc: /home/king-kong/.texmf-var/luatex-cache/generic/fonts/otf/lmmono9-
+regular.luc)(load cache: /home/king-kong/.texmf-var/luatexja/extra_lmmono9-regul
+ar.luc)
+Overfull \hbox (40.27353pt too wide) in paragraph at lines 209--209
+[][]       \EU2/lmtt/m/n/9.03374 password binary(128) not null, -- half byte ea
+ch, so 128 * 0.5 * 8 is 512 using sha2('pass', 512)[]  
+ []
+
+
+Overfull \hbox (11.81729pt too wide) in paragraph at lines 209--209
+[][]\EU2/lmtt/m/n/9.03374 -- how to enforce constraint on full participation, e
+very schedule should have at least a maker...[]  
+ []
+
+
+Overfull \hbox (73.47247pt too wide) in paragraph at lines 209--209
+[][]       \EU2/lmtt/m/n/9.03374 (cost decimal(13,2), -- cost could range from 
+cent to 10^13 which is 10^4 billion yuan, should be enough[]  
+ []
+
+
+Overfull \hbox (16.56pt too wide) in paragraph at lines 209--209
+[][]\EU2/lmtt/m/n/9.03374 -- ignore! no longer supported (although plan can hav
+e multiple makes?? weird functionality though)[]  
+ []
+
+
+Overfull \hbox (149.35577pt too wide) in paragraph at lines 209--209
+[][]\EU2/lmtt/m/n/9.03374 -- Therefore this relation can be able to indicate a 
+collection of status of a collection of training items in a plan or record[]  
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+[9]
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+[10]
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+[11]
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+[12]
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+) [13]
+
+Package xcolor Warning: Incompatible color definition on input line 152.
+
+
+Package xcolor Warning: Incompatible color definition on input line 154.
+
+
+Package xcolor Warning: Incompatible color definition on input line 154.
+
+
+Package xcolor Warning: Incompatible color definition on input line 164.
+
+
+Package xcolor Warning: Incompatible color definition on input line 166.
+
+
+Package xcolor Warning: Incompatible color definition on input line 166.
+
+) [14] (./document.aux))
 
 Here is how much of LuaTeX's memory you used:
- 38843 strings out of 495004
- 195583,953878 words of node,token memory allocated
- 51551 words of node memory still in use:
-   209 hlist, 2 vlist, 2 rule, 307 glue, 14 kern, 90 glyph, 20907 attribute, 409
- glue_spec, 1133 attribute_list, 1 write, 503 pdf_literal, 122 user_defined node
+ 38727 strings out of 495004
+ 596885,953878 words of node,token memory allocated
+ 52322 words of node memory still in use:
+   209 hlist, 2 vlist, 2 rule, 307 glue, 19 kern, 90 glyph, 21078 attribute, 505
+ glue_spec, 1142 attribute_list, 1 write, 501 pdf_literal, 122 user_defined node
 s
-   avail lists: 1:7,2:45295,3:1978,4:3149,5:122,6:1927,7:371,8:2,9:1490,10:92
- 40938 multiletter control sequences out of 65536+600000
- 150 fonts using 85543079 bytes
- 67i,11n,94p,1051b,800s stack positions out of 5000i,500n,10000p,200000b,100000s
-</usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolFang-Regular.o
-tf></usr/share/texmf/fonts/opentype/public/lm/lmroman12-regular.otf></usr/share/
-texmf/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share/texmf/fonts/openty
-pe/public/lm/lmroman10-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype
-/public/fandol/FandolSong-Regular.otf></usr/share/texlive/texmf-dist/fonts/opent
-ype/public/fandol/FandolSong-Bold.otf><</usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy10.pfb>
-Output written on document.pdf (10 pages, 272279 bytes).
+   avail lists: 1:12,2:215560,3:3168,4:4690,5:138,6:7198,7:371,8:2,9:1437,10:92
+ 40771 multiletter control sequences out of 65536+600000
+ 194 fonts using 111537791 bytes
+ 67i,12n,94p,1051b,800s stack positions out of 5000i,500n,10000p,200000b,100000s
+</usr/share/texmf/fonts/opentype/public/lm/lmmono9-regular.otf></usr/share/texmf
+/fonts/opentype/public/lm/lmroman10-bold.otf></usr/share/texlive/texmf-dist/font
+s/opentype/public/fandol/FandolFang-Regular.otf></usr/share/texmf/fonts/opentype
+/public/lm/lmroman12-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmro
+man12-bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman10-regular.otf>
+</usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Regular.o
+tf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Bold.o
+tf><</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on document.pdf (14 pages, 323254 bytes).
 
-PDF statistics: 87 PDF objects out of 1000 (max. 8388607)
- 53 compressed objects within 1 object stream
+PDF statistics: 113 PDF objects out of 1000 (max. 8388607)
+ 70 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
- 22 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

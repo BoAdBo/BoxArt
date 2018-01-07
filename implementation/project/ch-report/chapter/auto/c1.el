@@ -3,7 +3,8 @@
  (lambda ()
    (TeX-run-style-hooks
     "chapter/ER"
+    "chapter/flow-chart"
     "chapter/diagram"
-    "chapter/flow-chart"))
+    "chapter/physical"))
  :latex)
 

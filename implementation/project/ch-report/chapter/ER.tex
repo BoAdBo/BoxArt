@@ -1,7 +1,5 @@
 
-% \usetikzlibrary{shapes.geometric, arrows, decorations.markings}
-\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri,
-shapes.geometric, decorations.markings}
+\usetikzlibrary{shapes.geometric, arrows, decorations.markings, positioning}
 
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
    1 with {\arrow[semithick]{open triangle 60}}},
@@ -13,17 +11,18 @@ shapes.geometric, decorations.markings}
                       text width=3cm,
                       fill=white,
                       draw=black,
+                      text centered]
+
+% aspect make diamond flat                      
+\tikzstyle{relationship} = [diamond, aspect=2, minimum width=3cm, minimum
+                      height=1cm,
                       text centered,
-                      top color=gray,
-                      opacity=0.5,
-                      bottom color=white]
-                      
-\tikzstyle{relationship} = [diamond, minimum width=3cm, minimum height=1cm,
                       text width=3cm,
                       fill=white,
                       draw=black]
 
 \tikzstyle{attribute} = [rectangle, minimum width=3cm, minimum height=1cm,
+                      text centered,
                       text width=3cm,
                       fill=white,
                       draw=black]
@@ -31,8 +30,8 @@ shapes.geometric, decorations.markings}
 
 % \tikzstyle{attribute} = [top color=white, bottom color=yellow!20, 
 %                                draw=yellow, node distance=1cm]
-\tikzstyle{isa} = [top color=white, bottom color=green!20, 
-                         draw=green!50!black!100]
+% \tikzstyle{isa} = [top color=white, bottom color=green!20, 
+%                          draw=green!50!black!100]
 
 
 \centering
@@ -150,7 +149,7 @@ shapes.geometric, decorations.markings}
     training\_plan\\
     \noindent\rule[0.5ex]{3cm}{1pt}
     
-    \underline{plan\_ID}
+    \underline{plan\_ID}\\
     train\_at\\
     training\_last\\
     training\_level\\ % take note here, need changes

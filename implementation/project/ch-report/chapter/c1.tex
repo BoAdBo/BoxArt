@@ -122,37 +122,59 @@ terms of designing training plans and logging training results
 \item{普通用户只能部分修改，能够查询。}
 \end{enumerate}
 
-
 \section{系统设计}
+\subsection{系统ER图}
 \input{chapter/ER}
-\newpage
-\input{chapter/diagram}
-\newpage
-\includegraphics[width=\textwidth]{figure/relation-schema}
+\subsection{数据流程图}
 \input{chapter/flow-chart}
+\subsection{数据库关系模式设计}
+\includegraphics[width=\textwidth]{figure/relation-schema}
+\subsection{系统功能模块图}
+\input{chapter/diagram}
+
+\subsection{物理结构设计}
+\input{chapter/physical}
 
 \section{系统功能的实现}
+具体实现是利用\textbf{python-flask}框架，以及mysql数据库。
+
+这个项目最主要的模块我认为是训练计划和训练记录，还有用户权限的实现。
+
+\subsection{用户系统}
+\paragraph{用户登录}
+提供用户名和密码的表单。数据库储存密码这个设计利用的是sha-512的单向hash方式储存。
+以后估计会改用bcrypt。因此每次收到密码，在后端要把字符串用hash得到对应的编码与数
+据库相应的用户名的密码进行比对。如果正确，从数据库中的成员(member)信息读出权限，
+并存放到session里面，并把用户的登录状态还有用户名存放到session里面。
+
+\vspace{3em}
+以下是主要的代码：
+\begin{Verbatim}[]
+
+\end{Verbatim}
+
+\vspace{3em}
+\paragraph{特权机制}
+对于某些页面进行限制，比如添加新成员，添加修改训练计划等。如果用户访问受限制的
+url，先从登录后存放的session中找到对应的权限。如果权限不足，返回重定向，如果权限
+足够，返回对应的页面。
+
+\vspace{3em}
+一下是主要的代码：
+\begin{Verbatim}[]
+
+\end{Verbatim}
+
+\subsection{训练计划}
+\paragraph{计划查询}
+每个人都能访问今日的训练计划。
+
+\paragraph{更改计划}
+只有队长或者教练能够修改，添加或者删除训练计划。对于返回的表单进行检查。
+
+\subsection{训练记录}
 
 \section{课程设计心得体会}
-% 此处输入本文档的面向读者对象
-
-% \section{参考文档}
-% 此处输入在撰写本文档过程中所使用到的资源列表。
-
-% \begin{itemize}
-%     \item 《xxx系统技术协议书》，2016年12月
-%     \item 《xxx系统需求说明文档》，2017年6月
-%     \item 《xxx系统详细设计文档》，2017年6月
-% \end{itemize}
-
-
-% \section{术语与缩写解释}
-
-% 本文档中使用到的术语缩写及其解释如下表\ref{shuyu}所示。
-
-% \begin{table}[htb]
-% \centering
-% \label{shuyu}
 % \begin{tabular}{p{2cm}|p{8cm}}
 % \hline\hline
 
