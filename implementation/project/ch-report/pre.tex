@@ -19,14 +19,14 @@
 \setbeamercolor{background canvas}{bg=white}
 
 
-\definecolor{mygreen}{rgb}{.125,.5.25}
+\definecolor{mygreen}{rgb}{.125,.5,.25}
 \usecolortheme{crane}
-\usecolortheme[named=mygreen]{structure}
+%\usecolortheme[named=mygreen]{structure}
 
-\title{crew-management-system}
-\subtitle{Subtile Here}
-\author{杨麒平}
-\institute{}
+\title{艇员管理系统}
+\subtitle{实验汇报}
+\author{杨麒平 15336220}
+\institute{rowing crew}
 \date{\today}
 
 \begin{document}
@@ -36,24 +36,112 @@
   \titlepage
 \end{frame}
 
-\begin{frame}
-  One major point: State it, develop it, and repeat it.
+\begin{frame}{动机}
+  \only<1> {
+    \begin{block}{关于这个系统}
+    艇员管理系统是一个能够发布训练计划，统计训练记录，并能通过统计得到的训练记
+    录进行反馈，为队员提供参考的系统。
+  \end{block}
 
-  Argument, evidence, and a conclusion.
 
-  Organize information in a highly structured fashion.
+    考虑下面一个训练计划：
 
-  Clear topic sentences.
+  \begin{enumerate}
+  \item {深蹲跳 1min测试 3组}
+  \item {卧拉 25kg 1min测试 3组 女生 15kg}
+  \item {卧推 25kg 1min测试 3组 女生 15kg}
+  \item {仰卧两头起 1min测试 3组}
+  \item {200米冲刺跑 4组}
+  \item {慢跑五圈放松}
+  \end{enumerate}}
+
+  \only<2> {
+    example from wechat
+
+    这样发布的计划和记录会在聊天记录里面分布得比较散，因此对于统计训练计划以及记
+    录并进行反馈的这项工作会比较繁琐，而且数据也难免丢失，队员训练的训练反馈效果
+    不会很好。
+  }
+
+  \only<3> {
+    \begin{block}{解决方案}
+    这个时候数据库应用能够简化这个工作，并给出更好的反馈。
+    \end{block}
+  }
+
+  % 一个体育团队通过收集每天的训练情况来定期给队员提供积
+  %   极科学的反馈，并以此能够修正训练计划，从而使训练更加高效有序。可是现实团队里面在
+  %   即时通讯软件（wechat）里面发布和收集训练记录，或者说用纸来记录数据。这样的做法费
+  %   时费力而且数据也不完整，即使通信软件里面有相当强大的搜索功能。但是如果每次进行数
+  %   据收集都是对聊天记录进行搜索的话，数据难免丢失（数据格式不一致等原因）因此开发一
+  %   个数据库应用来进行队内事务管理是相当有必要的。
+
+  % example
+
   
-  Neural machine translation is a newly emerging approach to machine translation.
+  % One major point: State it, develop it, and repeat it.
 
-  Compress all the necessary information of a source sentence into a
-  fixed-length vector. This may make it difficult for the neural network to cope
-  with long sentences, especially those that are longer than the sentences in
-  the training corpus.
+  % Argument, evidence, and a conclusion.
+
+  % Organize information in a highly structured fashion.
+
+  % Clear topic sentences.
+  
+  % Neural machine translation is a newly emerging approach to machine translation.
+
+  % Compress all the necessary information of a source sentence into a
+  % fixed-length vector. This may make it difficult for the neural network to cope
+  % with long sentences, especially those that are longer than the sentences in
+  % the training corpus.
 
   
 \end{frame}
 
+\begin{frame}{数据库系统主要设计}
+  用户信息，成员信息，训练计划信息，训练信息，艇支信息，支出信息。
+
+  其中用户系统需要注意的问题是密码的储存要hash，不能用明文存储。
+
+  成员系统，具体难度不大。艇支管理和支出管理不是实现的主要目的。
+
+  重点则是训练计划以及训练记录信息。
+  
+\end{frame}
+
+\begin{frame}{设计难点}
+
+  \only<1> {训练记录和训练计划的设计
+    仔细看训练计划，主要有三个部分，时间，训练项目和指标。
+
+    一个计划可以有多个项目
+    比如：深蹲，卧拉，卧推等。
+   
+    其中训练项目有着各自不一样的指标。
+    比如：
+
+    深蹲的指标是重量，次数，组数等。
+    跑步的指标是距离，时间等。
+
+    所以指标其实是一个多值属性，包括\{指标名称，指标数目，指标要求\}
+  }
+  
+  \only<2>{
+    不够好的设计
+
+    不好的原因，不过动态，不够灵活。
+  }
+  
+  \only<3>{
+    解决方案
+  }
+    
+\end{frame}
+  
+\begin{frame}{展示}
+
+\end{frame}
 
 \end{document}
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% end:
