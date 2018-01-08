@@ -3,8 +3,11 @@
 \usepackage{fancyvrb}
 \usepackage{xeCJK}
 \usepackage{enumerate}
+
 \usepackage{mathtools}
 \usepackage{hyperref}
+\usepackage{graphicx}
+%\usepackage{multicols}
 \setmainfont{DejaVu Sans}
 \usepackage[T1]{fontenc}
 
@@ -56,11 +59,20 @@
   \end{enumerate}}
 
   \only<2> {
-    example from wechat
+    % example from wechat
+    %\begin{multicols}[2]
+      
+    %\end{multicols}
 
-    这样发布的计划和记录会在聊天记录里面分布得比较散，因此对于统计训练计划以及记
-    录并进行反馈的这项工作会比较繁琐，而且数据也难免丢失，队员训练的训练反馈效果
-    不会很好。
+    \begin{columns}[onlytextwidth]
+      \column{0.5\textwidth}
+      \includegraphics[scale=0.1]{pic/wechat.png}
+      \column{0.5\textwidth}
+      这样发布的计划和记录会在聊天记录里面分布得比较散，因此对于统计训练计划以及记
+      录并进行反馈的这项工作会比较繁琐，而且数据也难免丢失，队员训练的训练反馈效果
+      不会很好。
+    \end{columns}
+    
   }
 
   \only<3> {
@@ -97,42 +109,139 @@
   
 \end{frame}
 
-\begin{frame}{数据库系统主要设计}
-  用户信息，成员信息，训练计划信息，训练信息，艇支信息，支出信息。
+\begin{frame}{数据库系统的设计}
+  \only<1> {
+    概念设计
 
-  其中用户系统需要注意的问题是密码的储存要hash，不能用明文存储。
+    \begin{enumerate}
+    \item
+      {
+        一个用户对应一个成员，有唯一的用户名作为标识符，需要密码进行登录。
+      }
 
-  成员系统，具体难度不大。艇支管理和支出管理不是实现的主要目的。
+    \item{
+        一个成员有自己的各种信息，对应唯一一个账户，有自己的训练级别，还有多条自己的
+        训练记录，有多条对应自己的开支，由(ID)唯一标识。
+      }
 
-  重点则是训练计划以及训练记录信息。
-  
+    \item{
+        一个训练计划包含训练时间，训练时长，训练项目，训练指标，还有训练对应的级别,
+        由(plan\_ID)唯一标识，需要和成员联系，作为计划制定者。
+      }
+
+    \item {
+        一个训练记录（与训练计划对称），有训练时间，训练时长，训练项目，训练结果，由
+        (record\_ID)唯一标识，需要和成员联系，作为训练者。
+      }
+      
+    \item {船艇信息\\
+        艇的信息添加，修改，删除，查询。
+
+        一艘艇有名字，有类型，由(ship\_ID)唯一标识。
+      }
+
+    \item {开支信息\\
+        开支记录的添加，修改，删除，查询。
+
+        一条开支，有时间，有备注，需要和成员联系，作为支出的对象，由(fee\_ID)唯一标
+        识。
+      }
+    \end{enumerate}    
+    
+  }
+
+  \only<2> {
+    逻辑设计
+
+    \begin{itemize}
+      \item user (\underline{username}, password);
+      \item member (\underline{ID}, name, training\_level, info);
+      \item plan (\underline{plan\_ID}, train\_at, training\_last, item(项目),
+        requirements, ID);
+      \item record (\underline{record\_ID}, train\_at, training\_last, item(项目),\\
+        status, ID);
+      \item ship (\underline{ship\_ID}, ship\_name, type);
+      \item cost (\underline{fee\_ID}, time, comment, ID);
+    \end{itemize}
+    
+    
+  }
+
+  \only<3> {
+    物理设计
+    限于篇幅，没法放。
+  }
+
+  % 用户信息，成员信息，训练计划信息，训练信息，艇支信息，支出信息。
+
+  % 其中用户系统需要注意的问题是密码的储存要hash，不能用明文存储。
+
+  % 成员系统，具体难度不大。艇支管理和支出管理不是实现的主要目的。
+
+  % 重点则是训练计划以及训练记录信息。
+
+  % SQL注入的防范
+
+    
 \end{frame}
 
 \begin{frame}{设计难点}
 
-  \only<1> {训练记录和训练计划的设计
-    仔细看训练计划，主要有三个部分，时间，训练项目和指标。
+  \only<1> {
+    \begin{block}{训练记录和训练计划的设计}
+      仔细看训练计划，主要有三个部分:时间，训练项目和指标。
 
-    一个计划可以有多个项目
-    比如：深蹲，卧拉，卧推等。
-   
-    其中训练项目有着各自不一样的指标。
-    比如：
+      \begin{itemize}
+      \item 一个计划可以有多个项目
+        比如：深蹲，卧拉，卧推等。
 
-    深蹲的指标是重量，次数，组数等。
-    跑步的指标是距离，时间等。
-
-    所以指标其实是一个多值属性，包括\{指标名称，指标数目，指标要求\}
+      \item 其中训练项目有着各自不一样的指标。
+        比如：\\
+        深蹲的指标是重量，次数，组数等。\\
+        跑步的指标是距离，时间等。
+      \end{itemize}
+    \end{block}
+    
+    所以指标是一个多值属性，包括\\
+    \{attribute\_name，number(指标数目)，comp(指标要求)\}
   }
   
   \only<2>{
-    不够好的设计
+    不够好的设计——将所有的指标作为属性放到计划表里面。比如这样的一个表头：
 
-    不好的原因，不过动态，不够灵活。
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+      \hline
+      计划索引 & 项目名字 & 距离 & 时间 & 次数 & 重量 & 需要时间\\ \hline               
+      1 &       卧拉 &     NULL & NULL & 30 & 30 & NULL \\ \hline               
+       1 &       平板支撑 & NULL & 2 &  NULL & NULL &          NULL \\ \hline               
+       1 &       跑步 &     3000 & 14  &  NULL &        NULL &          NULL \\ \hline               
+
+    \end{tabular}
+
+
+  }
+
+  \only<3> {
+    不好的原因: 不够灵活。用书上的话来说就是冗余，不完整。
+
+    \vspace{3em}
+
+    冗余：很显然，表里面有很多NULL的记录。这种冗余也导致数据库的查询以及完整性约
+    束的维护很难执行。
+
+    \vspace{3em}
+
+    不完整：假设以后要添加新的指标，比如组数，那么就要在表里增加一个新的属性。多
+    出一列的NULL。而且需要判断记录是否达标的时候需要外部的应用程序做更多额外的工
+    作才能判断。
+    
   }
   
-  \only<3>{
+  \only<4>{
     解决方案
+
+    参照完整性约束，在这个设计中，计划中的一条要求中的项目和对应的指标必须在
+    attribute\_in\_item的表中出现。
   }
     
 \end{frame}

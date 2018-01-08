@@ -30,6 +30,7 @@
     "enumerate"
     "mathtools"
     "hyperref"
+    "graphicx"
     "fontenc")
    (LaTeX-add-xcolor-definecolors
     "mygreen"))

@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.80.0 (TeX Live 2015/Debian) (rev 5238)  (format=lualatex 2017.8.24)  7 JAN 2018 21:05
+This is LuaTeX, Version beta-0.80.0 (TeX Live 2015/Debian) (rev 5238)  (format=lualatex 2017.8.24)  8 JAN 2018 10:32
  restricted \write18 enabled.
 **document.tex
 (./document.tex
@@ -273,7 +273,7 @@ Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font
 '.
 Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'
 .
-luaotfload | main : initialization completed in 0.040 seconds)
+luaotfload | main : initialization completed in 0.039 seconds)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
@@ -2151,7 +2151,7 @@ File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
 File: figure/relation-schema.png Graphic file (type png)
 
 <use figure/relation-schema.png>
-Package pdftex.def Info: figure/relation-schema.png used on input line 131.
+Package pdftex.def Info: figure/relation-schema.png used on input line 149.
 (pdftex.def)             Requested size: 452.96793pt x 298.1831pt.
  (./chapter/diagram.tex) [8<./figure/relation-schema.png>] (./chapter/physical.
 tex
@@ -2274,33 +2274,33 @@ Package xcolor Warning: Incompatible color definition on input line 209.
 
 ) [13]
 
-Package xcolor Warning: Incompatible color definition on input line 152.
+Package xcolor Warning: Incompatible color definition on input line 170.
 
 
-Package xcolor Warning: Incompatible color definition on input line 154.
+Package xcolor Warning: Incompatible color definition on input line 172.
 
 
-Package xcolor Warning: Incompatible color definition on input line 154.
+Package xcolor Warning: Incompatible color definition on input line 172.
 
 
-Package xcolor Warning: Incompatible color definition on input line 164.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package xcolor Warning: Incompatible color definition on input line 184.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package xcolor Warning: Incompatible color definition on input line 184.
 
 ) [14] (./document.aux))
 
 Here is how much of LuaTeX's memory you used:
  38727 strings out of 495004
- 596885,953878 words of node,token memory allocated
- 52322 words of node memory still in use:
+ 596900,953878 words of node,token memory allocated
+ 52321 words of node memory still in use:
    209 hlist, 2 vlist, 2 rule, 307 glue, 19 kern, 90 glyph, 21078 attribute, 505
  glue_spec, 1142 attribute_list, 1 write, 501 pdf_literal, 122 user_defined node
 s
-   avail lists: 1:12,2:215560,3:3168,4:4690,5:138,6:7198,7:371,8:2,9:1437,10:92
+   avail lists: 1:8,2:215560,3:3168,4:4690,5:138,6:7198,7:371,8:2,9:1929,10:92
  40771 multiletter control sequences out of 65536+600000
  194 fonts using 111537791 bytes
  67i,12n,94p,1051b,800s stack positions out of 5000i,500n,10000p,200000b,100000s
@@ -2312,7 +2312,7 @@ man12-bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman10-regular.otf>
 </usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Regular.o
 tf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Bold.o
 tf><</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on document.pdf (14 pages, 323254 bytes).
+Output written on document.pdf (14 pages, 330590 bytes).
 
 PDF statistics: 113 PDF objects out of 1000 (max. 8388607)
  70 compressed objects within 1 object stream
