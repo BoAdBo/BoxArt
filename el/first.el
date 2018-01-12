@@ -135,3 +135,31 @@ foo1
 ;; The 'mark-whole-buffer' function, binding to C-x h
 
 ;; left on 3.5 Install Code permanently <2018-01-07 日>
+
+;; (if e1 e2 e3), first evaluate e1, if e1 is evaluated to true, then evaluate e2 and return value of e2, else...
+(equal 1 1)'
+
+(if nil "good" "no good")
+
+
+(message "We are %d characters into this buffer."
+         (- (point)
+            (save-excursion
+              (goto-char (point-min)) (point))))
+
+(defun double (n)
+  (interactive "p")
+  (+ n n))
+
+fill-column
+
+;; it must include an expression that makes the function interactive so it can be called by typing 'M-x beginning-of-buffer'
+;; it must include code to leave a mark at the original position in the buffer
+;; and it must include code to move the cursor to the beginning of the buffer
+
+(defun simplifed-begninning-of-buffer ()
+  "Mode point to the beginning of the buffer;
+leave mark at previous position."
+  (interactive)
+  (push-mark)
+  (goto-char (point-min)))
