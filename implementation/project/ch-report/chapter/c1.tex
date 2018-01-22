@@ -1,13 +1,13 @@
 \chapter{艇员管理系统}
-A crew management system can store the training record and provide a great feed
-back for the training crew. Our crew is training on a daily basis, one finds
-that by comparing and contrast, would make a positive and huge impact on the
-confidence and momentum of he training individuals as well as crew members.
-In the old school ways, our crew members have to use pen and paper to write down
-their training results, and later need to be typed into computers. Therefore
-developing a crew management system would greatly enhance the efficiency in
-terms of designing training plans and logging training results
-.
+% A crew management system can store the training record and provide a great feed
+% back for the training crew. Our crew is training on a daily basis, one finds
+% that by comparing and contrast, would make a positive and huge impact on the
+% confidence and momentum of he training individuals as well as crew members.
+% In the old school ways, our crew members have to use pen and paper to write down
+% their training results, and later need to be typed into computers. Therefore
+% developing a crew management system would greatly enhance the efficiency in
+% terms of designing training plans and logging training results
+% .
 艇员管理系统是一个能够发布训练计划，统计训练记录的系统。并能通过统计得到的训练记
 录进行反馈，为队员提供参考。一个体育团队通过收集每天的训练情况来定期给队员提供积
 极科学的反馈，并以此能够修正训练计划，从而使训练更加高效有序。可是现实团队里面在
@@ -19,6 +19,17 @@ terms of designing training plans and logging training results
 \newpage
 
 \section{开发环境与开发工具}
+
+\begin{enumerate}
+\item {GNU Emacs 25.3.2}
+\item {zsh 5.1.1}
+\item {mysql  Ver 14.14 Distrib 5.7.20, for Linux (x86\_64) using  EditLine wrapper}
+\item {Python 3.5.2}
+\item {Python Flask Framework}
+\item {Python Main Packages:
+    virtualenv, PyMySQL, SQLAlchemy, WTForms}
+\end{enumerate}
+
 
 \section{系统需求分析}% need further investigation, query somebody maybe
 % \begin{enumerate}
@@ -142,12 +153,38 @@ terms of designing training plans and logging training results
 \end{enumerate}
 
 \section{系统设计}
+\subsection{ER图的说明}
+\begin{enumerate}
+\item {每个队员都只能拥有对应ID的一个账号，其实这里为什么不把User表和Member表合并：因为
+管理员在添加一个新的队员的时候需要先把ID输入，然后才能让用户注册，管理员能添加队
+员，也让队员能自己创建账号。
+}
+\item {另一个主要的设计就在于训练计划以及训练记录如何表达。一个训练计划有一个训练时间，
+一个训练时长，一个训练对应的级别，多个训练项目（多对多），一个训练项目有多个不同
+的指标（多对多）。因此，建立三个实体集，分别为{training\_plan, training\_item,
+  item\_attribute}以及一个三元联系，其中requirement还有联系集属性。项目和指标之
+间存在一个多对多的关系。在设计中我发现训练计划和训练记录实际上是对称的，因此在ER
+图中，我也是按着对称来画的。}
+\item {训练和记录之间还有一个联系，而且记录不是全参与，因为一个训练记录可以是不
+    按照训练计划的}
+\end{enumerate}
+
+
 \subsection{系统ER图}
 \input{chapter/ER}
+
+
 \subsection{数据流程图}
+基本上参照课本的设计图，其中系统层就是我们设计的网页应用。他简化了用户和数据库的
+交互，并提供一定的等级分层，以及维护系统的数据完整性。
+
+
 \input{chapter/flow-chart}
 \subsection{数据库关系模式设计}
+这个是workbench截下来的图，是具体实现的数据库的关系模式。
+
 \includegraphics[width=\textwidth]{figure/relation-schema}
+
 \subsection{系统功能模块图}
 \input{chapter/diagram}
 
@@ -155,9 +192,96 @@ terms of designing training plans and logging training results
 \input{chapter/physical}
 
 \section{系统功能的实现}
-具体实现是利用\textbf{python-flask}框架，以及mysql数据库。
+源码github： https://github.com/326623/crew-system\\
 
-这个项目最主要的模块我认为是训练计划和训练记录，还有用户权限的实现。
+这个项目最主要的模块我认为是训练计划和训练记录，还有用户权限的实现，但是其中还有
+挺多实现的细节。下面是项目的一个结构图。其中根目录下面的crewmen.py是app的主体，
+这个地方声明了app读入了配置，并从项目中(project)读入各个项目的信息(blueprint)。
+project目录下面是每个模块的具体代码，用一个独立的包来表示具体实现是参考了
+(flask-blueprint)的。另一个比较主要的实现技巧就是用ORM(object relational
+mapping)，主要思想就是把数据库的操作封装成一个类。在这里我用的是第三个的包叫做
+\textbf{SqlAlchemy}。
+
+
+config.py就是配置文件，用一个类来包装，再由crewmen.py读入。
+
+crew-management.sql是数据库的sql实现。
+
+crew-user.sql是用户权限的设置。
+
+test-data.sql是初始的数据库的测试数据。
+
+models.py是orm的封装的类的包。每个子项目如果想要和数据库交互都要调用它。
+
+每个子项目(project)都有一个templates文件，这个是存放html的。根目录下还有core.py
+和form.py分别是项目模块对应的url的处理函数和处理表单的代码。
+
+\begin{Verbatim}[]
+➜  crewmen git:(master) ✗ tree -d
+.
+├── project
+│   ├── fee
+│   │   └── templates
+│   ├── member
+│   │   └── templates
+│   ├── training
+│   │   └── templates
+│   └── user
+│       └── templates
+└── templates
+\end{Verbatim}
+
+\begin{Verbatim}[]
+  .
+├── config.py
+├── crew-management.sql
+├── crewmen.py
+├── crew-user.sql
+├── models.py
+├── project
+│   ├── fee
+│   │   ├── core.py
+│   │   ├── form.py
+│   │   ├── __init__.py
+│   │   └── templates
+│   │       ├── add_fee_log.html
+│   │       └── show_fee_log.html
+│   ├── __init__.py
+│   ├── member
+│   │   ├── core.py
+│   │   ├── form.py
+│   │   ├── __init__.py
+│   │   └── templates
+│   │       ├── add_member.html
+│   │       ├── allmember_profile.html
+│   │       ├── delete_member.html
+│   │       └── member_profile.html
+│   ├── training
+│   │   ├── core.py
+│   │   ├── form.py
+│   │   ├── __init__.py
+│   │   └── templates
+│   │       ├── add_item.html
+│   │       ├── add_plan.html
+│   │       ├── add_plan_item.html
+│   │       ├── show_item.html
+│   │       └── training_plan.html
+│   └── user
+│       ├── core.py
+│       ├── form.py
+│       ├── __init__.py
+│       └── templates
+│           ├── login.html
+│           ├── password_update.html
+│           └── register.html
+├── requirements.txt
+├── templates
+│   ├── base.html
+│   ├── home.html
+│   └── welcome.html
+└── test-data.sql
+
+\end{Verbatim}
 
 \subsection{用户系统}
 \paragraph{用户登录}
@@ -169,47 +293,256 @@ terms of designing training plans and logging training results
 \vspace{3em}
 以下是主要的代码：
 \begin{Verbatim}[]
+  @user_blueprint.route('/login', methods=['GET', 'POST'])
+  def login():
+  """
+  If the user doesn't exist, return error accordingly, if the user exists, with wrong password, return error
+  if successfully logged in, query db for ID and priority, store in session
+  """
+  error = None
+  try:
+  if request.method == 'POST':
+  username = request.form['username']
+  password = request.form['password']
 
+  login_user = User.query.filter_by(username=username).first()
+
+  db_hash = login_user.password.decode("utf8")
+
+  hashcode = hashing.hash_value(password)
+
+  if hashing.check_value(db_hash, password):
+  session['login_ID'] = login_user.ID
+  session['logged_in'] = True
+  session['login_job'] = login_user.member.job
+  session['login_username'] = login_user.username
+  return redirect(url_for('home'))
+  else:
+  error = 'Invalid credentials. Please try again'
+  else:
+  return render_template('login.html')
+
+  except AttributeError:
+  error = 'This user is not registered!'
+
+  return render_template('login.html', error=error)
 \end{Verbatim}
+
+  导航栏的动态显示，以及试图通过url访问普通权限无法访问的页面\\
+  \includegraphics[width=\textwidth]{figure/normal-login}
+  \captionof{figure}{普通的权限看到的导航栏}
+  \includegraphics[width=\textwidth]{figure/normal-login2}
+  \captionof{figure}{普通的权限看到的导航栏}
+
+  \includegraphics[width=\textwidth]{figure/admin-login}
+  \captionof{figure}{特权的导航栏}
+  \includegraphics[width=\textwidth]{figure/admin-login2}
+  \captionof{figure}{特权的导航栏}
 
 \vspace{3em}
 \paragraph{特权机制}
 对于某些页面进行限制，比如添加新成员，添加修改训练计划等。如果用户访问受限制的
 url，先从登录后存放的session中找到对应的权限。如果权限不足，返回重定向，如果权限
-足够，返回对应的页面。
+足够，返回对应的页面。这里用到了python的修饰器，其主要的思想就是把一个函数传到修
+饰器对应的函数power\_required里面去，在这里修饰power\_required如果发现用户的权限
+不足就会重定向到home的url上，如果权限足够就会把控制权交回给需要权限才能访问的函
+数。
 
 \vspace{3em}
-一下是主要的代码：
+以下是主要的代码：
 \begin{Verbatim}[]
-
+def power_required(f):
+    @wraps(f)
+    def wrap(*arg, **kwargs):
+        job = session['login_job']
+        if job == 'crew leader' or job == 'couch':
+            return f(*arg, **kwargs)
+        else:
+            flash('You have no power.')
+            return redirect(url_for('home'))
+    return wrap
 \end{Verbatim}
 
 \subsection{训练计划}
 \paragraph{计划查询}
 每个人都能访问今日的训练计划。
 
+
+  \includegraphics[width=\textwidth]{figure/training-plan-before}
+  \captionof{figure}{本日的计划}
+
+  \includegraphics[width=\textwidth]{figure/add-training-plan}
+  \captionof{figure}{添加计划}
+  
+  \includegraphics[width=\textwidth]{figure/add-plan-detail}
+  \captionof{figure}{计划具体}
+
+  \includegraphics[width=\textwidth]{figure/plan-added}
+  \captionof{figure}{添加之后}
+
+\newpage
+
+在数据库中查找今天的训练计划。以下是实现部分的源代码：
+\begin{Verbatim}[]
+@training_blueprint.route('/training_plan')
+@login_required
+def show_training_plan():
+    today = datetime.date.today()
+    nextday = today + datetime.timedelta(days=1)
+    today_plan = TrainingPlan.query.filter(TrainingPlan.train_at >= today,
+    　　　　　　　　　　　　　　　　　　　TrainingPlan.train_at < nextday).all()
+    return render_template('training_plan.html', plans=today_plan)
+
+\end{Verbatim}
+
 \paragraph{更改计划}
 只有队长或者教练能够修改，添加或者删除训练计划。对于返回的表单进行检查。
 
-\subsection{训练记录}
+下面源码中在add\_plan\_item函数上面添加修饰函数@power\_required就能在真正调
+用网页之前先检查权限。下面的实现还有不完美的地方，其中之一就是对于异常的处理不过
+关。没有检查传进来的数据的可靠性。
+
+在插入项目及其相应的指标的时候，可以发现挑选一个项目会有其对应的指标的表格出现，
+这里就运用了AJAX，Asynchronous JavaScript And XML，异步的javascript和数据库交互
+返回结果。
+\vspace{2em}
+
+\includegraphics[width=\textwidth]{figure/add-item-ajax}
+\captionof{figure}{计划具体}
+
+\includegraphics[width=\textwidth]{figure/add-item-ajax2}
+\captionof{figure}{添加之后}
+
+
+添加计划主体
+\begin{Verbatim}[]
+  
+@training_blueprint.route('/add_plan_item', methods=['GET', 'POST'])
+@login_required
+@power_required
+def add_plan_item():
+    form = AddPlanItemForm()
+
+    if form.validate_on_submit():
+        plan_id = form.plan_ID.data
+        new_req = RequirementInPlan()
+        newItem = TrainingItem.query.filter_by(item_name=form.item_name.data).first()
+        item_id = newItem.item_ID
+        newAttr = [ID.attr_ID for ID in newItem.attr]
+
+        for i in range(len(newAttr)):
+            new_req = RequirementInPlan(plan_ID=plan_id,
+                                        item_ID=item_id,
+                                        attr_ID=newAttr[i],
+                                        comp=form.comp.data[i],
+                                        requirement=form.attr_name.data[i])
+            db.session.add(new_req)
+
+        db.session.commit()
+
+        flash("You have added a new item to the plan")
+
+    return render_template('add_plan_item.html', form=form)
+\end{Verbatim}
+
+和AJAX交互的，以及连接数据库的python代码,受限于页面大小，只能换行，代码并不能正
+常运行
+\begin{Verbatim}[]
+@training_blueprint.route('/_get_attr/')
+@login_required
+@power_required
+def _get_attr():
+    item_name = request.args.get('item_name', '01', type=str)
+
+    print("from get attr:", item_name)
+    #print(item_name)
+    #should reorder or rewrite my js
+    attr = [(row.attr_ID, row.attr_name) for row in
+    　　　　TrainingItem.query.filter_by(item_name=item_name).first().attr]
+    #print(attr)
+
+    return jsonify(attr)
+\end{Verbatim}
+
+异步的js代码片段
+\begin{Verbatim}[]
+<script>
+
+ var dropdown = {
+     item: $('#item_name'),
+     attr: $('#attr_name'),
+     comp: $('#comp')
+ };
+
+ updateattr();
+
+ function updateattr() {
+     var send = {
+         item_name: dropdown.item.val()
+     };
+
+     console.log(send.item_name);
+
+     //send = {item: "卧拉"}; // default
+     dropdown.attr.attr('disabled', 'disabled');
+     dropdown.attr.empty();
+     dropdown.comp.attr('disabled', 'disabled');
+     dropdown.comp.empty();
+
+     var sel_row = "<select></select>"
+
+     $.getJSON("_get_attr", send, function(result) {
+         $.each(result, function(i, field) {
+           console.log("<select \"id=comp-" + field[0] +
+           "\" name=\"comp-" + field[0] +
+           "\"><option value=\"larger\">larger<\/option><option value=\"smaller\">smaller<\/option>" + "</select>");
+             dropdown.comp.append(
+             "<select \"id=comp-" + field[0] +
+             "\" name=\"comp-" + field[0] +
+             "\"><option value=\"larger\">larger<\/option><option value=\"smaller\">smaller<\/option>" + "</select>"
+             );
+             dropdown.attr.append(
+                 $('<input>', {
+                     name: 'attr_name-' + field[0],
+                     value: field[1],
+                 })
+             );
+
+             console.log(i + " " + field);
+         });
+         dropdown.attr.removeAttr('disabled');
+     })
+ };
+
+ dropdown.item.on('change', function() {
+     updateattr();
+ });
+
+
+</script>
+
+\end{Verbatim}
 
 \section{课程设计心得体会}
-% \begin{tabular}{p{2cm}|p{8cm}}
-% \hline\hline
+本项目整体用时大概在２周，其中用了一两天设计修改数据库。其他几天大部分时间
+都在网上查找阅读文档，边读边写出项目的代码。其中遇到了好几个瓶颈区，一个是数据库
+的设计一开始没有考虑好（抽象出），训练计划，训练项目，训练指标的这三者的关系。一
+开始纯粹把训练指标当做训练计划的一个属性，但实际上这样做，数据库的表达能力是很弱
+的。这种情况下数据库对于新增加的指标并不能用DDL表达，只能在数据库里面操作更改表，
+即数据词典，并增加一列没有意义的null。对于修改数据词典才能支持新的训练指标的关系
+模式实在是很难实现插入（要增加额外的判断，那个项目应该对应哪些指标）。因此我重新
+设计了关系模式，把训练指标作为一个实体集来对待。这个设计相比之前的设计就具有了更
+好的表达能力，在插入的操作上也更好写。只需要在（项目<->指标）的多对多表中查找相
+应的指标，并返回给用户。在实现中用的是AJAX的异步编程，由于js不大熟悉，因此也是用
+了挺久的时间的。
 
-% \textbf{术语缩写} & \textbf{解释} \\
-% \hline\hline
+然后其次还有要考虑密码的存储，不能明文存储，所以要用单向的hash，
+让步存入数据库。出于安全性考虑，数据库只对localhost开放。以后如果要开发小程序可
+能需要开放端口，我觉得这样对于安全性而言其实是很大的挑战。因此要把这个项目真正用
+到实际，还需要做的工作还有很多。这次的项目让我了解到了如果想要开发一个动态网页的
+应用，不仅仅是理论的知识（数据库）要足够，还要有编程的能力，还要懂得如何运维，如
+何确保用户数据的安全性，我觉得这有点涉及到软件工程的领域。总而言之，就是开发一个
+看似功能很普通的应用背后，都是一个又一个等待解决的问题,而开发一个项目确实给我一
+种从无到有,并能从中学习到很多相关领域的知识。
 
-% 术语缩写 & 解释 \\
-% \hline
-
-% 术语缩写 & 解释 \\
-% \hline
-
-% 术语缩写 & 解释 \\
-% \hline
-
-% \hline\hline
-% \end{tabular}
-% \caption{本文档中出现的术语缩写及解释}
-% \end{table}
+最后,感谢辛苦半年的助教和老师。

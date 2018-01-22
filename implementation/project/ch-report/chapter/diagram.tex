@@ -3,62 +3,62 @@ minimum width=3cm]
 
 \tikzstyle{myarray}=[->,>=open triangle 90, thick]
 
-\centering
-\scalebox{.75} {
-  \begin{tikzpicture}[node distance=5cm]
+\begin{center}
+  \scalebox{.75} {
+    \begin{tikzpicture}[node distance=5cm]
 
-  \node(main) [block, xshift=-5cm]{艇员管理系统};
+      \node(main) [block, xshift=-5cm]{艇员管理系统};
 
-  \node(user) [block, above right of=main, xshift=2cm]{系统管理};
-%========================================
-  \node(login) [block, above right of=user, xshift=2cm, yshift=-2cm]{用户登录};
-  \node(logout) [block, below of=login, yshift=4cm]{用户登出};
-  \node(password) [block, below of=logout, yshift=4cm]{密码修改};
-  \node(user-info) [block, below of=password, yshift=4cm]{修改信息};
+      \node(user) [block, above right of=main, xshift=2cm]{系统管理};
+      % ========================================
+      \node(login) [block, above right of=user, xshift=2cm, yshift=-2cm]{用户登录};
+      \node(logout) [block, below of=login, yshift=4cm]{用户登出};
+      \node(password) [block, below of=logout, yshift=4cm]{密码修改};
+      \node(user-info) [block, below of=password, yshift=4cm]{修改信息};
 
-  \node(info) [block, below of= user, yshift=0cm]{信息管理};
-%========================================  
-  \node(crew-member) [block, above right of=info, xshift=2cm, yshift=-1cm]{艇员信息管理};
-  \node(plan) [block, below of=crew-member, yshift=4cm]{训练计划管理};
-  \node(record) [block, below of=plan, yshift=4cm]{训练记录管理};
-  \node(ship) [block, below of=record, yshift=4cm]{艇支信息管理};
-  \node(fee) [block, below of=ship, yshift=4cm]{支出管理};
+      \node(info) [block, below of= user, yshift=0cm]{信息管理};
+      % ========================================  
+      \node(crew-member) [block, above right of=info, xshift=2cm, yshift=-1cm]{艇员信息管理};
+      \node(plan) [block, below of=crew-member, yshift=4cm]{训练计划管理};
+      \node(record) [block, below of=plan, yshift=4cm]{训练记录管理};
+      \node(ship) [block, below of=record, yshift=4cm]{艇支信息管理};
+      \node(fee) [block, below of=ship, yshift=4cm]{支出管理};
 
-  \node(query) [block, below of= info] {信息查询};
-%========================================
-  \node(crew-member-query) [block, above right of=query, xshift=2cm, yshift=-2cm]{艇员信息查询};
-  \node(plan-query) [block, below of=crew-member-query, yshift=4cm]{训练计划查询};
-  \node(record-query) [block, below of=plan-query, yshift=4cm]{训练记录查询};
-  \node(ship-query) [block, below of=record-query, yshift=4cm]{艇支信息查询};
-  \node(fee-query) [block, below of=ship-query, yshift=4cm]{支出查询};
+      \node(query) [block, below of= info] {信息查询};
+      % ========================================
+      \node(crew-member-query) [block, above right of=query, xshift=2cm, yshift=-2cm]{艇员信息查询};
+      \node(plan-query) [block, below of=crew-member-query, yshift=4cm]{训练计划查询};
+      \node(record-query) [block, below of=plan-query, yshift=4cm]{训练记录查询};
+      \node(ship-query) [block, below of=record-query, yshift=4cm]{艇支信息查询};
+      \node(fee-query) [block, below of=ship-query, yshift=4cm]{支出查询};
 
-  \draw[myarray] (main) |- (user);
-  \draw[myarray] (main) |- (info);
-  \draw[myarray] (main) |- (query);
+      \draw[myarray] (main) |- (user);
+      \draw[myarray] (main) |- (info);
+      \draw[myarray] (main) |- (query);
 
-  \draw[myarray] (user) |- (login);
-  \draw[myarray] (user) |- (logout);
-  \draw[myarray] (user) |- (password);
-  \draw[myarray] (user) |- (user-info);
-  
-  \draw[myarray] (info) |- (crew-member);
-  \draw[myarray] (info) |- (plan);
-  \draw[myarray] (info) |- (record);
-  \draw[myarray] (info) |- (ship);
-  \draw[myarray] (info) |- (fee);
+      \draw[myarray] (user) |- (login);
+      \draw[myarray] (user) |- (logout);
+      \draw[myarray] (user) |- (password);
+      \draw[myarray] (user) |- (user-info);
+      
+      \draw[myarray] (info) |- (crew-member);
+      \draw[myarray] (info) |- (plan);
+      \draw[myarray] (info) |- (record);
+      \draw[myarray] (info) |- (ship);
+      \draw[myarray] (info) |- (fee);
 
-  \draw[myarray] (query) |- (crew-member-query);
-  \draw[myarray] (query) |- (plan-query);
-  \draw[myarray] (query) |- (record-query);
-  \draw[myarray] (query) |- (ship-query);
-  \draw[myarray] (query) |- (fee-query);
+      \draw[myarray] (query) |- (crew-member-query);
+      \draw[myarray] (query) |- (plan-query);
+      \draw[myarray] (query) |- (record-query);
+      \draw[myarray] (query) |- (ship-query);
+      \draw[myarray] (query) |- (fee-query);
 
-  
-  
-  
-  
+      
+      
+      
+      
 
-\end{tikzpicture}
+    \end{tikzpicture}
 
-}
-                    
+  }
+\end{center}

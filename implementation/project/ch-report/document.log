@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.80.0 (TeX Live 2015/Debian) (rev 5238)  (format=lualatex 2017.8.24)  8 JAN 2018 10:32
+This is LuaTeX, Version beta-0.80.0 (TeX Live 2015/Debian) (rev 5238)  (format=lualatex 2017.8.24)  14 JAN 2018 12:22
  restricted \write18 enabled.
 **document.tex
 (./document.tex
@@ -1806,47 +1806,47 @@ Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
 Package: ulem 2012/05/18
 \ULdepth=\dimen324
 )
-LaTeX Font Info:    Redeclaring symbol font `CJKmath' on input line 24.
+LaTeX Font Info:    Redeclaring symbol font `CJKmath' on input line 26.
 LaTeX Font Info:    Overwriting symbol font `CJKmath' in version `normal'
 (Font)                  LTJY3/song/m/n --> LTJY3/FandolSong-Regular(0)/m/n on in
-put line 24.
+put line 26.
 LaTeX Font Info:    Overwriting symbol font `CJKmath' in version `bold'
 (Font)                  LTJY3/song/bx/n --> LTJY3/FandolSong-Regular(0)/m/n on i
-nput line 24.
+nput line 26.
 LaTeX Font Info:    Overwriting symbol font `CJKmath' in version `bold'
 (Font)                  LTJY3/FandolSong-Regular(0)/m/n --> LTJY3/FandolSong-Reg
-ular(0)/bx/n on input line 24.
+ular(0)/bx/n on input line 26.
  (./document.aux)
 \openout1 = document.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for EU2/lmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 24.
-LaTeX Font Info:    Try loading font information for T3+cmr on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for EU2/lmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 26.
+LaTeX Font Info:    Try loading font information for T3+cmr on input line 26.
 
 (/usr/share/texmf/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for LTJY3/song/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for LTJY3/song/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
 
 ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 24.
+LaTeX Info: Redefining \selectfont on input line 26.
 \AtBeginShipoutBox=\box74
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
@@ -1895,56 +1895,56 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 .................................................
 \symlegacymaths=\mathgroup12
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 24.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 24.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 24.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 24.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 24.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 24.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 24.
-LaTeX Font Info:    Redeclaring math accent \check on input line 24.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 24.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 24.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 24.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 24.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 26.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 26.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 26.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 26.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 26.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 26.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 26.
+LaTeX Font Info:    Redeclaring math accent \check on input line 26.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 26.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 26.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 26.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 26.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 26.
 LaTeX Font Info:    Encoding `OT1' has changed to `EU2' for symbol font
-(Font)              `operators' in the math version `normal' on input line 24.
+(Font)              `operators' in the math version `normal' on input line 26.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> EU2/lmr/m/n on input line 24.
+(Font)                  OT1/cmr/m/n --> EU2/lmr/m/n on input line 26.
 LaTeX Font Info:    Encoding `OT1' has changed to `EU2' for symbol font
-(Font)              `operators' in the math version `bold' on input line 24.
+(Font)              `operators' in the math version `bold' on input line 26.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> EU2/lmr/m/n on input line 24.
+(Font)                  OT1/cmr/bx/n --> EU2/lmr/m/n on input line 26.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  EU2/lmr/m/n --> EU2/lmr/m/n on input line 24.
+(Font)                  EU2/lmr/m/n --> EU2/lmr/m/n on input line 26.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> EU2/lmr/m/it on input line 24.
+(Font)                  OT1/cmr/m/it --> EU2/lmr/m/it on input line 26.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> EU2/lmr/bx/n on input line 24.
+(Font)                  OT1/cmr/bx/n --> EU2/lmr/bx/n on input line 26.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> EU2/lmss/m/n on input line 24.
+(Font)                  OT1/cmss/m/n --> EU2/lmss/m/n on input line 26.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> EU2/lmtt/m/n on input line 24.
+(Font)                  OT1/cmtt/m/n --> EU2/lmtt/m/n on input line 26.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  EU2/lmr/m/n --> EU2/lmr/bx/n on input line 24.
+(Font)                  EU2/lmr/m/n --> EU2/lmr/bx/n on input line 26.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> EU2/lmr/bx/it on input line 24.
+(Font)                  OT1/cmr/bx/it --> EU2/lmr/bx/it on input line 26.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> EU2/lmss/bx/n on input line 24.
+(Font)                  OT1/cmss/bx/n --> EU2/lmss/bx/n on input line 26.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> EU2/lmtt/bx/n on input line 24.
+(Font)                  OT1/cmtt/m/n --> EU2/lmtt/bx/n on input line 26.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -2105,7 +2105,7 @@ ack to file: [5]
 luaotfload | load : path lookup of "FandolSong-Regular.otf" unsuccessful, fallin
 g back to file:
 luaotfload | load : path lookup of "FandolSong-Bold.otf" unsuccessful, falling b
-ack to file: (./chapter/ER.tex
+ack to file: [6] (./chapter/ER.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryshapes.geometric.code.tex
 File: tikzlibraryshapes.geometric.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
@@ -2146,15 +2146,20 @@ decorations.markings.code.tex))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
-)) [6] (./chapter/flow-chart.tex) [7]
-<figure/relation-schema.png, id=35, 2000.47375pt x 1316.92pt>
+) [7]) (./chapter/flow-chart.tex) [8]
+<figure/relation-schema.png, id=38, 2000.47375pt x 1316.92pt>
 File: figure/relation-schema.png Graphic file (type png)
 
 <use figure/relation-schema.png>
-Package pdftex.def Info: figure/relation-schema.png used on input line 149.
+Package pdftex.def Info: figure/relation-schema.png used on input line 186.
 (pdftex.def)             Requested size: 452.96793pt x 298.1831pt.
- (./chapter/diagram.tex) [8<./figure/relation-schema.png>] (./chapter/physical.
-tex
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 186--187
+[][][] 
+ []
+
+(./chapter/diagram.tex [9<./figure/relation-schema.png>])
+(./chapter/physical.tex
 
 Package xcolor Warning: Incompatible color definition on input line 1.
 
@@ -2235,16 +2240,6 @@ Package xcolor Warning: Incompatible color definition on input line 209.
 
 Package xcolor Warning: Incompatible color definition on input line 209.
 
-[9]
-
-Package xcolor Warning: Incompatible color definition on input line 209.
-
-
-Package xcolor Warning: Incompatible color definition on input line 209.
-
-
-Package xcolor Warning: Incompatible color definition on input line 209.
-
 [10]
 
 Package xcolor Warning: Incompatible color definition on input line 209.
@@ -2272,38 +2267,272 @@ Package xcolor Warning: Incompatible color definition on input line 209.
 
 Package xcolor Warning: Incompatible color definition on input line 209.
 
-) [13]
 
-Package xcolor Warning: Incompatible color definition on input line 170.
+Package xcolor Warning: Incompatible color definition on input line 209.
 
+[13]
 
-Package xcolor Warning: Incompatible color definition on input line 172.
-
-
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package xcolor Warning: Incompatible color definition on input line 209.
 
 
-Package xcolor Warning: Incompatible color definition on input line 182.
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+) [14]
+
+Package xcolor Warning: Incompatible color definition on input line 219.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 232.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 232.
 
-) [14] (./document.aux))
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 284.
+
+
+Package xcolor Warning: Incompatible color definition on input line 284.
+
+
+Package xcolor Warning: Incompatible color definition on input line 284.
+
+[15
+Missing character: There is no ➜ (U+279C) in font "[FandolFang-Regular.otf]:mo
+de=node;script=latn;language=DFLT;jfm=quanjiao"!
+Missing character: There is no ✗ (U+2717) in font "[FandolFang-Regular.otf]:mo
+de=node;script=latn;language=DFLT;jfm=quanjiao"!
+]
+
+Package xcolor Warning: Incompatible color definition on input line 284.
+
+
+Package xcolor Warning: Incompatible color definition on input line 284.
+
+
+Package xcolor Warning: Incompatible color definition on input line 295.
+
+
+Overfull \hbox (59.24435pt too wide) in paragraph at lines 329--329
+[][]  \EU2/lmtt/m/n/9.03374 If the user doesn't exist, return error accordingly
+, if the user exists, with wrong password, return error[]  
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 329.
+
+
+Package xcolor Warning: Incompatible color definition on input line 329.
+
+
+Package xcolor Warning: Incompatible color definition on input line 329.
+
+[16]
+
+Package xcolor Warning: Incompatible color definition on input line 329.
+
+
+Package xcolor Warning: Incompatible color definition on input line 329.
+
+<figure/normal-login.png, id=65, 1897.0875pt x 1085.05376pt>
+File: figure/normal-login.png Graphic file (type png)
+
+<use figure/normal-login.png>
+Package pdftex.def Info: figure/normal-login.png used on input line 332.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+<figure/normal-login2.png, id=66, 1897.0875pt x 1085.05376pt>
+File: figure/normal-login2.png Graphic file (type png)
+
+<use figure/normal-login2.png>
+Package pdftex.def Info: figure/normal-login2.png used on input line 334.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 334--335
+[][][] 
+ []
+
+[17<./figure/normal-login.png>]
+<figure/admin-login.png, id=71, 1897.0875pt x 1085.05376pt>
+File: figure/admin-login.png Graphic file (type png)
+
+<use figure/admin-login.png>
+Package pdftex.def Info: figure/admin-login.png used on input line 337.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 337--338
+[][][] 
+ []
+
+<figure/admin-login2.png, id=72, 1897.0875pt x 1085.05376pt>
+File: figure/admin-login2.png Graphic file (type png)
+
+<use figure/admin-login2.png>
+Package pdftex.def Info: figure/admin-login2.png used on input line 339.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 339--340
+[][][] 
+ []
+
+[18<./figure/normal-login2.png><./figure/admin-login.png>]
+
+Package xcolor Warning: Incompatible color definition on input line 353.
+
+
+Package xcolor Warning: Incompatible color definition on input line 364.
+
+
+Package xcolor Warning: Incompatible color definition on input line 364.
+
+<figure/training-plan-before.png, id=78, 1897.0875pt x 1085.05376pt>
+File: figure/training-plan-before.png Graphic file (type png)
+
+<use figure/training-plan-before.png>
+Package pdftex.def Info: figure/training-plan-before.png used on input line 371.
+
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 371--372
+[][][] 
+ []
+
+[19<./figure/admin-login2.png>]
+<figure/add-training-plan.png, id=83, 1897.0875pt x 1085.05376pt>
+File: figure/add-training-plan.png Graphic file (type png)
+
+<use figure/add-training-plan.png>
+Package pdftex.def Info: figure/add-training-plan.png used on input line 374.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 374--375
+[][][] 
+ []
+
+<figure/add-plan-detail.png, id=84, 1897.0875pt x 1085.05376pt>
+File: figure/add-plan-detail.png Graphic file (type png)
+
+<use figure/add-plan-detail.png>
+Package pdftex.def Info: figure/add-plan-detail.png used on input line 377.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 377--378
+[][][] 
+ []
+
+[20<./figure/training-plan-before.png><./figure/add-training-plan.png>]
+<figure/plan-added.png, id=90, 1897.0875pt x 1085.05376pt>
+File: figure/plan-added.png Graphic file (type png)
+
+<use figure/plan-added.png>
+Package pdftex.def Info: figure/plan-added.png used on input line 380.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 380--381
+[][][] 
+ []
+
+[21<./figure/add-plan-detail.png><./figure/plan-added.png>]
+
+Package xcolor Warning: Incompatible color definition on input line 386.
+
+
+Package xcolor Warning: Incompatible color definition on input line 396.
+
+
+Package xcolor Warning: Incompatible color definition on input line 396.
+
+<figure/add-item-ajax.png, id=97, 1897.0875pt x 1085.05376pt>
+File: figure/add-item-ajax.png Graphic file (type png)
+
+<use figure/add-item-ajax.png>
+Package pdftex.def Info: figure/add-item-ajax.png used on input line 410.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 410--411
+[][][] 
+ []
+
+<figure/add-item-ajax2.png, id=98, 1897.0875pt x 1085.05376pt>
+File: figure/add-item-ajax2.png Graphic file (type png)
+
+<use figure/add-item-ajax2.png>
+Package pdftex.def Info: figure/add-item-ajax2.png used on input line 413.
+(pdftex.def)             Requested size: 452.96793pt x 259.07713pt.
+
+Overfull \hbox (21.07874pt too wide) in paragraph at lines 413--414
+[][][] 
+ []
+
+[22<./figure/add-item-ajax.png>]
+
+Package xcolor Warning: Incompatible color definition on input line 418.
+
+
+Package xcolor Warning: Incompatible color definition on input line 446.
+
+
+Package xcolor Warning: Incompatible color definition on input line 446.
+
+[23<./figure/add-item-ajax2.png>]
+
+Package xcolor Warning: Incompatible color definition on input line 450.
+
+
+Package xcolor Warning: Incompatible color definition on input line 465.
+
+
+Package xcolor Warning: Incompatible color definition on input line 465.
+
+
+Package xcolor Warning: Incompatible color definition on input line 468.
+
+
+Overfull \hbox (97.186pt too wide) in paragraph at lines 524--524
+[][]           \EU2/lmtt/m/n/9.03374 "\"><option value=\"larger\">larger<\/opti
+on><option value=\"smaller\">smaller<\/option>" + "</select>");[]  
+ []
+
+
+Overfull \hbox (97.186pt too wide) in paragraph at lines 524--524
+[][]             \EU2/lmtt/m/n/9.03374 "\"><option value=\"larger\">larger<\/op
+tion><option value=\"smaller\">smaller<\/option>" + "</select>"[]  
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 524.
+
+
+Package xcolor Warning: Incompatible color definition on input line 524.
+
+
+Overfull \vbox (1.31085pt too high) detected at line 524
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 524.
+
+[24]
+
+Package xcolor Warning: Incompatible color definition on input line 524.
+
+
+Package xcolor Warning: Incompatible color definition on input line 524.
+
+) [25] (./document.aux))
 
 Here is how much of LuaTeX's memory you used:
- 38727 strings out of 495004
- 596900,953878 words of node,token memory allocated
- 52321 words of node memory still in use:
-   209 hlist, 2 vlist, 2 rule, 307 glue, 19 kern, 90 glyph, 21078 attribute, 505
- glue_spec, 1142 attribute_list, 1 write, 501 pdf_literal, 122 user_defined node
-s
-   avail lists: 1:8,2:215560,3:3168,4:4690,5:138,6:7198,7:371,8:2,9:1929,10:92
- 40771 multiletter control sequences out of 65536+600000
+ 38800 strings out of 495004
+ 596889,953878 words of node,token memory allocated
+ 4570 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 3 glue, 19 kern, 1118 attribute, 466 glue_spec, 62 
+attribute_list, 1 write, 10 user_defined nodes
+   avail lists: 1:9,2:236890,3:3184,4:4760,5:118,6:7202,7:294,8:2,9:1796,10:62
+ 40814 multiletter control sequences out of 65536+600000
  194 fonts using 111537791 bytes
- 67i,12n,94p,1051b,800s stack positions out of 5000i,500n,10000p,200000b,100000s
+ 67i,12n,94p,1051b,883s stack positions out of 5000i,500n,10000p,200000b,100000s
 </usr/share/texmf/fonts/opentype/public/lm/lmmono9-regular.otf></usr/share/texmf
 /fonts/opentype/public/lm/lmroman10-bold.otf></usr/share/texlive/texmf-dist/font
 s/opentype/public/fandol/FandolFang-Regular.otf></usr/share/texmf/fonts/opentype
@@ -2312,10 +2541,10 @@ man12-bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman10-regular.otf>
 </usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Regular.o
 tf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Bold.o
 tf><</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on document.pdf (14 pages, 330590 bytes).
+Output written on document.pdf (25 pages, 955039 bytes).
 
-PDF statistics: 113 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
+PDF statistics: 167 PDF objects out of 1000 (max. 8388607)
+ 93 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
