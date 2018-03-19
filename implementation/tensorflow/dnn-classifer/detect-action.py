@@ -1,3 +1,8 @@
+
+###############################
+### configuration variables ###
+###############################
+
 """ training_path, test_path, and evaluation_path by default only parse json file"""
 DEFAULT = {'batch_size': 100 ,
            'train_steps': 1000 ,
@@ -36,6 +41,9 @@ KEYPOINT_COLUMNS = [
 
 # joints.ix[:, joints.columns % 3 != 2]
 
+#######################
+### tensorflow code ###
+#######################
 
 import argparse
 import tensorflow as tf
@@ -93,29 +101,33 @@ def main(argv):
 
     (train_x, train_y), (test_x, test_y) = load_data()
 
-    kp_feature_columns = [
-        tf.feature_column.numeric_column('Head'),
-        tf.feature_column.numeric_column('Neck'),
-        tf.feature_column.numeric_column('RShoulder'),
-        tf.feature_column.numeric_column('RElbow'),
-        tf.feature_column.numeric_column('RWrist'),
-        tf.feature_column.numeric_column('LShoulder'),
-        tf.feature_column.numeric_column('LElbow'),
-        tf.feature_column.numeric_column('LWrist'),
-        tf.feature_column.numeric_column('RHip'),
-        tf.feature_column.numeric_column('RKnee'),
-        tf.feature_column.numeric_column('RAnkle'),
-        tf.feature_column.numeric_column('LHip'),
-        tf.feature_column.numeric_column('LKnee'),
-        tf.feature_column.numeric_column('LAnkle'),
-        tf.feature_column.numeric_column('Thrx'),
-    ]
+    kp_feature_columns = []
+    for key in train_x.keys():
+        my_feature_columns.append(tf.feature_column.numeric_column(key=key))
+
+    # kp_feature_columns = [
+    #     tf.feature_column.numeric_column('Head'),
+    #     tf.feature_column.numeric_column('Neck'),
+    #     tf.feature_column.numeric_column('RShoulder'),
+    #     tf.feature_column.numeric_column('RElbow'),
+    #     tf.feature_column.numeric_column('RWrist'),
+    #     tf.feature_column.numeric_column('LShoulder'),
+    #     tf.feature_column.numeric_column('LElbow'),
+    #     tf.feature_column.numeric_column('LWrist'),
+    #     tf.feature_column.numeric_column('RHip'),
+    #     tf.feature_column.numeric_column('RKnee'),
+    #     tf.feature_column.numeric_column('RAnkle'),
+    #     tf.feature_column.numeric_column('LHip'),
+    #     tf.feature_column.numeric_column('LKnee'),
+    #     tf.feature_column.numeric_column('LAnkle'),
+    #     tf.feature_column.numeric_column('Thrx'),
+    # ]
 
     args = parser.parse_args(argv[1:])
     classifiter = tf.estimator.DNNClassifier(
         feature_columns=kp_feature_columns,
         hidden_units=[30, 30],
-        n_classes=11)
+        n_classes=10)
 
     classifier.train(
         input_fn=lambda:train_input_fn(train_x, train_y,

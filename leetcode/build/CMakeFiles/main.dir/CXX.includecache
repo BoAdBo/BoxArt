@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/predefined.hpp
+vector
+-
+map
+-
+list
+-
+iostream
+-
+ratio
+-
+algorithm
+-
+
+/home/king-kong/my-repo/BoxArt/leetcode/149/149.cpp
+predefined.hpp
+/home/king-kong/my-repo/BoxArt/leetcode/149/predefined.hpp
+
+/home/king-kong/my-repo/BoxArt/leetcode/main.cpp
+149/149.cpp
+/home/king-kong/my-repo/BoxArt/leetcode/149/149.cpp
+
