@@ -4,8 +4,18 @@ class Solution {
 public:
   string nearestPalindromic(string n) {
     // basic idea is to flip.
-    if(n[0] == '1') {
-      
+    if (n == "11") {
+      return "9";
+    }
+    if(n[0] == '1' && n.size() > 1) {
+      int i = 1;
+      while(n[i] == '0' && i < n.size()) {
+        i++;
+      }
+      if (i == n.size()) {
+        // all zero with a starting '1'
+        return string(n.size()-1, '9');
+      }
     }
 
     int shift = n.size() / 2;
@@ -61,12 +71,12 @@ public:
     _fliped(left);
     _fliped(center);
     _fliped(right);
-    cout << left << " " << center << " " << right << endl;
+    //cout << left << " " << center << " " << right << endl;
 
     d1 = distance_str(n, left);
     d2 = distance_str(n, center);
     d3 = distance_str(n, right);
-    cout << d1 << " " << d2 << " " << d3 << endl;
+    //cout << d1 << " " << d2 << " " << d3 << endl;
     if(center == n) {
       return d1 <= d3 ? left : right;
     }
