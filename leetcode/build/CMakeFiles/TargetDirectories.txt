@@ -1,0 +1,3 @@
+/home/king-kong/my-repo/BoxArt/leetcode/build/CMakeFiles/rebuild_cache.dir
+/home/king-kong/my-repo/BoxArt/leetcode/build/CMakeFiles/edit_cache.dir
+/home/king-kong/my-repo/BoxArt/leetcode/build/CMakeFiles/main.dir
