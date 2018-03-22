@@ -1,25 +1,15 @@
-#include "564/564.cpp"
+#include "14/14.cpp"
 int main() {
-  // vector<Point> test;
-  // test.emplace_back(1,1);
-  // test.emplace_back(1,2);
-  // test.emplace_back(2,1);
-  // //test.emplace_back(3,10);
-  // //test.emplace_back(3,10);
-  // //test.emplace_back(0,2);
-  // //test.emplace_back(0,2);
-  // //cout << Solution::GCD(8,4) << endl;
-
-  // //Point x(1, 1);
-  // //Point y(1, 2);
-
-  // Solution testing;
-  // cout << testing.maxPoints(test) << endl;
-
-  string test_string;
-  cin >> test_string;
   Solution testing;
-  //cout << test_string << endl;
-  cout << testing.nearestPalindromic(test_string) << endl;
-  
+  vector<string> test = { "aba", "abb", "abc" };
+
+  cout << testing.longestCommonPrefix(test) << endl;
+  // vector<vector<int>> res=testing.generate(20);
+  // //vector<vector<int>>& res=testing.generate(1);
+  // for ( int i = 0; i < res.size(); ++ i ) {
+  //   for ( int j = 0; j < res[i].size(); ++ j ) {
+  //     cout << res[i][j] << " ";
+  //   }
+  //   cout << endl;
+  // }
 }
