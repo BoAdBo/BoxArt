@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
+find_package( Threads )
 
 SET(MAIN main.cpp)
 SET(EXE main)
@@ -10,3 +11,4 @@ include_directories(${SOURCES})
 include_directories( include )
 message(STATUS ${INCLUDE_DIRECTORIES})
 add_executable(${EXE} ${MAIN})
+target_link_libraries( ${EXE} ${CMAKE_THREAD_LIBS_INIT} )
