@@ -84,18 +84,22 @@
 
 // }
 #include <thread>
+#include <mutex>
 #include <chrono>
 #include <vector>
 #include <iostream>
 
 struct Counter {
+  std::mutex mutex;
   int value;
 
   Counter() : value(0)
   { }
 
   void increment() {
+    //mutex.lock();
     ++value;
+    //mutex.unlock();
   }
 };
 
@@ -113,14 +117,16 @@ int main() {
                                     for ( int i = 0; i < 100; ++ i ) {
                                       counter.increment();
                                     }
+                                    //std::cout << counter.value << std::endl;
                                   }));
   }
+
+  unsigned int n = std::thread::hardware_concurrency();
+  std::cout << n << " concurrent threads are supported.\n";
 
   for ( auto &thread : threads ) {
     thread.join();
   }
-
-  std::cout << counter.value << '\n';
 
   return 0;
 }
