@@ -18,11 +18,16 @@ template <typename N>
 std::array<N, 4> identity_element(const multiply_2x2<N> &)
 { return { N(1), N(0), N(0), N(1) }; }
 
+template <typename N>
+inline bool odd(N n) {
+  return (n & 0x1);
+}
+
 // template <typename InputIt, typename BinaryOperation>
 // List foldr(InputIt first, InputIt last, BinaryOperation f) {
 template <typename R, typename N, typename BinaryOperation>
-R power(R Base, N n, BinaryOperation f) {
-  if ( n == 0 ) { return identity_element(Base); }
+R power_native(R Base, N n, BinaryOperation f) {
+  if ( n == 0 ) { return identity_element(f); }
   R acc = Base;
   while ( n > 1 ) {
     acc = f(acc, Base);
@@ -31,14 +36,25 @@ R power(R Base, N n, BinaryOperation f) {
   return acc;
 }
 
-//   auto acc = *first;
-//   while( first != last ) {
+template <typename R, typename N, typename BinaryOperation>
+R power(R Base, N n, BinaryOperation f) {
+  if ( n == 0 ) { return identity_element(f); }
+  R acc = Base;
 
-//     f(*first, )
-//     first++;
-//   }
+  while ( true ) {
+    if ( odd(n) ) {
+      acc = f(acc, Base);
+      if ( n == 1 ) {
+        return acc;
+      }
+    }
+    // half n, double Base
+    n >>= 1;
+    Base = f(Base, Base);
+  }
 
-// }
+  return acc;
+}
 
 template <typename R, typename N>
 R fibonacci(N n) {
