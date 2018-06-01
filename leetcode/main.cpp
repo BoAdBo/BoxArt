@@ -193,10 +193,12 @@
 // // }
 
 #include "include/predefined.hpp"
-#include "414/414.cpp"
+#include "72/72.cpp"
 
 int main() {
   Solution test;
-  std::vector<int> array({1, 2});
-  std::cout << test.thirdMax(array) << '\n';
+  string a = "abs";
+  string b = "abc";
+
+  cout << test.minDistance(a, b) << '\n';
 }
