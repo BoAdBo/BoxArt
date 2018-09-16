@@ -16,3 +16,10 @@ struct Point {
   Point() : x(0), y(0) {}
   Point(int a, int b) : x(a), y(b) {}
 };
+
+struct TreeNode {
+  int val;
+  TreeNode *left;
+  TreeNode *right;
+  TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};

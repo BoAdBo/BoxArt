@@ -59,9 +59,23 @@
 // }
 
 #include "include/predefined.hpp"
-#include "60/60.cpp"
+#include "113/113.cpp"
 int main() {
   Solution test;
-  std::vector<int> input({0,1,0,2,1,0,1,3,2,1,2,1});
-  std::cout << test.getPermutation(4, 9) << '\n';
+  //  TreeNode *root = nullptr;
+  TreeNode *root = new TreeNode(1);
+  TreeNode *root_right = new TreeNode(2);
+  TreeNode *root_right_left = new TreeNode(3);
+  root->right = root_right;
+  root->right->left = root_right_left;
+
+  auto targets = test.pathSum(root, 6);
+
+  for (const auto & target : targets) {
+    for (const auto & num : target) {
+      std::cout << num << ' ';
+    }
+    std::cout << '\n';
+  }
+
 }
