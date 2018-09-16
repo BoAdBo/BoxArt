@@ -59,23 +59,13 @@
 // }
 
 #include "include/predefined.hpp"
-#include "113/113.cpp"
+#include "7/7.cpp"
 int main() {
   Solution test;
-  //  TreeNode *root = nullptr;
-  TreeNode *root = new TreeNode(1);
-  TreeNode *root_right = new TreeNode(2);
-  TreeNode *root_right_left = new TreeNode(3);
-  root->right = root_right;
-  root->right->left = root_right_left;
-
-  auto targets = test.pathSum(root, 6);
-
-  for (const auto & target : targets) {
-    for (const auto & num : target) {
-      std::cout << num << ' ';
-    }
-    std::cout << '\n';
-  }
+  std::cout << test.reverse(0) << std::endl;
+  std::cout << test.reverse(-10) << std::endl;
+  std::cout << test.reverse(-123) << std::endl;
+  std::cout << test.reverse(1230) << std::endl;
+  std::cout << test.reverse(1534236469) << std::endl;
 
 }
