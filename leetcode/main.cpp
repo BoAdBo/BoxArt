@@ -59,9 +59,16 @@
 // }
 
 #include "include/predefined.hpp"
-#include "6/6.cpp"
+#include "49/49.cpp"
 int main() {
   Solution test;
-  std::string recv = test.convert("PAYPALISHIRING", 3);
-  std::cout << recv << '\n';
+  std::vector<std::string> strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+  auto results = test.groupAnagrams(strs);
+
+  for (const auto & strs : results) {
+    for (const auto & str : strs) {
+      std::cout << str << ' ';
+    }
+    std::cout << '\n';
+  }
 }
