@@ -59,13 +59,9 @@
 // }
 
 #include "include/predefined.hpp"
-#include "7/7.cpp"
+#include "6/6.cpp"
 int main() {
   Solution test;
-  std::cout << test.reverse(0) << std::endl;
-  std::cout << test.reverse(-10) << std::endl;
-  std::cout << test.reverse(-123) << std::endl;
-  std::cout << test.reverse(1230) << std::endl;
-  std::cout << test.reverse(1534236469) << std::endl;
-
+  std::string recv = test.convert("PAYPALISHIRING", 3);
+  std::cout << recv << '\n';
 }
