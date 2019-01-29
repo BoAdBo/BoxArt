@@ -1,4 +1,9 @@
+
+#ifndef _NEWJOY_PREDEFINED_HPP_
+#define _NEWJOY_PREDEFINED_HPP_
+
 #include <vector>
+#include <iterator>
 #include <map>
 #include <list>
 #include <stack>
@@ -7,6 +12,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
+#include <queue>
 
 using namespace std;
 
@@ -23,3 +29,18 @@ struct TreeNode {
   TreeNode *right;
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
+
+struct ListNode {
+  int val;
+  ListNode *next;
+  ListNode(int x) : val(x), next(NULL) {}
+};
+
+struct Interval {
+  int start;
+  int end;
+  Interval() : start(0), end(0) {}
+  Interval(int s, int e) : start(s), end(e) {}
+};
+
+#endif /* _NEWJOY_PREDEFINED_HPP_ */
