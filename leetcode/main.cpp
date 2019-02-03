@@ -58,6 +58,35 @@
 // >>>>>>> d84eb18b19abbd29b89b740c705fb687173d87eb
 // }
 
+// #include "include/predefined.hpp"
+// #include "23/23.hpp"
+// int main() {
+//   Solution test;
+//   ListNode *head1 = new ListNode(1);
+//   head1->next = new ListNode(4);
+//   head1->next->next = new ListNode(5);
+//   ListNode *head2 = new ListNode(1);
+//   head2->next = new ListNode(3);
+//   head2->next->next = new ListNode(4);
+//   ListNode *head3 = new ListNode(2);
+//   head3->next = new ListNode(6);
+//   std::vector<ListNode*> vec = {head1, head2, head3};
+//   auto result = test.mergeKLists(vec);
+//   while (result != nullptr) {
+//     std::cout << result->val << ' ';
+//     result = result->next;
+//   }
+//   std::cout << '\n';
+// }
+
+static const auto io_sync_off =
+  []() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    std::cout.tie(nullptr);
+    return nullptr;
+  }();
+
 #include "include/predefined.hpp"
 #include "10/10.cpp"
 // ["NumArray","update","update","update","sumRange","update","sumRange","update"]
