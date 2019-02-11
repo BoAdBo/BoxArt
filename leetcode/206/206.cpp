@@ -17,4 +17,23 @@ public:
     head->next = NULL;
     return new_head;
   }
+
+  ListNode* reverseList(ListNode* head) {
+    return reverse(head, nullptr);
+  }
+
+  ListNode* reverse(ListNode* first, ListNode* last) {
+    ListNode* prev = last;
+    ListNode* curr = first;
+    ListNode* next = last;
+
+    while (curr != last) {
+      next = curr->next;
+      curr->next = prev;
+      prev = curr;
+      curr = next;
+    }
+
+    return prev;
+  }
 };
