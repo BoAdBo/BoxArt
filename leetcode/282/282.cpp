@@ -25,12 +25,13 @@ public:
       }
       else {
         // 0 in first of candidate, skip
-        if (num.front() == '0' &&
-            (candidate.empty() ||
-             candidate.back() == '+' ||
-             candidate.back() == '-' ||
-             candidate.back() == '*')) return;
-        helper(num.substr(1), target, res, candidate + num.front());
+        if (!(num.front() == '0' &&
+             (candidate.empty() ||
+              candidate.back() == '+' ||
+              candidate.back() == '-' ||
+              candidate.back() == '*'))) {
+          helper(num.substr(1), target, res, candidate + num.front());
+        }
         helper(num.substr(1), target, res, candidate + num.front() + '+');
         helper(num.substr(1), target, res, candidate + num.front() + '-');
         helper(num.substr(1), target, res, candidate + num.front() + '*');
