@@ -9,30 +9,29 @@
 class AllOne {
 public:
   std::unordered_map<std::string, unsigned int> keeper;
-  std::string maxString;
-  std::string minString;
+  std::unordered_map<unsigned int, std::unordered_set<std::string>> value_keeper;
   /** Initialize your data structure here. */
-  AllOne() {
-    maxString = "";
-    minString = "";
-  }
+  AllOne() { }
 
   /** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
   void inc(string key) {
     unsigned int value = ++keeper[key];
-    if (keeper[maxString] < value)
+    if (value > 1) {
+      value_keeper[value-1].erase(key);
+      value_keeper[value].insert(key);
+    } else {
+      value_keeper[value].insert(key);
+    }
   }
 
   /** Decrements an existing key by 1. If Key's value is 1, remove it from the data structure. */
   void dec(string key) {
-    auto iter = keeper.find();
-    if (iter != keeper.end()) {
-      if (*iter == 1) {
-        keeper.erase(iter);
-      }
-      else {
-        --(*iter);
-      }
+    unsigned int value = --keeper[key];
+    if (value >= 1) {
+      value_keeper[value+1].erase(key);
+      value_keeper[value].insert(key);
+    } else {
+      value_keeper[value+1].erase(key);
     }
   }
 
