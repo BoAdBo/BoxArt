@@ -4,7 +4,6 @@ struct Comp {
   bool operator() (const std::pair<Iterator, Iterator>& a,
                    const std::pair<Iterator, Iterator>& b) {
     return *(a.first) >= *(b.first);
-  }
 };
 
 class Solution {
