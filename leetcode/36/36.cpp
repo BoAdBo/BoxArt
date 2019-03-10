@@ -1,3 +1,4 @@
+// didn't pass, TLE
 class Solution {
 public:
   bool isValidSudoku(vector<vector<char>>& board) {
@@ -22,6 +23,8 @@ public:
       }
       return true;
     } else if (i == 9) {
+
+      // std::cout << "damned" << '\n';
       // check for column consistency
       std::fill(std::begin(mask), std::end(mask), false);
 
@@ -57,7 +60,6 @@ public:
         intBoard[i][j] = board[i][j] - '0';
         return isValidSudoku(board, i+1, j);
       }
-
     }
   }
 
