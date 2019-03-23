@@ -79,32 +79,32 @@
 //   std::cout << '\n';
 // }
 
-static const auto io_sync_off =
-  []() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    std::cout.tie(nullptr);
-    return nullptr;
-  }();
+// static const auto io_sync_off =
+//   []() {
+//     std::ios::sync_with_stdio(false);
+//     std::cin.tie(nullptr);
+//     std::cout.tie(nullptr);
+//     return nullptr;
+//   }();
 
-#include "include/predefined.hpp"
-#include "10/10.cpp"
+// #include "include/predefined.hpp"
+// #include "10/10.cpp"
 // ["NumArray","update","update","update","sumRange","update","sumRange","update"]
 // [[[0,9,5,7,3]],[4,5],[1,7],[0,8],[1,2],[1,9],[4,4],[3,4]]
 
-int main() {
-  Solution test;
-  std::cout << std::boolalpha << test.isMatch("aab", "c*a*b*") << '\n';
-  // std::vector<int> a = {0, 9, 5, 7, 3};
-  // NumArray* ptrArray = new NumArray(a);
-  // NumArray& array = *ptrArray;
-  // std::cout << array.sumRange(4, 4) << '\n';
-  // std::cout << array.sumRange(2, 4) << '\n';
-  // std::cout << array.sumRange(3, 3) << '\n';
-  // array.update(4, 5);
-  // array.update(1, 7);
-  // array.update(0, 8);
-  // array.update(1, 9);
-  // array.update(3, 4);
-  // std::cout << array.sumRange(4, 4) << '\n';
-}
+// int main() {
+//   Solution test;
+//   std::cout << std::boolalpha << test.isMatch("aab", "c*a*b*") << '\n';
+//   // std::vector<int> a = {0, 9, 5, 7, 3};
+//   // NumArray* ptrArray = new NumArray(a);
+//   // NumArray& array = *ptrArray;
+//   // std::cout << array.sumRange(4, 4) << '\n';
+//   // std::cout << array.sumRange(2, 4) << '\n';
+//   // std::cout << array.sumRange(3, 3) << '\n';
+//   // array.update(4, 5);
+//   // array.update(1, 7);
+//   // array.update(0, 8);
+//   // array.update(1, 9);
+//   // array.update(3, 4);
+//   // std::cout << array.sumRange(4, 4) << '\n';
+// }
